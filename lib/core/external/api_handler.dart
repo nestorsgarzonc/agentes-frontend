@@ -140,11 +140,7 @@ class ApiHandlerImpl implements ApiHandler {
   }
 
   @override
-  Uri getUri(String path) {
-    final uri = Uri.parse('${ApiConstants.baseUrl}$path');
-    print(uri);
-    return uri;
-  }
+  Uri getUri(String path) => Uri.parse('${ApiConstants.baseUrl}$path');
 
   @override
   void logOnError(

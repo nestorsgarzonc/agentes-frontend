@@ -6,6 +6,7 @@ import 'package:restaurants/core/constants/db_constants.dart';
 import 'package:restaurants/core/external/api_handler.dart';
 import 'package:restaurants/core/external/api_response.dart';
 import 'package:restaurants/core/external/db_handler.dart';
+import 'package:restaurants/core/logger/logger.dart';
 
 class OnBoarding extends ConsumerStatefulWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -26,35 +27,17 @@ class _OnBoardingState extends ConsumerState<OnBoarding> {
     socketInit();
   }
 
-  // Future<void> socketInit() async {
-  //   print('Starting socket');
-  //   final socket = io.io(
-  //     ApiConstants.baseUrl,
-  //     io.OptionBuilder().setTransports(['websocket']).build(),
-  //   );
-  //   socket.connect();
-  //   socket.onConnect((_) {
-  //     print('connect');
-  //     socket.emit('msg', 'test');
-  //   });
-  //   socket.on('event', (data) => print(data));
-
-  //   socket.onDisconnect((_) => print('disconnect'));
-  //   socket.on('fromServer', (_) => print(_));
-  //   socket.emit('join_to_restaurant_table', json.encode({"table_id": "1234"}));
-  //   socket.on('new_user_joined', (data) => print(data));
-  // }
-
   void socketInit() {
     final socket = ref.read(socketProvider);
+    Logger.log("Starting");
     socket.connect();
     socket.onConnect((_) {
-      print('connect');
+      Logger.log('connect');
       socket.emit('msg', 'test');
     });
-    socket.onMap('new_user_joined', (data) => print(data));
-    socket.onDisconnect((_) => print('disconnect'));
-    socket.on('fromServer', (_) => print(_));
+    socket.onMap('new_user_joined', (data) => Logger.log(data.toString()));
+    socket.onDisconnect((_) => Logger.log('disconnect'));
+    socket.on('fromServer', (_) => Logger.log(_));
     socket.emit('join_to_restaurant_table', json.encode({"table_id": "1234"}));
   }
 
