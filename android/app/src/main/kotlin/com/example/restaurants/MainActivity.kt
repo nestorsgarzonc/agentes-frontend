@@ -1,4 +1,4 @@
-package com.example.agentes
+package com.nw.restaurants
 
 import io.flutter.embedding.android.FlutterActivity
 

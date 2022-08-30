@@ -1,6 +1,6 @@
 {
-    "name": "agentes",
-    "short_name": "agentes",
+    "name": "restaurants",
+    "short_name": "restaurants",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
