@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
+import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
 final routerProvider = Provider<CustomRouter>((ref) {
   return CustomRouter();
@@ -16,6 +17,11 @@ class CustomRouter {
       case OnBoarding.route:
         return MaterialPageRoute(
           builder: (context) => const OnBoarding(),
+          settings: settings,
+        );
+      case TableQrReaderScreen.route:
+        return MaterialPageRoute(
+          builder: (context) => const TableQrReaderScreen(),
           settings: settings,
         );
       default:
