@@ -122,7 +122,7 @@ class ApiHandlerImpl implements ApiHandler {
     try {
       logOnStart(path, null, 'PUT');
       final headers = await getHeaders();
-      final res = await http.put(getUri(path), headers: headers);
+      final res = await http.put(getUri(path), headers: headers, body: processBody(body));
       final apiResponse = ApiResponse(
         path: path,
         body: body,
