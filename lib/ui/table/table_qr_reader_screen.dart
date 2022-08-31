@@ -28,11 +28,15 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
         children: [
           MobileScanner(
             onDetect: (barcode, args) {
-              if (barcode.rawValue == null) {
-                debugPrint('Failed to scan Barcode');
+              if (barcode.rawValue != null) {
+                handleOnReadedQr(barcode.rawValue!);
               } else {
-                final String code = barcode.rawValue!;
-                debugPrint('Barcode found! $code');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Ha ocurrido un error leyendo el codigo QR'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
               }
             },
             controller: _controller,
@@ -91,5 +95,9 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
         ],
       ),
     );
+  }
+
+  void handleOnReadedQr(String qrData) {
+    print(qrData);
   }
 }
