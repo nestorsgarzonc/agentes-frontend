@@ -3,9 +3,9 @@ import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
-import 'package:restaurants/core/logger/logger.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/table_code.dart';
+import 'package:restaurants/ui/widgets/bottom_sheet/table_code_sheet.dart';
 import 'package:restaurants/ui/widgets/Divider.dart';
 
 class OnBoarding extends ConsumerWidget {
@@ -63,7 +63,7 @@ class OnBoarding extends ConsumerWidget {
               ),
             ),
             TextButton(
-              onPressed: () => handleOnWriteCode(context),
+              onPressed: () => handleOnWriteCode(context, ref.read),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
@@ -83,12 +83,10 @@ class OnBoarding extends ConsumerWidget {
   void handleOnScan(BuildContext context) =>
       Navigator.of(context).pushNamed(TableQrReaderScreen.route);
 
-  void handleOnWriteCode(BuildContext context) {
+  void handleOnWriteCode(BuildContext context, Reader read) {
     TableCodeBottomSheet.showManualCodeSheet(
       context: context,
-      onAccept: (value) {
-        Logger.log(value);
-      },
+      onAccept: read(tableProvider.notifier).onReadTableCode,
     );
   }
 }

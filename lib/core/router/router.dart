@@ -12,6 +12,10 @@ class CustomRouter {
 
   final navigatorKey = GlobalKey<NavigatorState>();
 
+  BuildContext get context => navigatorKey.currentState!.overlay!.context;
+
+  NavigatorState get router => navigatorKey.currentState!;
+
   Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case OnBoarding.route:

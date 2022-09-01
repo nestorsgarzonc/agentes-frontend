@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 class TableQrReaderScreen extends ConsumerStatefulWidget {
   const TableQrReaderScreen({Key? key}) : super(key: key);
@@ -22,23 +24,18 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
           MobileScanner(
-            onDetect: (barcode, args) {
-              if (barcode.rawValue != null) {
-                handleOnReadedQr(barcode.rawValue!);
-              } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Ha ocurrido un error leyendo el codigo QR'),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }
-            },
+            onDetect: handleOnDetect,
             controller: _controller,
           ),
           Positioned(
@@ -97,7 +94,11 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
     );
   }
 
-  void handleOnReadedQr(String qrData) {
-    print(qrData);
+  void handleOnDetect(Barcode barcode, MobileScannerArguments? args) {
+    if (barcode.rawValue != null) {
+      ref.read(tableProvider.notifier).onReadTableCode(barcode.rawValue!);
+    } else {
+      CustomSnackbar.showSnackBar(context, 'Ha ocurrido un error leyendo el codigo QR');
+    }
   }
 }
