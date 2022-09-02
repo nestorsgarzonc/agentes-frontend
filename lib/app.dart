@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/theme/theme.dart';
-import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
+    final routerProv = ref.read(routerProvider);
+    return MaterialApp.router(
       title: 'Restaurants',
-      onGenerateRoute: ref.read(routerProvider).onGenerateRoute,
+      routeInformationProvider: routerProv.goRouter.routeInformationProvider,
+      routeInformationParser: routerProv.goRouter.routeInformationParser,
+      routerDelegate: routerProv.goRouter.routerDelegate,
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.myTheme(),
-      initialRoute: OnBoarding.route,
-      navigatorKey: ref.read(routerProvider).navigatorKey,
     );
   }
 }

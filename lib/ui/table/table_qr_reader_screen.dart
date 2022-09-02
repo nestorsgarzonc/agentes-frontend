@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
@@ -86,7 +87,7 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
                 backgroundColor: Colors.grey.withOpacity(0.5),
                 child: const Icon(Icons.close, color: Colors.white),
               ),
-              onPressed: Navigator.of(context).pop,
+              onPressed: GoRouter.of(context).pop,
             ),
           ),
         ],

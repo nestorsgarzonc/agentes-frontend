@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,8 +81,7 @@ class OnBoarding extends ConsumerWidget {
     );
   }
 
-  void handleOnScan(BuildContext context) =>
-      Navigator.of(context).pushNamed(TableQrReaderScreen.route);
+  void handleOnScan(BuildContext context) => GoRouter.of(context).push(TableQrReaderScreen.route);
 
   void handleOnWriteCode(BuildContext context, Reader read) {
     TableCodeBottomSheet.showManualCodeSheet(

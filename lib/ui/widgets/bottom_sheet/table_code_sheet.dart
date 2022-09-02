@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
 import 'package:restaurants/ui/widgets/custom_text_field.dart';
 
@@ -50,7 +51,7 @@ class TableCodeBottomSheet {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       onAccept(controller.text);
-                      Navigator.of(context).pop();
+                      GoRouter.of(context).pop();
                     }
                   },
                   child: const Text('Continuar')),
