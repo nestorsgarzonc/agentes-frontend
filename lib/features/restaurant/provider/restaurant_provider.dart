@@ -11,6 +11,7 @@ class RestaurantProvider extends StateNotifier<RestaurantState> {
   final Reader read;
 
   Future<void> getMenu(String tableCode) async {
+    print(tableCode);
     //TODO: FINISH GET MENU
   }
 }
