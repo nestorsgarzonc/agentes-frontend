@@ -48,13 +48,14 @@ class TableCodeBottomSheet {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      onAccept(controller.text);
-                      GoRouter.of(context).pop();
-                    }
-                  },
-                  child: const Text('Continuar')),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    onAccept(controller.text);
+                    GoRouter.of(context).pop();
+                  }
+                },
+                child: const Text('Continuar'),
+              ),
               SizedBox(height: 10 + MediaQuery.of(context).viewInsets.bottom),
             ],
           ),

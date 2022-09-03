@@ -4,19 +4,11 @@ import 'package:restaurants/core/failure/failure.dart';
 enum States { loading, initial, error, success }
 
 class StateAsync<T> extends Equatable {
-  final States _state;
-  final T? _data;
-  final Failure? _error;
-
   const StateAsync(
     this._state, [
     this._data,
     this._error,
   ]);
-
-  States get state => _state;
-  T? get data => _data;
-  Failure? get error => _error;
 
   factory StateAsync.loading() => const StateAsync(States.loading);
 
@@ -25,6 +17,13 @@ class StateAsync<T> extends Equatable {
   factory StateAsync.success(T data) => StateAsync(States.success, data);
 
   factory StateAsync.error(Failure error) => StateAsync(States.error, null, error);
+  final States _state;
+  final T? _data;
+  final Failure? _error;
+
+  States get state => _state;
+  T? get data => _data;
+  Failure? get error => _error;
 
   W on<W>({
     required W Function(T) onData,

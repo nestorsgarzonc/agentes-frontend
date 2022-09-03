@@ -89,7 +89,6 @@ class OnBoarding extends ConsumerWidget {
   }
 }
 
-
 // class OnBoarding extends ConsumerStatefulWidget {
 //   const OnBoarding({Key? key}) : super(key: key);
 

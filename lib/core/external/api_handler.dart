@@ -144,7 +144,11 @@ class ApiHandlerImpl implements ApiHandler {
 
   @override
   void logOnError(
-      String path, Map<String, dynamic>? body, String exception, StackTrace stackTrace) {
+    String path,
+    Map<String, dynamic>? body,
+    String exception,
+    StackTrace stackTrace,
+  ) {
     Logger.log('######## API FAILURE ########');
     Logger.log('Path: $path');
     Logger.log('Body: $body');

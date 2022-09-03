@@ -46,15 +46,16 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
               icon: CircleAvatar(
                 backgroundColor: Colors.grey.withOpacity(0.5),
                 child: ValueListenableBuilder(
-                    valueListenable: _controller.torchState,
-                    builder: (context, value, child) {
-                      switch (value as TorchState) {
-                        case TorchState.on:
-                          return const Icon(Icons.flash_on, color: iconColor);
-                        case TorchState.off:
-                          return const Icon(Icons.flash_off, color: iconColor);
-                      }
-                    }),
+                  valueListenable: _controller.torchState,
+                  builder: (context, value, child) {
+                    switch (value as TorchState) {
+                      case TorchState.on:
+                        return const Icon(Icons.flash_on, color: iconColor);
+                      case TorchState.off:
+                        return const Icon(Icons.flash_off, color: iconColor);
+                    }
+                  },
+                ),
               ),
               onPressed: _controller.toggleTorch,
             ),
@@ -66,15 +67,16 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
               icon: CircleAvatar(
                 backgroundColor: Colors.grey.withOpacity(0.5),
                 child: ValueListenableBuilder(
-                    valueListenable: _controller.cameraFacingState,
-                    builder: (context, value, child) {
-                      switch (value as CameraFacing) {
-                        case CameraFacing.front:
-                          return const Icon(Icons.camera_front, color: iconColor);
-                        case CameraFacing.back:
-                          return const Icon(Icons.camera_rear, color: iconColor);
-                      }
-                    }),
+                  valueListenable: _controller.cameraFacingState,
+                  builder: (context, value, child) {
+                    switch (value as CameraFacing) {
+                      case CameraFacing.front:
+                        return const Icon(Icons.camera_front, color: iconColor);
+                      case CameraFacing.back:
+                        return const Icon(Icons.camera_rear, color: iconColor);
+                    }
+                  },
+                ),
               ),
               onPressed: _controller.switchCamera,
             ),
