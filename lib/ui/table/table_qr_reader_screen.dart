@@ -35,10 +35,7 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          MobileScanner(
-            onDetect: handleOnDetect,
-            controller: _controller,
-          ),
+          MobileScanner(onDetect: handleOnDetect, controller: _controller),
           Positioned(
             top: 30,
             right: 20,
