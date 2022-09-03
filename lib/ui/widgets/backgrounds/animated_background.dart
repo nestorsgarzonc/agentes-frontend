@@ -5,7 +5,6 @@ class AnimatedBackground extends StatefulWidget {
   const AnimatedBackground({required this.child, super.key});
 
   final Widget child;
-  static const route = '/error';
 
   @override
   State<AnimatedBackground> createState() => _AnimatedBackgroundState();
