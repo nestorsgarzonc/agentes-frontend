@@ -8,6 +8,7 @@ import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/table_code_sheet.dart';
 import 'package:restaurants/ui/widgets/Divider.dart';
+import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
 
 class OnBoarding extends ConsumerWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -49,11 +50,8 @@ class OnBoarding extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            ElevatedButton(
+            CustomElevatedButton(
               onPressed: () => handleOnScan(context),
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [

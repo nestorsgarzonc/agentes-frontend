@@ -8,7 +8,7 @@ import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 class TableQrReaderScreen extends ConsumerStatefulWidget {
   const TableQrReaderScreen({Key? key}) : super(key: key);
 
-  static const route = '/table-qr-reader';
+  static const route = '/qr-table-reader';
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _TableQrReaderScreenState();
