@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AnimatedBackground extends StatefulWidget {
   const AnimatedBackground({required this.child, super.key});
@@ -18,7 +19,28 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> {
     Icons.local_cafe,
     Icons.local_bar,
     Icons.local_attraction,
-    Icons.local_activity
+    Icons.local_activity,
+    FontAwesomeIcons.bowlFood,
+    FontAwesomeIcons.breadSlice,
+    FontAwesomeIcons.burger,
+    FontAwesomeIcons.candyCane,
+    FontAwesomeIcons.mugSaucer,
+    FontAwesomeIcons.beerMugEmpty,
+    FontAwesomeIcons.pizzaSlice,
+    FontAwesomeIcons.faceSmileWink,
+    FontAwesomeIcons.iceCream,
+    FontAwesomeIcons.utensils,
+    FontAwesomeIcons.wineGlass,
+    FontAwesomeIcons.glassWater,
+    FontAwesomeIcons.martiniGlass,
+    FontAwesomeIcons.mugHot,
+    FontAwesomeIcons.egg,
+    FontAwesomeIcons.cheese,
+    FontAwesomeIcons.bacon,
+    FontAwesomeIcons.fish,
+    FontAwesomeIcons.hotdog,
+    FontAwesomeIcons.bowlRice,
+    FontAwesomeIcons.fishFins,
   ];
 
   bool _animate = false;
@@ -56,19 +78,19 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> {
             ),
           ),
           ...List.generate(
-            random.nextInt(10) + 15,
+            random.nextInt(10) + 20,
             (index) => AnimatedPositioned(
               key: Key('$index'),
-              duration: const Duration(seconds: 1),
+              duration: Duration(milliseconds: 500 + random.nextInt(1000)),
               curve: Curves.easeInOut,
               top: _animate ? size.height * random.nextDouble() : middleHeight,
               left: _animate ? size.width * random.nextDouble() : middleWidth,
               child: Transform.rotate(
-                angle: pi * random.nextDouble(),
-                child: Icon(
+                angle: 2 * pi * random.nextDouble(),
+                child: FaIcon(
                   foodIcons.elementAt(random.nextInt(foodIcons.length)),
                   size: 50 * random.nextDouble() + 20,
-                  color: Colors.white.withOpacity(min(1, random.nextDouble() + 0.2)),
+                  color: Colors.white.withOpacity(min(1, random.nextDouble() + 0.5)),
                 ),
               ),
             ),

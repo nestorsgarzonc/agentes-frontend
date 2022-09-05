@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:restaurants/ui/menu/menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
@@ -11,6 +12,10 @@ final routerProvider = Provider<CustomRouter>((ref) {
 
 class CustomRouter {
   CustomRouter();
+
+  static String atributeErrorMessage(String atribute) {
+    return 'Es necesario el parametro $atribute';
+  }
 
   final goRouter = GoRouter(
     urlPathStrategy: UrlPathStrategy.path,
@@ -26,6 +31,15 @@ class CustomRouter {
       GoRoute(
         path: TableQrReaderScreen.route,
         builder: (context, state) => const TableQrReaderScreen(),
+      ),
+      GoRoute(
+        path: MenuScreen.route,
+        builder: (context, state) {
+          final tableId = state.queryParams['tableId'];
+          return tableId == null
+              ? ErrorScreen(error: atributeErrorMessage('tableId'))
+              : MenuScreen(tableId: tableId);
+        },
       ),
       GoRoute(
         path: ErrorScreen.route,
