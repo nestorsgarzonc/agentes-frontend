@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
-import 'package:restaurants/ui/menu/menu_screen.dart';
+import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
@@ -33,12 +33,12 @@ class CustomRouter {
         builder: (context, state) => const TableQrReaderScreen(),
       ),
       GoRoute(
-        path: MenuScreen.route,
+        path: IndexMenuScreen.route,
         builder: (context, state) {
           final tableId = state.queryParams['tableId'];
           return tableId == null
               ? ErrorScreen(error: atributeErrorMessage('tableId'))
-              : MenuScreen(tableId: tableId);
+              : IndexMenuScreen(tableId: tableId);
         },
       ),
       GoRoute(

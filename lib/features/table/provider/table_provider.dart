@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
-import 'package:restaurants/ui/menu/menu_screen.dart';
+import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
@@ -22,6 +22,6 @@ class TableProvider extends StateNotifier<TableState> {
       return;
     }
     state = state.copyWith(tableCode: code);
-    GoRouter.of(read(routerProvider).context).go('${MenuScreen.route}?tableId=$code');
+    GoRouter.of(read(routerProvider).context).go('${IndexMenuScreen.route}?tableId=$code');
   }
 }
