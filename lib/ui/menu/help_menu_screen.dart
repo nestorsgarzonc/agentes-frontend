@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurants/ui/menu/widgets/help_item_card.dart';
 
 class HelpMenuScreen extends StatelessWidget {
   const HelpMenuScreen({super.key});
@@ -53,37 +54,11 @@ class HelpMenuScreen extends StatelessWidget {
                     title: '¿Cómo calificar mi pedido?',
                     onTap: () {},
                   ),
-                  HelpItemCard(
-                    title: '¿Cómo contactar a soporte?',
-                    onTap: () {},
-                  ),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HelpItemCard extends StatelessWidget {
-  const HelpItemCard({super.key, required this.title, required this.onTap});
-
-  final String title;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ListTile(
-        onTap: onTap,
-        title: Text(title),
-        trailing: const Icon(Icons.arrow_forward_ios),
       ),
     );
   }

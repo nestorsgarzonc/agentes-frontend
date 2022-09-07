@@ -132,6 +132,7 @@ class _MenuScreenState extends State<MenuScreen> {
             ),
           ),
         ),
+        const SliverToBoxAdapter(child: SizedBox(height: 60)),
       ],
     );
   }
