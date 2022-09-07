@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
@@ -15,7 +16,7 @@ class CustomRouter {
 
   final goRouter = GoRouter(
     urlPathStrategy: UrlPathStrategy.path,
-    initialLocation: LoginScreen.route,
+    initialLocation: productDetail.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
         return const ErrorScreen();
@@ -41,7 +42,11 @@ class CustomRouter {
       GoRoute(
         path: LoginScreen.route,
         builder: (context, state) => const LoginScreen(),
-      )
+      ),
+      GoRoute(
+        path: productDetail.route,
+        builder: (context, state) => const productDetail(),
+        )
     ],
   );
 

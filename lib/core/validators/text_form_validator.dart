@@ -1,4 +1,20 @@
 class TextFormValidator {
+  static String? emailValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, ingrese un texto';
+    }
+    return null;
+  }
+
+  static String? passwordValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, ingrese un texto';
+    } else if(value.length < 8){
+      return 'Esta constraseña no es válida';
+    }
+    return null;
+  }
+
   static String? tableCodeValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Debes ingresar el codigo de tu mesa.';
