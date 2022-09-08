@@ -16,7 +16,7 @@ class CustomRouter {
 
   final goRouter = GoRouter(
     urlPathStrategy: UrlPathStrategy.path,
-    initialLocation: productDetail.route,
+    initialLocation: ProductDetail.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
         return const ErrorScreen();
@@ -44,8 +44,8 @@ class CustomRouter {
         builder: (context, state) => const LoginScreen(),
       ),
       GoRoute(
-        path: productDetail.route,
-        builder: (context, state) => const productDetail(),
+        path: ProductDetail.route,
+        builder: (context, state) => const ProductDetail(),
         )
     ],
   );

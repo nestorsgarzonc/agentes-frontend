@@ -1,15 +1,19 @@
 class TextFormValidator {
   static String? emailValidator(String? value) {
+    final validForm =
+        RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
     if (value == null || value.isEmpty) {
       return 'Por favor, ingrese un texto';
+    } else if (!validForm.hasMatch(value)) {
+      return 'Ese correo no es válido';
     }
     return null;
   }
 
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Por favor, ingrese un texto';
-    } else if(value.length < 8){
+      return 'Por favor, ingrese una contraseña';
+    } else if (value.length < 8) {
       return 'Esta constraseña no es válida';
     }
     return null;
