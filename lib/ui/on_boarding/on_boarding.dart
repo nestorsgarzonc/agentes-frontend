@@ -61,6 +61,7 @@ class OnBoarding extends ConsumerWidget {
                 ],
               ),
             ),
+            const SizedBox(height: 10),
             TextButton(
               onPressed: () => handleOnWriteCode(context, ref.read),
               child: Row(
