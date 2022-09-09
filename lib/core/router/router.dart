@@ -18,7 +18,6 @@ class CustomRouter {
   }
 
   final goRouter = GoRouter(
-    urlPathStrategy: UrlPathStrategy.path,
     initialLocation: OnBoarding.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
