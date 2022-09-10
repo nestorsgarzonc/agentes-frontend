@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
+import 'package:restaurants/ui/regis/register.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
 final routerProvider = Provider<CustomRouter>((ref) {
@@ -18,7 +19,7 @@ class CustomRouter {
   }
 
   final goRouter = GoRouter(
-    initialLocation: OnBoarding.route,
+    initialLocation: Register.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
         return const ErrorScreen();
@@ -26,6 +27,7 @@ class CustomRouter {
       return ErrorScreen(error: state.error.toString());
     },
     routes: [
+      GoRoute(path: Register.route, builder: (context, state) => const Register()),
       GoRoute(path: OnBoarding.route, builder: (context, state) => const OnBoarding()),
       GoRoute(
         path: TableQrReaderScreen.route,
