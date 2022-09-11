@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import '../widgets/buttons/custom_elevated_button.dart';
 
 class ProductDetail extends StatefulWidget {
   const ProductDetail({super.key});
@@ -9,7 +11,8 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
-  int foodQuantity = 0;
+  late int foodQuantity = 0, mainProductPrice = 13500, toppingsPrices = 600, total = 0;
+  bool isSelectedA = false, isSelectedB = false;
   final _formKey = GlobalKey();
 
   @override
@@ -18,8 +21,10 @@ class _ProductDetailState extends State<ProductDetail> {
       body: ListView(
         children: [
           const Image(
-              image: NetworkImage(
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/NCI_Visuals_Food_Hamburger.jpg/640px-NCI_Visuals_Food_Hamburger.jpg')),
+            image: NetworkImage(
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/NCI_Visuals_Food_Hamburger.jpg/640px-NCI_Visuals_Food_Hamburger.jpg',
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
@@ -32,9 +37,9 @@ class _ProductDetailState extends State<ProductDetail> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  'Precio',
-                  style: TextStyle(
+                Text(
+                  '${String.fromCharCode(036)} $mainProductPrice',
+                  style: const TextStyle(
                     fontSize: 20,
                   ),
                 ),
@@ -86,23 +91,102 @@ class _ProductDetailState extends State<ProductDetail> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints.expand(),
-                  child: Row(
+                SizedBox(
+                  height: 100,
+                  child: ListView(
+                    padding: const EdgeInsets.all(10),
                     children: [
+                      CheckboxListTile(
+                        title: Text.rich(
+                          TextSpan(
+                            text: 'Papas fritas\n',
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: '${String.fromCharCode(036)} $toppingsPrices',
+                                style: const TextStyle(fontSize: 20.0),
+                              ),
+                            ],
+                          ),
+                        ),
+                        value: isSelectedA,
+                        onChanged: (bool? newValue) {
+                          setState(() {
+                            isSelectedA = newValue!;
+                            calculateTotal();
+                          });
+                        },
+                        secondary: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: const Image(
+                            height: 40.0,
+                            width: 40.0,
+                            image: NetworkImage(
+                              'https://www.cardamomo.news/__export/1621290930734/sites/debate/img/2021/05/17/papas_fritas_crop1621290739319.jpeg_1753094345.jpeg',
+                            ),
+                          ),
+                        ),
+                      ),
+                      CheckboxListTile(
+                        title: Text.rich(
+                          TextSpan(
+                            text: 'Guacamole\n',
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: '${String.fromCharCode(036)} $toppingsPrices',
+                                style: const TextStyle(fontSize: 20.0),
+                              ),
+                            ],
+                          ),
+                        ),
+                        value: isSelectedB,
+                        onChanged: (bool? newValue) {
+                          setState(() {
+                            isSelectedB = newValue!;
+                            calculateTotal();
+                          });
+                        },
+                        secondary: ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: const Image(
+                            height: 40.0,
+                            image: NetworkImage(
+                              'https://www.mylatinatable.com/wp-content/uploads/2018/09/guacamole-foto-heroe-500x500.jpg',
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
               ],
             ),
           ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          CustomElevatedButton(
+            onPressed: () {},
+            child: Text('Hacer pedido (${String.fromCharCode(036)} $total )'),
+          )
         ],
       ),
     );
   }
 
+  void calculateTotal() {
+    total = foodQuantity * mainProductPrice;
+    if (isSelectedA && foodQuantity != 0) {
+      total += toppingsPrices;
+    }
+    if (isSelectedB && foodQuantity != 0) {
+      total += toppingsPrices;
+    }
+    setState(() {});
+  }
+
   void addToFoodQuantity() {
     foodQuantity++;
+    calculateTotal();
     setState(() {});
   }
 
@@ -111,6 +195,7 @@ class _ProductDetailState extends State<ProductDetail> {
       return;
     }
     foodQuantity--;
+    calculateTotal();
     setState(() {});
   }
 }
