@@ -25,33 +25,35 @@ class CustomRouter {
       }
       return ErrorScreen(error: state.error.toString());
     },
-    routes: [
-      GoRoute(path: OnBoarding.route, builder: (context, state) => const OnBoarding()),
-      GoRoute(
-        path: TableQrReaderScreen.route,
-        builder: (context, state) => const TableQrReaderScreen(),
-      ),
-      GoRoute(
-        path: IndexMenuScreen.route,
-        builder: (context, state) {
-          final tableId = state.queryParams['tableId'];
-          return tableId == null
-              ? ErrorScreen(error: atributeErrorMessage('tableId'))
-              : IndexMenuScreen(tableId: tableId);
-        },
-      ),
-      GoRoute(
-        path: ErrorScreen.route,
-        builder: (context, state) {
-          final error = state.params['error'];
-          if (error == null) {
-            return const ErrorScreen();
-          }
-          return ErrorScreen(error: error);
-        },
-      )
-    ],
+    routes: routes,
   );
+
+  static List<GoRoute> get routes => [
+        GoRoute(path: OnBoarding.route, builder: (context, state) => const OnBoarding()),
+        GoRoute(
+          path: TableQrReaderScreen.route,
+          builder: (context, state) => const TableQrReaderScreen(),
+        ),
+        GoRoute(
+          path: IndexMenuScreen.route,
+          builder: (context, state) {
+            final tableId = state.queryParams['tableId'];
+            return tableId == null
+                ? ErrorScreen(error: atributeErrorMessage('tableId'))
+                : IndexMenuScreen(tableId: tableId);
+          },
+        ),
+        GoRoute(
+          path: ErrorScreen.route,
+          builder: (context, state) {
+            final error = state.params['error'];
+            if (error == null) {
+              return const ErrorScreen();
+            }
+            return ErrorScreen(error: error);
+          },
+        )
+      ];
 
   BuildContext get context => goRouter.navigator!.context;
 
