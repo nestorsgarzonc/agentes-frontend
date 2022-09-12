@@ -12,7 +12,7 @@ class CustomTextField extends StatelessWidget {
     this.focusNode,
     this.inputFormatters,
     this.keyboardType,
-    this.maxLines,
+    this.maxLines = 1,
     this.minLines,
     this.textInputAction,
     super.key,
@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final bool obscureText;
   final bool autofocus;
-  final int? maxLines;
+  final int maxLines;
   final int? minLines;
   final String label;
   final List<TextInputFormatter>? inputFormatters;
