@@ -96,10 +96,10 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> {
             ),
           ),
           Positioned(
-            top: 80,
+            top: 40,
             left: 30,
             right: 30,
-            bottom: 50,
+            bottom: 40,
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
