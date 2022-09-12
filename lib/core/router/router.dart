@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
@@ -14,8 +15,11 @@ final routerProvider = Provider<CustomRouter>((ref) {
 class CustomRouter {
   CustomRouter();
 
+  static String atributeErrorMessage(String atribute) {
+    return 'Es necesario el parametro $atribute';
+  }
+
   final goRouter = GoRouter(
-    urlPathStrategy: UrlPathStrategy.path,
     initialLocation: OnBoarding.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
@@ -28,6 +32,15 @@ class CustomRouter {
       GoRoute(
         path: TableQrReaderScreen.route,
         builder: (context, state) => const TableQrReaderScreen(),
+      ),
+      GoRoute(
+        path: IndexMenuScreen.route,
+        builder: (context, state) {
+          final tableId = state.queryParams['tableId'];
+          return tableId == null
+              ? ErrorScreen(error: atributeErrorMessage('tableId'))
+              : IndexMenuScreen(tableId: tableId);
+        },
       ),
       GoRoute(
         path: ErrorScreen.route,

@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
-import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
+import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
@@ -21,6 +22,6 @@ class TableProvider extends StateNotifier<TableState> {
       return;
     }
     state = state.copyWith(tableCode: code);
-    read(restaurantProvider.notifier).getMenu(code);
+    GoRouter.of(read(routerProvider).context).go('${IndexMenuScreen.route}?tableId=$code');
   }
 }
