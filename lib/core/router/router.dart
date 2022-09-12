@@ -16,7 +16,7 @@ class CustomRouter {
 
   final goRouter = GoRouter(
     urlPathStrategy: UrlPathStrategy.path,
-    initialLocation: ProductDetail.route,
+    initialLocation: OnBoarding.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
         return const ErrorScreen();

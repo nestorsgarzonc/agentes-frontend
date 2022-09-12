@@ -111,8 +111,10 @@ class _ProductDetailState extends State<ProductDetail> {
                         value: isSelectedA,
                         onChanged: (bool? newValue) {
                           setState(() {
-                            isSelectedA = newValue!;
-                            calculateTotal();
+                            if (foodQuantity != 0) {
+                              isSelectedA = newValue!;
+                              calculateTotal();
+                            }
                           });
                         },
                         secondary: ClipRRect(
@@ -141,8 +143,10 @@ class _ProductDetailState extends State<ProductDetail> {
                         value: isSelectedB,
                         onChanged: (bool? newValue) {
                           setState(() {
-                            isSelectedB = newValue!;
-                            calculateTotal();
+                            if (foodQuantity != 0) {
+                              isSelectedB = newValue!;
+                              calculateTotal();
+                            }
                           });
                         },
                         secondary: ClipRRect(
