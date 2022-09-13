@@ -14,6 +14,7 @@ abstract class AuthDatasource {
   Future<AuthModel> login(String email, String password);
   Future<void> register(User user);
   Future<void> saveToken(String token);
+  Future<void> deleteToken();
   Future<String?> getToken();
   Future<AuthModel> getUserByToken();
 }
@@ -87,6 +88,15 @@ class AuthDatasourceImpl implements AuthDatasource {
     } catch (e, s) {
       Logger.logError(e.toString(), s);
       rethrow;
+    }
+  }
+
+  @override
+  Future<void> deleteToken() async {
+    try {
+      return dbHandler.delete(DbConstants.bearerTokenKey, DbConstants.authBox);
+    } catch (e, s) {
+      Logger.logError(e.toString(), s);
     }
   }
 }

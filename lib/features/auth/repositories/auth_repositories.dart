@@ -58,6 +58,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await authDatasource.saveToken(res.bearerToken);
       return Right(res.user);
     } catch (e) {
+      await authDatasource.deleteToken();
       return Left(Failure(e.toString()));
     }
   }
