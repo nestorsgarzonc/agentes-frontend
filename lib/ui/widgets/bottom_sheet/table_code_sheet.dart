@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
+import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/custom_text_field.dart';
 
 class TableCodeBottomSheet {
@@ -11,15 +12,13 @@ class TableCodeBottomSheet {
     final controller = TextEditingController();
     return showModalBottomSheet(
       isScrollControlled: true,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: const RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+      ),
       context: context,
       builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: const EdgeInsets.all(20),
+        return BaseBottomSheet(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

@@ -1,34 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
+import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/ui/widgets/backgrounds/animated_background.dart';
 import 'package:restaurants/ui/widgets/custom_text_field.dart';
-import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
-
 import '../widgets/buttons/custom_elevated_button.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   static const route = '/login';
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
     return AnimatedBackground(
       child: ListView(
         padding: const EdgeInsets.all(10),
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
+          Row(
+            children: [
+              IconButton(
+                onPressed: GoRouter.of(context).pop,
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ],
+          ),
           const Text(
             '¡Bienvenido!',
             textAlign: TextAlign.center,
@@ -55,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
               fit: BoxFit.fitHeight,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Form(
             key: _formKey,
             child: Column(
@@ -69,20 +79,31 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomTextField(
                   label: 'Contraseña',
                   obscureText: true,
-                  controller: TextEditingController(text: ''),
+                  controller: _passwordController,
                   validator: TextFormValidator.passwordValidator,
                 )
               ],
             ),
           ),
           const SizedBox(height: 20),
-          CustomElevatedButton(
-            onPressed: handleOnLogin,
-            child: const Text('Ingresar'),
+          authState.user.on(
+            onData: (u) => CustomElevatedButton(
+              onPressed: handleOnLogin,
+              child: const Text('Ingresar'),
+            ),
+            onError: (f) => CustomElevatedButton(
+              onPressed: handleOnLogin,
+              child: const Text('Ingresar'),
+            ),
+            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onInitial: () => CustomElevatedButton(
+              onPressed: handleOnLogin,
+              child: const Text('Ingresar'),
+            ),
           ),
           const SizedBox(height: 10),
           TextButton(
-            onPressed: (){},
+            onPressed: () {},
             child: const Text('O regístrate ahora'),
           )
         ],
@@ -90,11 +111,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-
   void handleOnLogin() {
-    if (!_formKey.currentState!.validate() ) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    CustomSnackbar.showSnackBar(context, 'Email: ${_emailController.text}');
+    ref.read(authProvider.notifier).login(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
   }
 }

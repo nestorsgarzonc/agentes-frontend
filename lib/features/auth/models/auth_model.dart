@@ -7,7 +7,7 @@ class AuthModel extends Equatable {
   factory AuthModel.fromJson(Map<String, dynamic> json) {
     return AuthModel(
       User.fromMap(json['user']),
-      json['bearerToken'],
+      json['token'],
     );
   }
 

@@ -48,7 +48,7 @@ class CustomRouter {
         GoRoute(
           path: ErrorScreen.route,
           builder: (context, state) {
-            final error = state.params['error'];
+            final error = (state.extra as Map<String, dynamic>)['error'];
             if (error == null) {
               return const ErrorScreen();
             }

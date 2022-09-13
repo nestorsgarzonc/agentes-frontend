@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restaurants/core/external/api_exception.dart';
 import 'package:restaurants/core/failure/failure.dart';
 import 'package:restaurants/features/auth/data_source/auth_datasource.dart';
 import 'package:restaurants/features/auth/models/auth_model.dart';
@@ -29,6 +30,8 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final res = await authDatasource.login(email, password);
       return Right(res);
+    } on ApiException catch (e) {
+      return Left(Failure(e.response.responseMap.toString()));
     } catch (e) {
       return Left(Failure(e.toString()));
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import '../widgets/buttons/custom_elevated_button.dart';
 
 class ProductDetail extends StatefulWidget {
