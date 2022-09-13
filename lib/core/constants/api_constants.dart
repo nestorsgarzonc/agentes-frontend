@@ -1,4 +1,4 @@
 class ApiConstants {
   //TODO: ADD BASE URL
-  static const baseUrl = 'https://a016-168-176-40-196.ngrok.io/api';
+  static const baseUrl = 'https://6e6c-181-53-13-69.ngrok.io/api';
 }

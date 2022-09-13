@@ -178,7 +178,8 @@ class ApiHandlerImpl implements ApiHandler {
 
   @override
   Future<Map<String, String>> getHeaders() async {
-    final token = await read(dbProvider).get(DbConstants.authBox, DbConstants.bearerTokenKey);
+    final token =
+        await read(dbHandlerProvider).get(DbConstants.bearerTokenKey, DbConstants.authBox);
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

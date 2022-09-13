@@ -13,6 +13,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 abstract class AuthRepository {
   Future<Either<Failure, AuthModel>> login(String email, String password);
   Future<Failure?> register(User user);
+  Future<Either<Failure, User?>> getUserByToken();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -29,6 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<Failure, AuthModel>> login(String email, String password) async {
     try {
       final res = await authDatasource.login(email, password);
+      await authDatasource.saveToken(res.bearerToken);
       return Right(res);
     } on ApiException catch (e) {
       return Left(Failure(e.response.responseMap.toString()));
@@ -44,6 +46,19 @@ class AuthRepositoryImpl implements AuthRepository {
       return null;
     } catch (e) {
       return Failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<Failure, User?>> getUserByToken() async {
+    try {
+      final token = await authDatasource.getToken();
+      if (token == null) return const Right(null);
+      final res = await authDatasource.getUserByToken();
+      await authDatasource.saveToken(res.bearerToken);
+      return Right(res.user);
+    } catch (e) {
+      return Left(Failure(e.toString()));
     }
   }
 }

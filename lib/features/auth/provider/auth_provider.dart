@@ -41,4 +41,19 @@ class AuthProvider extends StateNotifier<AuthState> {
     final res = await authRepository.register(user);
     if (res != null) return;
   }
+
+  Future<void> getUserByToken() async {
+    state = state.copyWith(user: StateAsync.loading());
+    final res = await authRepository.getUserByToken();
+    res.fold(
+      (l) => state = state.copyWith(user: StateAsync.error(l)),
+      (r) {
+        if (r == null) {
+          state = state.copyWith(user: StateAsync.initial());
+          return;
+        }
+        state = state.copyWith(user: StateAsync.success(r));
+      },
+    );
+  }
 }
