@@ -32,7 +32,10 @@ class AuthProvider extends StateNotifier<AuthState> {
         state = state.copyWith(user: StateAsync.error(l));
         read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
       },
-      (r) => state = state.copyWith(user: StateAsync.success(r.user)),
+      (r) {
+        state = state.copyWith(user: StateAsync.success(r.user));
+        read(routerProvider).router.pop();
+      },
     );
   }
 
