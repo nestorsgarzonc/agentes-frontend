@@ -13,7 +13,7 @@ class TextFormValidator {
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor, ingrese una contraseña';
-    } else if (value.length < 8) {
+    } else if (value.length < 5) {
       return 'Esta constraseña no es válida';
     }
     return null;
