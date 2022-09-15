@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/menu/help_menu_screen.dart';
 import 'package:restaurants/ui/menu/menu_screen.dart';
 import 'package:restaurants/ui/menu/table_menu_screen.dart';
@@ -20,6 +21,12 @@ class IndexMenuScreen extends ConsumerStatefulWidget {
 
 class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
   int selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    ref.read(tableProvider.notifier).onSetTableCode(widget.tableId);
+  }
 
   @override
   Widget build(BuildContext context) {

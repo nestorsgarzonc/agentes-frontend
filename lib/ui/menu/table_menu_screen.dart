@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
+import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
 import 'package:restaurants/ui/widgets/cards/product_item_card.dart';
@@ -11,7 +12,9 @@ class TableMenuScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final tableProv = ref.read(tableProvider);
+    final tableProv = ref.watch(tableProvider);
+    final authProv = ref.watch(authProvider);
+
     return SafeArea(
       child: Stack(
         children: [
@@ -74,6 +77,28 @@ class TableMenuScreen extends ConsumerWidget {
                 Expanded(
                   child: ListView(
                     children: [
+                      authProv.user.on(
+                        onData: (user) => ListTile(
+                          leading: const CircleAvatar(
+                            backgroundColor: Colors.blueAccent,
+                            foregroundColor: Colors.white,
+                            child: Icon(Icons.person),
+                          ),
+                          title: Text(
+                            '${user.firstName} ${user.lastName} (Tu)',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        onError: (e) => Center(child: Text(e.message)),
+                        onLoading: () => const Center(child: CircularProgressIndicator()),
+                        onInitial: () => const Center(child: CircularProgressIndicator()),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: 1,
+                        itemBuilder: (context, index) => const ProductItemCard(),
+                      ),
                       ...List.generate(
                         3,
                         (index) => Column(
@@ -82,7 +107,7 @@ class TableMenuScreen extends ConsumerWidget {
                               leading: CircleAvatar(
                                 child: Icon(Icons.person),
                               ),
-                              title: Text('Tu'),
+                              title: Text('Someone...'),
                             ),
                             ListView.builder(
                               shrinkWrap: true,
