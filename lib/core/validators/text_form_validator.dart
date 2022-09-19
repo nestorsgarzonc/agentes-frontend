@@ -13,12 +13,12 @@ class TextFormValidator {
   static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Por favor, ingrese una contraseña';
-    } else if (value.length < 5) {
-      return 'Esta constraseña no es válida';
+    else if (value.length < 5) {
+      return 'La contraseña debe tener mas de 5 caracteres.';
     }
     return null;
   }
-
+  
   static String? tableCodeValidator(String? value) {
     if (value == null || value.isEmpty) {
       return 'Debes ingresar el codigo de tu mesa.';
