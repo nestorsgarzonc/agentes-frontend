@@ -5,14 +5,14 @@ import '../widgets/custom_text_field.dart';
 
 import '../widgets/buttons/custom_elevated_button.dart';
 
-class Register extends StatefulWidget {
-  const Register({super.key});
-  static const route = '/regis';
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+  static const route = '/register';
 
   @override
-  State<Register> createState() => _RegisterScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
-class _RegisterScreenState extends State<Register> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final Key _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
 
