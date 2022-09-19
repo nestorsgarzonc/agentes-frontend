@@ -90,24 +90,24 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> {
                 child: FaIcon(
                   foodIcons.elementAt(random.nextInt(foodIcons.length)),
                   size: 50 * random.nextDouble() + 20,
-                  color: Colors.white.withOpacity(min(1, random.nextDouble() + 0.5)),
+                  color: Colors.white.withOpacity(min(1, random.nextDouble() + 0.6)),
                 ),
               ),
             ),
           ),
           Positioned(
-            top: 80,
+            top: 40 + MediaQuery.of(context).padding.top,
             left: 30,
             right: 30,
-            bottom: 50,
+            bottom: 40 + MediaQuery.of(context).padding.bottom,
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withOpacity(0.85),
-                    Colors.white.withOpacity(0.95),
+                    Colors.white.withOpacity(0.88),
+                    Colors.white.withOpacity(0.98),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),
