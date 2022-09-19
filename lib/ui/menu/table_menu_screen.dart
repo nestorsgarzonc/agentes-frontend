@@ -5,7 +5,6 @@ import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
-import 'package:restaurants/ui/widgets/cards/product_item_card.dart';
 
 class TableMenuScreen extends ConsumerWidget {
   const TableMenuScreen({super.key});
@@ -93,28 +92,28 @@ class TableMenuScreen extends ConsumerWidget {
                         onLoading: () => const Center(child: CircularProgressIndicator()),
                         onInitial: () => const Center(child: CircularProgressIndicator()),
                       ),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        primary: false,
-                        itemCount: 1,
-                        itemBuilder: (context, index) => const ProductItemCard(),
-                      ),
+                      // ListView.builder(
+                      //   shrinkWrap: true,
+                      //   primary: false,
+                      //   itemCount: 1,
+                      //   itemBuilder: (context, index) =>  ProductItemCard(),
+                      // ),
                       ...List.generate(
                         3,
                         (index) => Column(
-                          children: [
-                            const ListTile(
+                          children: const [
+                            ListTile(
                               leading: CircleAvatar(
                                 child: Icon(Icons.person),
                               ),
                               title: Text('Someone...'),
                             ),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              primary: false,
-                              itemCount: index + 1,
-                              itemBuilder: (context, index) => const ProductItemCard(),
-                            ),
+                            // ListView.builder(
+                            //   shrinkWrap: true,
+                            //   primary: false,
+                            //   itemCount: index + 1,
+                            //   itemBuilder: (context, index) => const ProductItemCard(),
+                            // ),
                           ],
                         ),
                       ),

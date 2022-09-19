@@ -1,8 +1,20 @@
 import 'package:equatable/equatable.dart';
 
+import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/restaurant/models/restaurant_model.dart';
+
 class RestaurantState extends Equatable {
-  const RestaurantState();
+  const RestaurantState({required this.restaurant});
+
+  final StateAsync<RestaurantModel> restaurant;
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [restaurant];
+
+  RestaurantState copyWith({
+    StateAsync<RestaurantModel>? restaurant,
+  }) {
+    return RestaurantState(
+      restaurant: restaurant ?? this.restaurant,
+    );
+  }
 }
