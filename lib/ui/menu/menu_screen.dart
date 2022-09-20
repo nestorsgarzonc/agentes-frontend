@@ -126,10 +126,12 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                               const Spacer(),
                               Text(
                                 cat.name,
+                                maxLines: 3,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: isSelected ? Colors.white : Colors.black,
                                   fontWeight: isSelected ? FontWeight.w600 : null,
-                                  fontSize: isSelected ? 16 : null,
                                 ),
                               ),
                               const Spacer(),
