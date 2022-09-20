@@ -36,10 +36,12 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                 children: [
                   ImageFiltered(
                     imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                    child: Image.network(
-                      data.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
+                    child: data.imageUrl == null
+                        ? const FlutterLogo()
+                        : Image.network(
+                            data.imageUrl!,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   Container(color: Colors.black.withOpacity(0.2)),
                 ],
@@ -47,11 +49,13 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
               title: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.network(
-                    data.imageUrl,
-                    height: 45,
-                    fit: BoxFit.fitHeight,
-                  ),
+                  data.logoUrl == null
+                      ? const FlutterLogo()
+                      : Image.network(
+                          data.logoUrl!,
+                          height: 45,
+                          fit: BoxFit.fitHeight,
+                        ),
                   const SizedBox(width: 2),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +69,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                         ),
                       ),
                       Text(
-                        'Mesa: 1A',
+                        'Mesa: ${data.tableName}',
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.8),
                           fontSize: 13.5,
@@ -122,10 +126,12 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                               const Spacer(),
                               Text(
                                 cat.name,
+                                maxLines: 3,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: isSelected ? Colors.white : Colors.black,
                                   fontWeight: isSelected ? FontWeight.w600 : null,
-                                  fontSize: isSelected ? 16 : null,
                                 ),
                               ),
                               const Spacer(),

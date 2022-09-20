@@ -30,13 +30,18 @@ class ProductItemCard extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(menuItem.name),
+            if (menuItem.description.isNotEmpty)
+              Text(
+                menuItem.description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             const SizedBox(height: 5),
             Text(
               menuItem.isAvaliable ? '\$ ${menuItem.price}' : 'NO DISPONIBLE',
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: Colors.black,
+                color: menuItem.isAvaliable ? Colors.black : Colors.grey,
                 fontSize: 16,
               ),
             ),

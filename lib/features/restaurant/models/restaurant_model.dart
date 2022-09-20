@@ -7,18 +7,22 @@ class RestaurantModel extends Equatable {
 
   factory RestaurantModel.fromMap(Map<String, dynamic> map) {
     return RestaurantModel(
-      id: map['_id'] ?? '',
-      name: map['name'] ?? '',
-      phone: map['phone']?.toInt() ?? 0,
-      email: map['email'] ?? '',
-      address: map['address'] ?? '',
-      description: map['description'] ?? '',
-      imageUrl: map['imageUrl'] ?? '',
-      categories: List<Menu>.from(map['menu']?.map((x) => Menu.fromMap(x))),
+      id: map['restaurant']['_id'] ?? '',
+      name: map['restaurant']['name'] ?? '',
+      phone: map['restaurant']['phone']?.toInt() ?? 0,
+      email: map['restaurant']['email'] ?? '',
+      address: map['restaurant']['address'] ?? '',
+      description: map['restaurant']['description'] ?? '',
+      imageUrl: map['restaurant']['imageUrl'],
+      categories: List<Menu>.from(map['restaurant']['menu']?.map((x) => Menu.fromMap(x))),
+      tableName: map['table']['name'] ?? '',
+      logoUrl: map['restaurant']['logoUrl'],
     );
   }
 
   const RestaurantModel({
+    required this.logoUrl,
+    required this.tableName,
     required this.id,
     required this.name,
     required this.phone,
@@ -35,11 +39,14 @@ class RestaurantModel extends Equatable {
   final String email;
   final String address;
   final String description;
-  final String imageUrl;
+  final String? imageUrl;
+  final String? logoUrl;
+  final String tableName;
   final List<Menu> categories;
 
   @override
-  List<Object?> get props => [id, name, phone, email, address, description, imageUrl, categories];
+  List<Object?> get props =>
+      [id, name, phone, email, address, description, imageUrl, categories, tableName, logoUrl];
 
   RestaurantModel copyWith({
     String? id,
@@ -50,9 +57,12 @@ class RestaurantModel extends Equatable {
     String? description,
     String? imageUrl,
     List<Menu>? categories,
+    String? tableName,
+    String? logoUrl,
   }) {
     return RestaurantModel(
       id: id ?? this.id,
+      logoUrl: logoUrl ?? this.logoUrl,
       name: name ?? this.name,
       phone: phone ?? this.phone,
       email: email ?? this.email,
@@ -60,6 +70,7 @@ class RestaurantModel extends Equatable {
       description: description ?? this.description,
       imageUrl: imageUrl ?? this.imageUrl,
       categories: categories ?? this.categories,
+      tableName: tableName ?? this.tableName,
     );
   }
 
@@ -73,6 +84,8 @@ class RestaurantModel extends Equatable {
       'description': description,
       'imageUrl': imageUrl,
       'menu': categories.map((x) => x.toMap()).toList(),
+      'tableName': tableName,
+      'logoUrl': logoUrl,
     };
   }
 
@@ -153,9 +166,11 @@ class MenuItem extends Equatable {
       price: map['price']?.toInt() ?? 0,
       imgUrl: map['imgUrl'] ?? '',
       isAvaliable: map['isAvaliable'] ?? false,
+      description: map['description'] ?? '',
     );
   }
   const MenuItem({
+    required this.description,
     required this.id,
     required this.name,
     required this.price,
@@ -168,6 +183,7 @@ class MenuItem extends Equatable {
   final int price;
   final String imgUrl;
   final bool isAvaliable;
+  final String description;
 
   @override
   List<Object?> get props => [id, name, price, imgUrl, isAvaliable];
@@ -178,6 +194,7 @@ class MenuItem extends Equatable {
     int? price,
     String? imgUrl,
     bool? isAvaliable,
+    String? description,
   }) {
     return MenuItem(
       id: id ?? this.id,
@@ -185,6 +202,7 @@ class MenuItem extends Equatable {
       price: price ?? this.price,
       imgUrl: imgUrl ?? this.imgUrl,
       isAvaliable: isAvaliable ?? this.isAvaliable,
+      description: description ?? this.description,
     );
   }
 
