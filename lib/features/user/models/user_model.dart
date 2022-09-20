@@ -9,6 +9,8 @@ class User extends Equatable {
     return User(
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
+      password: map['password'],
+      confirmPassword: map['confirm-password'],
       email: map['email'] ?? '',
       phone: map['phone']?.toInt() ?? 0,
       rol: map['rol'],
@@ -29,10 +31,14 @@ class User extends Equatable {
     this.address,
     this.deviceToken,
     this.tokenType,
+    this.password,
+    this.confirmPassword,
   });
 
   final String firstName;
   final String lastName;
+  final String? password;
+  final String? confirmPassword;
   final String email;
   final int phone;
   final String? rol;
@@ -44,6 +50,8 @@ class User extends Equatable {
   User copyWith({
     String? firstName,
     String? lastName,
+    String? password,
+    String? confirmPassword,
     String? email,
     int? phone,
     String? rol,
@@ -55,6 +63,8 @@ class User extends Equatable {
     return User(
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
+      password: password ?? this.password,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
       email: email ?? this.email,
       phone: phone ?? this.phone,
       rol: rol ?? this.rol,
@@ -69,6 +79,8 @@ class User extends Equatable {
   List<Object?> get props => [
         firstName,
         lastName,
+        password,
+        confirmPassword,
         email,
         phone,
         rol,
@@ -82,6 +94,8 @@ class User extends Equatable {
     return {
       'firstName': firstName,
       'lastName': lastName,
+      'password': password,
+      'confirm-password': confirmPassword,
       'email': email,
       'phone': phone,
       'rol': rol,

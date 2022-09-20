@@ -22,6 +22,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _phoneNumberController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   label: 'Confirma la contraseña',
                   obscureText: true,
                   maxLines: 1,
-                  controller: TextEditingController(text: ''),
+                  controller: _confirmPasswordController,
                   validator: TextFormValidator.passwordValidator,
                 ),
                 const SizedBox(height: 20),
@@ -87,7 +88,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           ),
           const SizedBox(height: 20),
           CustomElevatedButton(
-            onPressed: () {},
+            onPressed: handleOnRegister,
             child: const Text('Registrarse'),
           ),
           const SizedBox(height: 20),
@@ -100,10 +101,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    if (_passwordController.text != _confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Las contraseñas no coinciden'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
     ref.read(authProvider.notifier).register(
           User(
             firstName: _firstNameController.text,
             lastName: _lastNameController.text,
+            password: _passwordController.text,
+            confirmPassword: _confirmPasswordController.text,
             email: _emailController.text,
             phone: int.parse(_phoneNumberController.text),
             rol: null,

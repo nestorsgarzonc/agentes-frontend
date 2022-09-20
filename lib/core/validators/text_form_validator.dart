@@ -1,20 +1,16 @@
 class TextFormValidator {
-  static String? cellphonValidator(String? value){
-    final validForm = RegExp('^[2-9]{2}[0-9]{10}');
-    if(value==null||value.isEmpty){
+  static String? cellphonValidator(String? value) {
+    if (value == null || value.isEmpty) {
       return 'Por favor, igresa tú número de celular';
-    }else if(!validForm.hasMatch(value)){
+    } else if (value.length < 10) {
       return 'Ese número no es válido';
     }
     return null;
   }
 
   static String? nameValidator(String? value) {
-    final validForm = RegExp('/^[a-zA-Z]+ [a-zA-Z]+/');
     if (value == null || value.isEmpty) {
       return 'Por favor, ingresa tu nombre';
-    } else if (!validForm.hasMatch(value)) {
-      return 'Ese nombre no es válido';
     }
     return null;
   }
