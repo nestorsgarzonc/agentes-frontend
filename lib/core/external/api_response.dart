@@ -15,6 +15,7 @@ class ApiResponse extends Equatable {
   final Map<String, dynamic>? body;
   final int statusCode;
   final Map<String, String> headers;
+  static const _decoder = JsonEncoder.withIndent('  ');
 
   bool get isSuccessful => statusCode >= 200 && statusCode < 300;
   bool get isError => !isSuccessful;
@@ -30,6 +31,9 @@ class ApiResponse extends Equatable {
     if (body is List<dynamic>) return body;
     return null;
   }
+
+  String get headersFormatted => _decoder.convert(headers);
+  String get responseFormatted => _decoder.convert(bodyJson);
 
   dynamic get bodyJson => json.decode(response);
 

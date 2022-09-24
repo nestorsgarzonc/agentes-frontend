@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print
 
+import 'dart:developer' as dev;
+
 class Logger {
   static void log(String message) {
-    print(message);
+    dev.log(message);
   }
 
   static void logError(String message, StackTrace stackTrace) {
-    print('Error: $message');
-    print('StackTrace: $stackTrace');
+    log('Error: $message');
+    log('StackTrace: $stackTrace');
   }
 }
