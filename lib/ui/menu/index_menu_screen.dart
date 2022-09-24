@@ -34,8 +34,9 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        height: 70,
+        height: 55,
         selectedIndex: selectedIndex,
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         onDestinationSelected: handleOnNavigate,
         destinations: const [
           NavigationDestination(

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/ui/widgets/cards/product_item_card.dart';
@@ -28,6 +29,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
           SliverAppBar(
             pinned: true,
             expandedHeight: 160,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             backgroundColor: Colors.grey,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding: const EdgeInsets.all(16),
@@ -35,7 +37,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                 fit: StackFit.expand,
                 children: [
                   ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                    imageFilter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
                     child: data.imageUrl == null
                         ? const FlutterLogo()
                         : Image.network(
@@ -53,10 +55,10 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                       ? const FlutterLogo()
                       : Image.network(
                           data.logoUrl!,
-                          height: 45,
-                          fit: BoxFit.fitHeight,
+                          height: 50,
+                          width: 50,
                         ),
-                  const SizedBox(width: 2),
+                  const SizedBox(width: 5),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
