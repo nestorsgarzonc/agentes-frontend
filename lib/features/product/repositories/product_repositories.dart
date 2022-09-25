@@ -7,7 +7,7 @@ final productRepositoryProvider = Provider<ProductRepository>((ref) {
 });
 
 abstract class ProductRepository {
-  
+  Future<Failure?> productDetail(String productID);
 }
 
 class ProductRepositoryImpl implements ProductRepository {
@@ -20,10 +20,9 @@ class ProductRepositoryImpl implements ProductRepository {
 
   final ProductDatasource productDatasource;
 
-
-  Future<Failure?> productDetail(String email, String password) async {
+  @override
+  Future<Failure?> productDetail(String productID) async {
     try {
-      await productDatasource.productDetail(email,password);
       return null;
     } catch (e) {
       return Failure(e.toString());

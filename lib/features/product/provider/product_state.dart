@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/user/models/user_model.dart';
+import 'package:restaurants/ui/Product/product_detail.dart';
 
 class ProductState extends Equatable {
   const ProductState({
-    required this.user,
+    required this.productDetail,
   });
 
-  final StateAsync<User> user;
+  final StateAsync<ProductDetail> productDetail;
 
-  ProductState copyWith({StateAsync<User>? user}) {
+  ProductState copyWith({StateAsync<ProductDetail>? productDetail}) {
     return ProductState(
-      user: user ?? this.user,
+      productDetail: productDetail ?? this.productDetail,
     );
   }
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [productDetail];
 }

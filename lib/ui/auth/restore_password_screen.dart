@@ -50,7 +50,7 @@ class _RestorePasswordScreen extends ConsumerState<RestorePasswordScreen> {
               height: 20,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: handleOnResetPassword,
               child: const Text('Restaurar contraseña'),
             )
           ],
@@ -59,7 +59,7 @@ class _RestorePasswordScreen extends ConsumerState<RestorePasswordScreen> {
     );
   }
 
-  void handleOnRegister() {
+  void handleOnResetPassword() {
     if (!_formKey.currentState!.validate()) {
       return;
     }

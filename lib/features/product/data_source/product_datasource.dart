@@ -9,7 +9,7 @@ final productDatasourceProvider = Provider<ProductDatasource>((ref) {
 });
 
 abstract class ProductDatasource {
-  Future<void> productDetail(String email, String password);
+  Future<void> productDetail(String productID);
 }
 
 class ProductDatasourceImpl implements ProductDatasource {
@@ -25,13 +25,13 @@ class ProductDatasourceImpl implements ProductDatasource {
   final DBHandler dbHandler;
 
   @override
-  Future<ProductModel> productDetail(String email, String password) async {
+  Future<ProductDetailModel> productDetail(String productID) async {
     try {
       final res = await apiHandler.post(
         '/product/product_detail',
-        {'email': email, 'password': password},
+        {'productID': productID},
       );
-      return ProductModel.fromJson(res.responseMap!);
+      return ProductDetailModel.fromJson(res.responseMap!);
     } catch (e, s) {
       Logger.logError(e.toString(), s);
       rethrow;

@@ -22,7 +22,7 @@ class CustomRouter {
   }
 
   final goRouter = GoRouter(
-    initialLocation: RestorePasswordScreen.route,
+    initialLocation: OnBoarding.route,
     errorBuilder: (context, state) {
       if (state.error == null) {
         return const ErrorScreen();

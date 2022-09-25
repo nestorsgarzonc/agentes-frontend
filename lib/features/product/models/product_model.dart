@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 
-class ProductModel extends Equatable {
-  const ProductModel(this.user, this.bearerToken);
+class ProductDetailModel extends Equatable {
+  const ProductDetailModel(this.user, this.bearerToken);
 
-  factory ProductModel.fromJson(Map<String, dynamic> json) {
-    return ProductModel(
+  factory ProductDetailModel.fromJson(Map<String, dynamic> json) {
+    return ProductDetailModel(
       User.fromMap(json['user']),
       json['token'],
     );
