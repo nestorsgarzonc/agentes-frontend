@@ -45,6 +45,11 @@ class AuthProvider extends StateNotifier<AuthState> {
     if (res != null) return;
   }
 
+  Future<void> restorePassword(String email) async {
+    final res = await authRepository.restorePassword(email);
+    if (res != null) return;
+  }
+
   Future<void> getUserByToken() async {
     state = state.copyWith(user: StateAsync.loading());
     final res = await authRepository.getUserByToken();

@@ -59,6 +59,16 @@ class AuthDatasourceImpl implements AuthDatasource {
     }
   }
 
+  Future<void> restorePassword(String email) async {
+    try {
+      
+      return;
+    } catch (e, s) {
+      Logger.logError(e.toString(), s);
+      rethrow;
+    }
+  }
+
   @override
   Future<void> saveToken(String token) async {
     try {

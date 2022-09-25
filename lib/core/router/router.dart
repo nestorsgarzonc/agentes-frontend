@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
+import 'package:restaurants/ui/auth/restore_password_screen.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
@@ -60,6 +61,10 @@ class CustomRouter {
         GoRoute(
           path: LoginScreen.route,
           builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: RestorePasswordScreen.route,
+          builder: (context, state) => const RestorePasswordScreen(),
         ),
         GoRoute(
           path: ProductDetail.route,

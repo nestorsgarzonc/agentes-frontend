@@ -1,4 +1,20 @@
 class TextFormValidator {
+  static String? cellphonValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, igresa tú número de celular';
+    } else if (value.length < 10) {
+      return 'Ese número no es válido';
+    }
+    return null;
+  }
+
+  static String? nameValidator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, ingresa tu nombre';
+    }
+    return null;
+  }
+
   static String? emailValidator(String? value) {
     final validForm =
         RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
