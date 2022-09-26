@@ -168,17 +168,18 @@ class ApiHandlerImpl implements ApiHandler {
   @override
   void logOnSuccess(ApiResponse response) {
     Logger.log('######## API SUCCESS ########');
-    Logger.log('Path: ${response.path}');
-    Logger.log('Body: ${response.body}');
-    Logger.log('Response: ${response.response}');
-    Logger.log('StatusCode: ${response.statusCode}');
-    Logger.log('Headers: ${response.headers}');
+    Logger.log('Path: \n${response.path}');
+    Logger.log('Body: \n${response.body}');
+    Logger.log('StatusCode: \n${response.statusCode}');
+    Logger.log('Headers: \n${response.headersFormatted}');
+    Logger.log('Response: \n${response.responseFormatted}');
     Logger.log('######## END API SUCCESS ########');
   }
 
   @override
   Future<Map<String, String>> getHeaders() async {
-    final token = await read(dbProvider).get(DbConstants.authBox, DbConstants.bearerTokenKey);
+    final token =
+        await read(dbHandlerProvider).get(DbConstants.bearerTokenKey, DbConstants.authBox);
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

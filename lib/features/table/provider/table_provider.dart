@@ -4,6 +4,7 @@ import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
+import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
@@ -21,7 +22,20 @@ class TableProvider extends StateNotifier<TableState> {
       CustomSnackbar.showSnackBar(read(routerProvider).context, validationError);
       return;
     }
-    state = state.copyWith(tableCode: code);
     GoRouter.of(read(routerProvider).context).go('${IndexMenuScreen.route}?tableId=$code');
+  }
+
+  void onClearTableCode() {
+    state = state.copyWith(tableCode: null);
+  }
+
+  void onSetTableCode(String code) {
+    final validationError = TextFormValidator.tableCodeValidator(code);
+    if (validationError != null) {
+      GoRouter.of(read(routerProvider).context).go(OnBoarding.route);
+      CustomSnackbar.showSnackBar(read(routerProvider).context, validationError);
+      return;
+    }
+    state = state.copyWith(tableCode: code);
   }
 }
