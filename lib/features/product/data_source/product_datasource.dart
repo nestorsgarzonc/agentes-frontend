@@ -27,7 +27,7 @@ class ProductDatasourceImpl implements ProductDatasource {
   @override
   Future<ProductDetailModel> productDetail(String productID) async {
     try {
-      final res = await apiHandler.get('menu/topping/$productID');
+      final res = await apiHandler.get('/menu/toppings/$productID');
       return ProductDetailModel.fromJson(res.responseMap!);
     } catch (e, s) {
       Logger.logError(e.toString(), s);

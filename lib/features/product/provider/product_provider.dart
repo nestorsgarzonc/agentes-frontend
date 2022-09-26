@@ -23,7 +23,7 @@ class ProductProvider extends StateNotifier<ProductState> {
   final Reader read;
   final ProductRepository productRepository;
 
-  Future<void> productDetail(String productID)async{
+  Future<void> productDetail(String productID) async {
     state = state.copyWith(productDetail: StateAsync.loading());
     final res = await productRepository.productDetail(productID);
     res.fold(
@@ -33,7 +33,6 @@ class ProductProvider extends StateNotifier<ProductState> {
       },
       (r) {
         state = state.copyWith(productDetail: StateAsync.success(r));
-        read(routerProvider).router.pop();
       },
     );
   }

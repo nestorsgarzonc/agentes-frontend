@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurants/features/restaurant/models/restaurant_model.dart' as resm;
+import 'package:restaurants/ui/Product/product_detail.dart';
 
 class ProductItemCard extends StatelessWidget {
   const ProductItemCard({Key? key, required this.menuItem}) : super(key: key);
@@ -14,7 +16,7 @@ class ProductItemCard extends StatelessWidget {
         vertical: 5,
       ),
       child: ListTile(
-        onTap: () {},
+        onTap: () => GoRouter.of(context).push('${ProductDetail.route}?productId=${menuItem.id}'),
         enabled: menuItem.isAvaliable,
         contentPadding: const EdgeInsets.only(
           right: 5,

@@ -68,7 +68,12 @@ class CustomRouter {
         ),
         GoRoute(
           path: ProductDetail.route,
-          builder: (context, state) => const ProductDetail(),
+          builder: (context, state) {
+            final productId = state.queryParams['productId'];
+            return productId == null
+                ? ErrorScreen(error: atributeErrorMessage('productId'))
+                : ProductDetail(productId: productId);
+          },
         )
       ];
 
