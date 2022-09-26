@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import '../widgets/backgrounds/animated_background.dart';
@@ -26,6 +27,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authState = ref.watch(authProvider);
     return AnimatedBackground(
       child: ListView(
         padding: const EdgeInsets.all(10),
@@ -80,6 +82,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 20),
                 CustomTextField(
                   label: 'Celular',
+                  maxLines: 1,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(10),
+                  ],
                   controller: _phoneNumberController,
                   validator: TextFormValidator.cellphonValidator,
                 ),
@@ -87,9 +94,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          CustomElevatedButton(
-            onPressed: handleOnRegister,
-            child: const Text('Registrarse'),
+          authState.user.on(
+            onData: (_) => RegisterButton(onPressed: handleOnRegister),
+            onError: (_) => RegisterButton(onPressed: handleOnRegister),
+            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onInitial: () => RegisterButton(onPressed: handleOnRegister),
           ),
           const SizedBox(height: 20),
         ],
@@ -120,6 +129,21 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             phone: int.parse(_phoneNumberController.text),
             rol: null,
           ),
+          context,
         );
+  }
+}
+
+class RegisterButton extends ConsumerWidget {
+  const RegisterButton({required this.onPressed, Key? key}) : super(key: key);
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return CustomElevatedButton(
+      onPressed: onPressed,
+      child: const Text('Registrarse'),
+    );
   }
 }

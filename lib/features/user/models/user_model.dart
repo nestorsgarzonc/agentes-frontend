@@ -98,7 +98,7 @@ class User extends Equatable {
       'confirm-password': confirmPassword,
       'email': email,
       'phone': phone,
-      'rol': rol,
+      if (rol != null) 'rol': rol,
       'ordersStory': ordersStory,
       'address': address,
       'deviceToken': deviceToken,

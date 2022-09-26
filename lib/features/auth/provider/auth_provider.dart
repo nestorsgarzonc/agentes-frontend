@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
@@ -39,10 +42,16 @@ class AuthProvider extends StateNotifier<AuthState> {
     );
   }
 
-  Future<void> register(User user) async {
+  Future<void> register(User user, BuildContext context) async {
     state = state.copyWith(user: StateAsync.loading());
     final res = await authRepository.register(user);
-    if (res != null) return;
+    if (res != null) {
+      state = state.copyWith(user: StateAsync.error(res));
+      read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
+      return;
+    }
+    await login(email: user.email, password: user.password ?? '');
+    read(routerProvider).router.pop();
   }
 
   Future<void> restorePassword(String email) async {
