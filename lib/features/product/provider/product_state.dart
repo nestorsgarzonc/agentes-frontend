@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/ui/Product/product_detail.dart';
+import 'package:restaurants/features/product/models/product_model.dart';
 
 class ProductState extends Equatable {
   const ProductState({
     required this.productDetail,
   });
 
-  final StateAsync<ProductDetail> productDetail;
+  final StateAsync<ProductDetailModel> productDetail;
 
-  ProductState copyWith({StateAsync<ProductDetail>? productDetail}) {
+  ProductState copyWith({StateAsync<ProductDetailModel>? productDetail}) {
     return ProductState(
       productDetail: productDetail ?? this.productDetail,
     );

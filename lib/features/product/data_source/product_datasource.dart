@@ -9,7 +9,7 @@ final productDatasourceProvider = Provider<ProductDatasource>((ref) {
 });
 
 abstract class ProductDatasource {
-  Future<void> productDetail(String productID);
+  Future<ProductDetailModel> productDetail(String productID);
 }
 
 class ProductDatasourceImpl implements ProductDatasource {
@@ -27,10 +27,7 @@ class ProductDatasourceImpl implements ProductDatasource {
   @override
   Future<ProductDetailModel> productDetail(String productID) async {
     try {
-      final res = await apiHandler.post(
-        '/product/product_detail',
-        {'productID': productID},
-      );
+      final res = await apiHandler.get('/menu/toppings/$productID');
       return ProductDetailModel.fromJson(res.responseMap!);
     } catch (e, s) {
       Logger.logError(e.toString(), s);
