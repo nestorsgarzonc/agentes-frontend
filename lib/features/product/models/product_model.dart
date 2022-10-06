@@ -1,5 +1,4 @@
 class ProductDetailModel {
-
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) => ProductDetailModel(
         id: json['_id'],
         name: json['name'],
@@ -55,7 +54,6 @@ class ProductDetailModel {
 }
 
 class Topping {
-
   factory Topping.fromJson(Map<String, dynamic> json) => Topping(
         id: json['_id'],
         name: json['name'],
@@ -95,7 +93,6 @@ class Topping {
 }
 
 class Option {
-
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         id: json['_id'],
         name: json['name'],
@@ -133,4 +130,3 @@ class Option {
         '__v': v,
       };
 }
-

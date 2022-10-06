@@ -94,7 +94,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          authState.user.on(
+          authState.authModel.on(
             onData: (_) => RegisterButton(onPressed: handleOnRegister),
             onError: (_) => RegisterButton(onPressed: handleOnRegister),
             onLoading: () => const Center(child: CircularProgressIndicator()),

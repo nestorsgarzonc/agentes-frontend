@@ -30,10 +30,9 @@ class SocketIOHandlerImpl implements SocketIOHandler {
   @override
   Future<void> connect() async {
     socket = io.io(
-      ApiConstants.baseUrl,
+      ApiConstants.socketUrl,
       io.OptionBuilder().setTransports(['websocket']).build(),
     );
-    socket!.connect();
   }
 
   @override
@@ -49,7 +48,7 @@ class SocketIOHandlerImpl implements SocketIOHandler {
   void emit(String event, String data) => socket!.emit(event, data);
 
   @override
-  void emitMap(String event, Map<String, dynamic> data) => socket!.emit(event, serealize(data));
+  void emitMap(String event, Map<String, dynamic> data) => socket!.emit(event, data);
 
   @override
   void on(String event, EventHandler callback) => socket!.on(event, callback);

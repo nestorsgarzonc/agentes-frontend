@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
+import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
 
@@ -12,8 +14,7 @@ class TableMenuScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tableProv = ref.watch(tableProvider);
-    final authProv = ref.watch(authProvider);
-
+    final restaurantState = ref.watch(restaurantProvider);
     return SafeArea(
       child: Stack(
         children: [
@@ -22,17 +23,14 @@ class TableMenuScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Mesa:',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
-                ),
-                Text(
-                  tableProv.tableCode ?? '',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black87,
+                restaurantState.restaurant.on(
+                  onData: (data) => Text(
+                    'Mesa: ${data.tableName}',
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                   ),
+                  onError: (err) => Center(child: Text('Error ${err.message}')),
+                  onLoading: () => const Center(child: CircularProgressIndicator()),
+                  onInitial: () => const SizedBox(),
                 ),
                 const SizedBox(height: 15),
                 Container(
@@ -76,46 +74,19 @@ class TableMenuScreen extends ConsumerWidget {
                 Expanded(
                   child: ListView(
                     children: [
-                      authProv.user.on(
-                        onData: (user) => ListTile(
-                          leading: const CircleAvatar(
-                            backgroundColor: Colors.blueAccent,
-                            foregroundColor: Colors.white,
-                            child: Icon(Icons.person),
-                          ),
-                          title: Text(
-                            '${user.firstName} ${user.lastName} (Tu)',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                      tableProv.tableUsers.on(
+                        onData: (data) => ListView.builder(
+                          shrinkWrap: true,
+                          primary: false,
+                          itemCount: data.users.length,
+                          itemBuilder: (context, index) {
+                            final item = data.users[index];
+                            return TableUserCard(userTable: item);
+                          },
                         ),
                         onError: (e) => Center(child: Text(e.message)),
-                        onLoading: () => const Center(child: CircularProgressIndicator()),
-                        onInitial: () => const Center(child: CircularProgressIndicator()),
-                      ),
-                      // ListView.builder(
-                      //   shrinkWrap: true,
-                      //   primary: false,
-                      //   itemCount: 1,
-                      //   itemBuilder: (context, index) =>  ProductItemCard(),
-                      // ),
-                      ...List.generate(
-                        3,
-                        (index) => Column(
-                          children: const [
-                            ListTile(
-                              leading: CircleAvatar(
-                                child: Icon(Icons.person),
-                              ),
-                              title: Text('Someone...'),
-                            ),
-                            // ListView.builder(
-                            //   shrinkWrap: true,
-                            //   primary: false,
-                            //   itemCount: index + 1,
-                            //   itemBuilder: (context, index) => const ProductItemCard(),
-                            // ),
-                          ],
-                        ),
+                        onLoading: () => const SizedBox(),
+                        onInitial: () => const SizedBox(),
                       ),
                       const SizedBox(height: 60),
                     ],
@@ -139,4 +110,30 @@ class TableMenuScreen extends ConsumerWidget {
   }
 
   void handleOnOrderNow() {}
+}
+
+class TableUserCard extends ConsumerWidget {
+  const TableUserCard({
+    Key? key,
+    required this.userTable,
+  }) : super(key: key);
+
+  final UserTable userTable;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authProv = ref.watch(authProvider);
+    final isMine = authProv.authModel.data?.user.id == userTable.userId;
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: isMine ? Colors.deepOrange : Colors.blueAccent,
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.person),
+      ),
+      title: Text(
+        '${userTable.firstName} ${userTable.lastName} ${isMine ? '(Yo)' : ''}',
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+    );
+  }
 }

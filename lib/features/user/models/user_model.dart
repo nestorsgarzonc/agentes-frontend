@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -18,12 +17,15 @@ class User extends Equatable {
       address: map['address'],
       deviceToken: map['deviceToken'],
       tokenType: map['tokenType'],
+      id: map['_id'] ?? '',
     );
   }
 
   const User({
     required this.firstName,
     required this.lastName,
+    this.password,
+    this.confirmPassword,
     required this.email,
     required this.phone,
     required this.rol,
@@ -31,8 +33,7 @@ class User extends Equatable {
     this.address,
     this.deviceToken,
     this.tokenType,
-    this.password,
-    this.confirmPassword,
+    this.id,
   });
 
   final String firstName;
@@ -46,6 +47,7 @@ class User extends Equatable {
   final String? address;
   final String? deviceToken;
   final String? tokenType;
+  final String? id;
 
   User copyWith({
     String? firstName,
@@ -59,6 +61,7 @@ class User extends Equatable {
     String? address,
     String? deviceToken,
     String? tokenType,
+    String? id,
   }) {
     return User(
       firstName: firstName ?? this.firstName,
@@ -72,23 +75,27 @@ class User extends Equatable {
       address: address ?? this.address,
       deviceToken: deviceToken ?? this.deviceToken,
       tokenType: tokenType ?? this.tokenType,
+      id: id ?? this.id,
     );
   }
 
   @override
-  List<Object?> get props => [
-        firstName,
-        lastName,
-        password,
-        confirmPassword,
-        email,
-        phone,
-        rol,
-        ordersStory,
-        address,
-        deviceToken,
-        tokenType,
-      ];
+  List<Object?> get props {
+    return [
+      firstName,
+      lastName,
+      password,
+      confirmPassword,
+      email,
+      phone,
+      rol,
+      ordersStory,
+      address,
+      deviceToken,
+      tokenType,
+      id,
+    ];
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -98,13 +105,19 @@ class User extends Equatable {
       'confirm-password': confirmPassword,
       'email': email,
       'phone': phone,
-      if (rol != null) 'rol': rol,
+      'rol': rol,
       'ordersStory': ordersStory,
       'address': address,
       'deviceToken': deviceToken,
       'tokenType': tokenType,
+      '_id': id,
     };
   }
 
   String toJson() => json.encode(toMap());
+
+  @override
+  String toString() {
+    return 'User(firstName: $firstName, lastName: $lastName, password: $password, confirmPassword: $confirmPassword, email: $email, phone: $phone, rol: $rol, ordersStory: $ordersStory, address: $address, deviceToken: $deviceToken, tokenType: $tokenType, id: $id)';
+  }
 }

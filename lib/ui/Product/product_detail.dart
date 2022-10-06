@@ -53,7 +53,6 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     final productState = ref.watch(productProvider);
-
     return Scaffold(
       body: productState.productDetail.on(
         onError: (e) => ErrorScreen(error: e.message),

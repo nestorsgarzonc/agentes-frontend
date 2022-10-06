@@ -2,10 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restaurants/core/constants/socket_constants.dart';
+import 'package:restaurants/core/external/socket_handler.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_state.dart';
 import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 
@@ -17,36 +21,44 @@ class AuthProvider extends StateNotifier<AuthState> {
   AuthProvider({
     required this.authRepository,
     required this.read,
-  }) : super(AuthState(user: StateAsync.initial()));
+    required this.socketIOHandler,
+  }) : super(AuthState(authModel: StateAsync.initial()));
 
   factory AuthProvider.fromRead(Reader read) {
     final authRepository = read(authRepositoryProvider);
-    return AuthProvider(read: read, authRepository: authRepository);
+    final socketIo = read(socketProvider);
+    return AuthProvider(
+      read: read,
+      authRepository: authRepository,
+      socketIOHandler: socketIo,
+    );
   }
 
   final Reader read;
   final AuthRepository authRepository;
+  final SocketIOHandler socketIOHandler;
 
   Future<void> login({required String email, required String password}) async {
-    state = state.copyWith(user: StateAsync.loading());
+    state = state.copyWith(authModel: StateAsync.loading());
     final res = await authRepository.login(email, password);
     res.fold(
       (l) {
-        state = state.copyWith(user: StateAsync.error(l));
+        state = state.copyWith(authModel: StateAsync.error(l));
         read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
       },
       (r) {
-        state = state.copyWith(user: StateAsync.success(r.user));
+        state = state.copyWith(authModel: StateAsync.success(r));
+        startListeningSocket();
         read(routerProvider).router.pop();
       },
     );
   }
 
   Future<void> register(User user, BuildContext context) async {
-    state = state.copyWith(user: StateAsync.loading());
+    state = state.copyWith(authModel: StateAsync.loading());
     final res = await authRepository.register(user);
     if (res != null) {
-      state = state.copyWith(user: StateAsync.error(res));
+      state = state.copyWith(authModel: StateAsync.error(res));
       read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
       return;
     }
@@ -60,17 +72,28 @@ class AuthProvider extends StateNotifier<AuthState> {
   }
 
   Future<void> getUserByToken() async {
-    state = state.copyWith(user: StateAsync.loading());
+    state = state.copyWith(authModel: StateAsync.loading());
     final res = await authRepository.getUserByToken();
     res.fold(
-      (l) => state = state.copyWith(user: StateAsync.error(l)),
+      (l) => state = state.copyWith(authModel: StateAsync.error(l)),
       (r) {
         if (r == null) {
-          state = state.copyWith(user: StateAsync.initial());
+          state = state.copyWith(authModel: StateAsync.initial());
           return;
         }
-        state = state.copyWith(user: StateAsync.success(r));
+        startListeningSocket();
+        state = state.copyWith(authModel: StateAsync.success(r));
       },
     );
+  }
+
+  Future<void> startListeningSocket() async {
+    await socketIOHandler.connect();
+    final socketModel = ConnectSocket(
+      tableId: read(tableProvider).tableCode ?? '',
+      token: state.authModel.data?.bearerToken ?? '',
+    );
+    read(tableProvider.notifier).listenTableUsers();
+    socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }

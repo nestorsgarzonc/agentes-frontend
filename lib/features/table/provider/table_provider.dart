@@ -1,20 +1,32 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restaurants/core/constants/socket_constants.dart';
+import 'package:restaurants/core/external/socket_handler.dart';
+import 'package:restaurants/core/logger/logger.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
+import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
-  return TableProvider(read: ref.read);
+  return TableProvider.fromRead(ref.read);
 });
 
 class TableProvider extends StateNotifier<TableState> {
-  TableProvider({required this.read}) : super(const TableState());
+  TableProvider(this.socketIOHandler, {required this.read})
+      : super(TableState(tableUsers: StateAsync.initial()));
+
+  factory TableProvider.fromRead(Reader read) {
+    final socketIo = read(socketProvider);
+    return TableProvider(socketIo, read: read);
+  }
 
   final Reader read;
+  final SocketIOHandler socketIOHandler;
 
   Future<void> onReadTableCode(String code) async {
     final validationError = TextFormValidator.tableCodeValidator(code);
@@ -37,5 +49,21 @@ class TableProvider extends StateNotifier<TableState> {
       return;
     }
     state = state.copyWith(tableCode: code);
+  }
+
+  Future<void> listenTableUsers() async {
+    socketIOHandler.onMap(SocketConstants.onNewUserJoined, (data) {
+      final tableUsers = UsersTable.fromMap(data);
+      if (!state.isFirstTime) {
+        CustomSnackbar.showSnackBar(
+          read(routerProvider).context,
+          'Se ha unido ${tableUsers.userName}',
+        );
+      }
+      Logger.log('################# START onNewUserJoined #################');
+      Logger.log(tableUsers.toString());
+      Logger.log('################# END onNewUserJoined #################');
+      state = state.copyWith(tableUsers: StateAsync.success(tableUsers), isFirstTime: false);
+    });
   }
 }
