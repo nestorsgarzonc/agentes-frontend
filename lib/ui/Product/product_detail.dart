@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/features/product/provider/product_provider.dart';
+import 'package:restaurants/features/product/topping_option/topping_options_checkbox.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/ui/widgets/custom_text_field.dart';
 import '../widgets/buttons/custom_elevated_button.dart';
@@ -60,7 +61,9 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
         onError: (e) => ErrorScreen(error: e.message),
         onLoading: () => const Center(child: CircularProgressIndicator()),
         onInitial: () => const Center(child: CircularProgressIndicator()),
-        onData: (data) => NestedScrollView(
+        onData: (data) =>
+            //data.toppings[0]. options[0].
+            NestedScrollView(
           controller: _scrollController,
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
@@ -106,75 +109,12 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  ListView(
-                    shrinkWrap: true,
-                    primary: false,
-                    padding: const EdgeInsets.all(10),
-                    children: [
-                      CheckboxListTile(
-                        title: Text.rich(
-                          TextSpan(
-                            text: 'Papas fritas\n',
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: '${String.fromCharCode(036)} $toppingsPrices',
-                                style: const TextStyle(fontSize: 20.0),
-                              ),
-                            ],
-                          ),
-                        ),
-                        value: isSelectedA,
-                        onChanged: (bool? newValue) {
-                          setState(() {
-                            if (foodQuantity != 0) {
-                              isSelectedA = newValue!;
-                              calculateTotal();
-                            }
-                          });
-                        },
-                        secondary: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: const Image(
-                            height: 40.0,
-                            width: 40.0,
-                            image: NetworkImage(
-                              'https://www.cardamomo.news/__export/1621290930734/sites/debate/img/2021/05/17/papas_fritas_crop1621290739319.jpeg_1753094345.jpeg',
-                            ),
-                          ),
-                        ),
-                      ),
-                      CheckboxListTile(
-                        title: Text.rich(
-                          TextSpan(
-                            text: 'Guacamole\n',
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: '${String.fromCharCode(036)} $toppingsPrices',
-                                style: const TextStyle(fontSize: 20.0),
-                              ),
-                            ],
-                          ),
-                        ),
-                        value: isSelectedB,
-                        onChanged: (bool? newValue) {
-                          setState(() {
-                            if (foodQuantity != 0) {
-                              isSelectedB = newValue!;
-                              calculateTotal();
-                            }
-                          });
-                        },
-                        secondary: ClipRRect(
-                          borderRadius: BorderRadius.circular(12.0),
-                          child: const Image(
-                            height: 40.0,
-                            image: NetworkImage(
-                              'https://www.mylatinatable.com/wp-content/uploads/2018/09/guacamole-foto-heroe-500x500.jpg',
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ToppingOptionsCheckbox(
+                    toppings: data.toppings,
+                    onAdd: (value) {},
                   ),
                 ],
               ),
@@ -197,7 +137,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     );
   }
 
-  void _onAddToOrder() {
+   void _onAddToOrder() {
     //TODO: FINISH
     // final newProduct=ref.read(productProvider).productDetail.data!.copyWith(
     //   quantity: foodQuantity,
@@ -205,31 +145,5 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     //   toppings: [isSelectedA, isSelectedB],
     // );
     // ref.read(productProvider.notifier).addToOrder(newProduct);
-  }
-
-  void calculateTotal() {
-    total = foodQuantity * mainProductPrice;
-    if (isSelectedA && foodQuantity != 0) {
-      total += toppingsPrices;
-    }
-    if (isSelectedB && foodQuantity != 0) {
-      total += toppingsPrices;
-    }
-    setState(() {});
-  }
-
-  void addToFoodQuantity() {
-    foodQuantity++;
-    calculateTotal();
-    setState(() {});
-  }
-
-  void removeFromFoodQuantity() {
-    if (foodQuantity <= 0) {
-      return;
-    }
-    foodQuantity--;
-    calculateTotal();
-    setState(() {});
   }
 }

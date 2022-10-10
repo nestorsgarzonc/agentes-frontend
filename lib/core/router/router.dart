@@ -74,7 +74,7 @@ class CustomRouter {
                 ? ErrorScreen(error: atributeErrorMessage('productId'))
                 : ProductDetail(productId: productId);
           },
-        )
+        ),
       ];
 
   BuildContext get context => goRouter.navigator!.context;
