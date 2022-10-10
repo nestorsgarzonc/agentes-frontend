@@ -15,6 +15,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines = 1,
     this.minLines,
     this.textInputAction,
+    this.hintText,
     super.key,
   });
 
@@ -28,6 +29,7 @@ class CustomTextField extends StatelessWidget {
   final int maxLines;
   final int? minLines;
   final String label;
+  final String? hintText;
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
 
@@ -48,6 +50,7 @@ class CustomTextField extends StatelessWidget {
           InputDecoration(
             border: const OutlineInputBorder(),
             labelText: label,
+            hintText: hintText,
           ),
     );
   }

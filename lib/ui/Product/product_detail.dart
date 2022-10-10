@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/features/product/provider/product_provider.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:restaurants/ui/widgets/custom_text_field.dart';
 import '../widgets/buttons/custom_elevated_button.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
@@ -18,6 +19,7 @@ class ProductDetail extends ConsumerStatefulWidget {
 class _ProductDetailState extends ConsumerState<ProductDetail> {
   bool isExpanded = true;
   final _scrollController = ScrollController();
+  final _notesController = TextEditingController();
 
   int foodQuantity = 0, mainProductPrice = 13500, toppingsPrices = 600, total = 0;
   bool isSelectedA = false, isSelectedB = false;
@@ -72,6 +74,10 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 background: Image.network(data.imgUrl, fit: BoxFit.cover),
               ),
               title: isExpanded ? const SizedBox() : const Text('Detalle del producto'),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context),
+              ),
             ),
           ],
           body: ListView(
@@ -173,15 +179,32 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 ],
               ),
               const SizedBox(height: 20.0),
+              CustomTextField(
+                label: 'Comentarios',
+                hintText: 'Algo que debamos saber como: sin cebolla, sin tomate, etc.',
+                maxLines: 3,
+                controller: _notesController,
+              ),
+              const SizedBox(height: 20.0),
               CustomElevatedButton(
-                onPressed: () {},
-                child: Text('Agregar'),
+                onPressed: _onAddToOrder,
+                child: const Text('Agregar'),
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  void _onAddToOrder() {
+    //TODO: FINISH
+    // final newProduct=ref.read(productProvider).productDetail.data!.copyWith(
+    //   quantity: foodQuantity,
+    //   notes: _notesController.text,
+    //   toppings: [isSelectedA, isSelectedB],
+    // );
+    // ref.read(productProvider.notifier).addToOrder(newProduct);
   }
 
   void calculateTotal() {
