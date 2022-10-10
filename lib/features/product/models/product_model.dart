@@ -1,5 +1,7 @@
-class ProductDetailModel {
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:equatable/equatable.dart';
 
+class ProductDetailModel extends Equatable {
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) => ProductDetailModel(
         id: json['_id'],
         name: json['name'],
@@ -13,7 +15,7 @@ class ProductDetailModel {
         updatedAt: DateTime.parse(json['updatedAt']),
         v: json['__v'],
       );
-  ProductDetailModel({
+  const ProductDetailModel({
     required this.id,
     required this.name,
     required this.price,
@@ -27,17 +29,17 @@ class ProductDetailModel {
     required this.v,
   });
 
-  String id;
-  String name;
-  int price;
-  String description;
-  String imgUrl;
-  List<Topping> toppings;
-  bool isAvaliable;
-  String categoryId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  final String id;
+  final String name;
+  final int price;
+  final String description;
+  final String imgUrl;
+  final List<Topping> toppings;
+  final bool isAvaliable;
+  final String categoryId;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -52,10 +54,52 @@ class ProductDetailModel {
         'updatedAt': updatedAt.toIso8601String(),
         '__v': v,
       };
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        price,
+        description,
+        imgUrl,
+        toppings,
+        isAvaliable,
+        categoryId,
+        createdAt,
+        updatedAt,
+        v
+      ];
+
+  ProductDetailModel copyWith({
+    String? id,
+    String? name,
+    int? price,
+    String? description,
+    String? imgUrl,
+    List<Topping>? toppings,
+    bool? isAvaliable,
+    String? categoryId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? v,
+  }) {
+    return ProductDetailModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      description: description ?? this.description,
+      imgUrl: imgUrl ?? this.imgUrl,
+      toppings: toppings ?? this.toppings,
+      isAvaliable: isAvaliable ?? this.isAvaliable,
+      categoryId: categoryId ?? this.categoryId,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      v: v ?? this.v,
+    );
+  }
 }
 
-class Topping {
-
+class Topping extends Equatable {
   factory Topping.fromJson(Map<String, dynamic> json) => Topping(
         id: json['_id'],
         name: json['name'],
@@ -65,7 +109,7 @@ class Topping {
         updatedAt: DateTime.parse(json['updatedAt']),
         v: json['__v'],
       );
-  Topping({
+  const Topping({
     required this.id,
     required this.name,
     required this.type,
@@ -75,13 +119,13 @@ class Topping {
     required this.v,
   });
 
-  String id;
-  String name;
-  String type;
-  List<Option> options;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  final String id;
+  final String name;
+  final String type;
+  final List<Option> options;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -92,10 +136,11 @@ class Topping {
         'updatedAt': updatedAt.toIso8601String(),
         '__v': v,
       };
+  @override
+  List<Object?> get props => [id, name, type, options, createdAt, updatedAt, v];
 }
 
-class Option {
-
+class Option extends Equatable {
   factory Option.fromJson(Map<String, dynamic> json) => Option(
         id: json['_id'],
         name: json['name'],
@@ -105,7 +150,7 @@ class Option {
         updatedAt: DateTime.parse(json['updatedAt']),
         v: json['__v'],
       );
-  Option({
+  const Option({
     required this.id,
     required this.name,
     required this.price,
@@ -115,13 +160,13 @@ class Option {
     required this.v,
   });
 
-  String id;
-  String name;
-  int price;
-  String imgUrl;
-  DateTime createdAt;
-  DateTime updatedAt;
-  int v;
+  final String id;
+  final String name;
+  final int price;
+  final String imgUrl;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -132,5 +177,7 @@ class Option {
         'updatedAt': updatedAt.toIso8601String(),
         '__v': v,
       };
-}
 
+  @override
+  List<Object?> get props => [id, name, price, imgUrl, createdAt, updatedAt, v];
+}
