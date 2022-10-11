@@ -94,6 +94,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       token: state.authModel.data?.bearerToken ?? '',
     );
     read(tableProvider.notifier).listenTableUsers();
+    read(tableProvider.notifier).listenListOfOrders();
     socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }

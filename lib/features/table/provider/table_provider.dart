@@ -66,4 +66,14 @@ class TableProvider extends StateNotifier<TableState> {
       state = state.copyWith(tableUsers: StateAsync.success(tableUsers), isFirstTime: false);
     });
   }
+
+  Future<void> listenListOfOrders()async{
+    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
+      final tableUsers = UsersTable.fromMap(data);
+      Logger.log('################# START listenListOfOrders #################');
+      Logger.log(tableUsers.toString());
+      Logger.log('################# END listenListOfOrders #################');
+      state = state.copyWith(tableUsers: StateAsync.success(tableUsers), isFirstTime: false);
+    });
+  }
 }

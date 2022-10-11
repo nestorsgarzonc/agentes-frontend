@@ -163,8 +163,11 @@ class Topping extends Equatable {
         'options': List<dynamic>.from(options.map((x) => x.toJson())),
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
+        'maxOptions': maxOptions,
+        'minOptions': minOptions,
         '__v': v,
       };
+
   @override
   List<Object> get props {
     return [

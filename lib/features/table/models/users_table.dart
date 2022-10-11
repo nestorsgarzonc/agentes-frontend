@@ -12,7 +12,7 @@ class UsersTable extends Equatable {
 
   factory UsersTable.fromMap(Map<String, dynamic> map) {
     return UsersTable(
-      users: List<UserTable>.from(map['users']?.map((x) => UserTable.fromMap(x))),
+      users: List<UserTable>.from(map['table']['usersConnected']?.map((x) => UserTable.fromMap(x))),
       userName: map['userName'] ?? '',
     );
   }
@@ -20,10 +20,10 @@ class UsersTable extends Equatable {
   factory UsersTable.fromJson(String source) => UsersTable.fromMap(json.decode(source));
 
   final List<UserTable> users;
-  final String userName;
+  final String? userName;
 
   @override
-  List<Object> get props => [users, userName];
+  List<Object?> get props => [users, userName];
 
   UsersTable copyWith({
     List<UserTable>? users,
