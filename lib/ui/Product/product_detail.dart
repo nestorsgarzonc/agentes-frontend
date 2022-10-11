@@ -29,6 +29,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   List<Topping> toppings = [];
   num total = 0;
   num totalWithToppings = 0;
+  bool isCreated = false;
 
   void scollListener() {
     if (_scrollController.offset >= 100) {
@@ -67,10 +68,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
         onLoading: () => const Center(child: CircularProgressIndicator()),
         onInitial: () => const Center(child: CircularProgressIndicator()),
         onData: (data) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            total = data.price;
-            totalWithToppings = data.price;
-          });
+          onCreateWidget(data);
           return NestedScrollView(
             controller: _scrollController,
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
@@ -135,6 +133,15 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
         },
       ),
     );
+  }
+
+  void onCreateWidget(ProductDetailModel data) {
+    if (isCreated) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      total = data.price;
+      totalWithToppings = data.price;
+      isCreated = true;
+    });
   }
 
   void onAddTopping(List<Topping> toAddTopping) {
