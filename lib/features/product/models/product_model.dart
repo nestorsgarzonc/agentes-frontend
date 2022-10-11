@@ -108,7 +108,10 @@ class Topping extends Equatable {
         createdAt: DateTime.parse(json['createdAt']),
         updatedAt: DateTime.parse(json['updatedAt']),
         v: json['__v'],
+        maxOptions: json['maxOptions'],
+        minOptions: json['minOptions'],
       );
+
   const Topping({
     required this.id,
     required this.name,
@@ -117,6 +120,8 @@ class Topping extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    required this.minOptions,
+    required this.maxOptions,
   });
 
   final String id;
@@ -126,6 +131,8 @@ class Topping extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
   final int v;
+  final int minOptions;
+  final int maxOptions;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -137,7 +144,46 @@ class Topping extends Equatable {
         '__v': v,
       };
   @override
-  List<Object?> get props => [id, name, type, options, createdAt, updatedAt, v];
+  List<Object> get props {
+    return [
+      id,
+      name,
+      type,
+      options,
+      createdAt,
+      updatedAt,
+      v,
+      minOptions,
+      maxOptions,
+    ];
+  }
+
+  Topping copyWith({
+    String? id,
+    String? name,
+    String? type,
+    List<Option>? options,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? v,
+    int? minOptions,
+    int? maxOptions,
+  }) {
+    return Topping(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      type: type ?? this.type,
+      options: options ?? this.options,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      v: v ?? this.v,
+      minOptions: minOptions ?? this.minOptions,
+      maxOptions: maxOptions ?? this.maxOptions,
+    );
+  }
+
+  @override
+  bool get stringify => true;
 }
 
 class Option extends Equatable {

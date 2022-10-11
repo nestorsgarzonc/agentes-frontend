@@ -104,9 +104,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 10),
                   ToppingOptionsCheckbox(
                     toppings: data.toppings,
                     onAdd: (value) {},
@@ -117,7 +115,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
               CustomElevatedButton(
                 onPressed: () {},
                 child: const Text('Agregar'),
-              )
+              ),
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
