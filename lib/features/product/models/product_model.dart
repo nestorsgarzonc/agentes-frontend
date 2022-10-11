@@ -14,6 +14,8 @@ class ProductDetailModel extends Equatable {
         createdAt: DateTime.parse(json['createdAt']),
         updatedAt: DateTime.parse(json['updatedAt']),
         v: json['__v'],
+        note: json['note'],
+        totalWithToppings: json['totalWithToppings'],
       );
 
   const ProductDetailModel({
@@ -29,6 +31,7 @@ class ProductDetailModel extends Equatable {
     required this.updatedAt,
     required this.v,
     this.note,
+    this.totalWithToppings,
   });
 
   final String id;
@@ -43,6 +46,7 @@ class ProductDetailModel extends Equatable {
   final DateTime updatedAt;
   final int v;
   final String? note;
+  final num? totalWithToppings;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -57,23 +61,27 @@ class ProductDetailModel extends Equatable {
         'updatedAt': updatedAt.toIso8601String(),
         '__v': v,
         'note': note,
+        'totalWithToppings': totalWithToppings,
       };
 
   @override
-  List<Object?> get props => [
-        id,
-        name,
-        price,
-        description,
-        imgUrl,
-        toppings,
-        isAvaliable,
-        categoryId,
-        createdAt,
-        updatedAt,
-        v,
-        note,
-      ];
+  List<Object?> get props {
+    return [
+      id,
+      name,
+      price,
+      description,
+      imgUrl,
+      toppings,
+      isAvaliable,
+      categoryId,
+      createdAt,
+      updatedAt,
+      v,
+      note,
+      totalWithToppings,
+    ];
+  }
 
   ProductDetailModel copyWith({
     String? id,
@@ -88,6 +96,7 @@ class ProductDetailModel extends Equatable {
     DateTime? updatedAt,
     int? v,
     String? note,
+    num? totalWithToppings,
   }) {
     return ProductDetailModel(
       id: id ?? this.id,
@@ -102,7 +111,13 @@ class ProductDetailModel extends Equatable {
       updatedAt: updatedAt ?? this.updatedAt,
       v: v ?? this.v,
       note: note ?? this.note,
+      totalWithToppings: totalWithToppings ?? this.totalWithToppings,
     );
+  }
+
+  @override
+  String toString() {
+    return 'ProductDetailModel(id: $id, name: $name, price: $price, description: $description, imgUrl: $imgUrl, toppings: $toppings, isAvaliable: $isAvaliable, categoryId: $categoryId, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, note: $note, totalWithToppings: $totalWithToppings)';
   }
 }
 

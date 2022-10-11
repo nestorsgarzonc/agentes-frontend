@@ -154,6 +154,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     final newProduct = ref.read(productProvider).productDetail.data!.copyWith(
           note: _notesController.text,
           toppings: toppings,
+          totalWithToppings: totalWithToppings,
         );
     ref.read(productProvider.notifier).addToOrder(newProduct);
   }
