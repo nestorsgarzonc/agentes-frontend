@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/provider/product_provider.dart';
 import 'package:restaurants/features/product/topping_option/topping_options_checkbox.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
@@ -21,9 +22,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   bool isExpanded = true;
   final _scrollController = ScrollController();
   final _notesController = TextEditingController();
-
-  int foodQuantity = 0, mainProductPrice = 13500, toppingsPrices = 600, total = 0;
-  bool isSelectedA = false, isSelectedB = false;
+  List<Topping> toppings = [];
 
   void scollListener() {
     if (_scrollController.offset >= 100) {
@@ -114,7 +113,10 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                   ),
                   ToppingOptionsCheckbox(
                     toppings: data.toppings,
-                    onAdd: (value) {},
+                    onAdd: (value) {
+                      //TODO: ADD TOPPINGS
+                      //  toppings.add(value);
+                    },
                   ),
                 ],
               ),
@@ -137,13 +139,11 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     );
   }
 
-   void _onAddToOrder() {
-    //TODO: FINISH
-    // final newProduct=ref.read(productProvider).productDetail.data!.copyWith(
-    //   quantity: foodQuantity,
-    //   notes: _notesController.text,
-    //   toppings: [isSelectedA, isSelectedB],
-    // );
-    // ref.read(productProvider.notifier).addToOrder(newProduct);
+  void _onAddToOrder() {
+    final newProduct = ref.read(productProvider).productDetail.data!.copyWith(
+          note: _notesController.text,
+          toppings: toppings,
+        );
+    ref.read(productProvider.notifier).addToOrder(newProduct);
   }
 }

@@ -15,6 +15,7 @@ class ProductDetailModel extends Equatable {
         updatedAt: DateTime.parse(json['updatedAt']),
         v: json['__v'],
       );
+
   const ProductDetailModel({
     required this.id,
     required this.name,
@@ -27,6 +28,7 @@ class ProductDetailModel extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    this.note,
   });
 
   final String id;
@@ -40,6 +42,7 @@ class ProductDetailModel extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
   final int v;
+  final String? note;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -53,6 +56,7 @@ class ProductDetailModel extends Equatable {
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
         '__v': v,
+        'note': note,
       };
 
   @override
@@ -67,7 +71,8 @@ class ProductDetailModel extends Equatable {
         categoryId,
         createdAt,
         updatedAt,
-        v
+        v,
+        note,
       ];
 
   ProductDetailModel copyWith({
@@ -82,6 +87,7 @@ class ProductDetailModel extends Equatable {
     DateTime? createdAt,
     DateTime? updatedAt,
     int? v,
+    String? note,
   }) {
     return ProductDetailModel(
       id: id ?? this.id,
@@ -95,6 +101,7 @@ class ProductDetailModel extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       v: v ?? this.v,
+      note: note ?? this.note,
     );
   }
 }

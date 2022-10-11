@@ -2,9 +2,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/constants/socket_constants.dart';
 import 'package:restaurants/core/external/socket_handler.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/provider/product_state.dart';
 import 'package:restaurants/features/product/repositories/product_repositories.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/core/router/router.dart';
 
@@ -22,7 +24,11 @@ class ProductProvider extends StateNotifier<ProductState> {
   factory ProductProvider.fromRead(Reader read) {
     final productRepository = read(productRepositoryProvider);
     final socketIo = read(socketProvider);
-    return ProductProvider(read: read, productRepository: productRepository, socketIOHandler: socketIo);
+    return ProductProvider(
+      read: read,
+      productRepository: productRepository,
+      socketIOHandler: socketIo,
+    );
   }
 
   final Reader read;
@@ -44,6 +50,13 @@ class ProductProvider extends StateNotifier<ProductState> {
   }
 
   Future<void> addToOrder(ProductDetailModel product) async {
-    //TODO: FINISH socketIOHandler.emit(SocketConstants.addToOrder, product.toMap());
+    final productJson = product.toJson();
+    // TOKEN Y TABLE_ID
+    productJson['token'] = read(authProvider).authModel.data?.bearerToken;
+    productJson['table_id'] = read(tableProvider).tableCode;
+    print(productJson);
+
+    return;
+    socketIOHandler.emitMap(SocketConstants.addToOrder, product.toJson());
   }
 }
