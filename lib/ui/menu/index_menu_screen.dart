@@ -39,7 +39,6 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
       bottomNavigationBar: NavigationBar(
         height: 55,
         selectedIndex: selectedIndex,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         onDestinationSelected: handleOnNavigate,
         destinations: const [
           NavigationDestination(

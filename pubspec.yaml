@@ -28,6 +28,7 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   uuid: ^3.0.6
   collection: ^1.16.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_lints: ^2.0.0
