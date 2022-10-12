@@ -5,14 +5,15 @@ import 'package:equatable/equatable.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 
 enum TableStatus {
-  empty('empty'),
-  ordering('ordering'),
-  waitingForFood('waiting for food'),
-  eating('eating'),
-  paying('paying');
+  empty(value: 'empty', translatedValue: 'Vacia'),
+  ordering(value: 'ordering', translatedValue: 'Ordenando'),
+  waitingForFood(value: 'waiting for food', translatedValue: 'Esperando comida'),
+  eating(value: 'eating', translatedValue: 'Comiendo'),
+  paying(value: 'paying', translatedValue: 'Pagando');
 
-  const TableStatus(this.value);
+  const TableStatus({required this.value, required this.translatedValue});
   final String value;
+  final String translatedValue;
 
   static TableStatus fromString(String? value) {
     return TableStatus.values.firstWhere((e) => e.value == value, orElse: () => TableStatus.empty);

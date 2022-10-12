@@ -34,69 +34,82 @@ class TableMenuScreen extends ConsumerWidget {
                   onInitial: () => const SizedBox(),
                 ),
                 const SizedBox(height: 15),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 5,
-                        spreadRadius: 1,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Lottie.asset(
-                        LottieAssets.ordering,
-                        width: 140,
-                      ),
-                      const SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Estado',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                tableProv.tableUsers.on(
+                  onData: (tableData) => Expanded(
+                    child: ListView(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 5,
+                                spreadRadius: 1,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 5),
-                          tableProv.tableUsers.on(
-                            onData: (onData) => Text('${onData.tableStatus?.value}...'),
-                            onError: (_) => const SizedBox(),
-                            onLoading: () => const SizedBox(),
-                            onInitial: () => const SizedBox(),
+                          child: Row(
+                            children: [
+                              Lottie.asset(
+                                LottieAssets.ordering,
+                                width: 140,
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'Estado',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text('${tableData.tableStatus?.translatedValue}...'),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: ListView(
-                    children: [
-                      tableProv.tableUsers.on(
-                        onData: (data) => ListView.builder(
+                        ),
+                        const SizedBox(height: 10),
+                        Card(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              const Text(
+                                '¿Necesitas ayuda?',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: const Text('Llamar al mesero'),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ListView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          itemCount: data.users.length,
+                          itemCount: tableData.users.length,
                           itemBuilder: (context, index) {
-                            final item = data.users[index];
+                            final item = tableData.users[index];
                             return TableUserCard(userTable: item);
                           },
                         ),
-                        onError: (e) => Center(child: Text(e.message)),
-                        onLoading: () => const SizedBox(),
-                        onInitial: () => const SizedBox(),
-                      ),
-                      const SizedBox(height: 60),
-                    ],
+                        const SizedBox(height: 60),
+                      ],
+                    ),
                   ),
+                  onError: (_) => const SizedBox(),
+                  onLoading: () => const SizedBox(),
+                  onInitial: () => const SizedBox(),
                 ),
               ],
             ),
