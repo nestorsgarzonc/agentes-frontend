@@ -81,7 +81,17 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 pinned: true,
                 expandedHeight: 160,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: Image.network(data.imgUrl, fit: BoxFit.cover),
+                  background: Stack(
+                    children: [
+                      Image.network(
+                        data.imgUrl,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                      Container(color: Colors.black.withOpacity(0.2)),
+                    ],
+                  ),
                 ),
                 title: isExpanded ? const SizedBox() : Text(data.name),
               ),
