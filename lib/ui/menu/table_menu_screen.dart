@@ -56,16 +56,21 @@ class TableMenuScreen extends ConsumerWidget {
                       const SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             'Estado',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
                           ),
-                          SizedBox(height: 5),
-                          Text('Ordenando...'),
+                          const SizedBox(height: 5),
+                          tableProv.tableUsers.on(
+                            onData: (onData) => Text('${onData.tableStatus?.value}...'),
+                            onError: (_) => const SizedBox(),
+                            onLoading: () => const SizedBox(),
+                            onInitial: () => const SizedBox(),
+                          ),
                         ],
                       ),
                     ],
@@ -158,6 +163,7 @@ class TableUserCard extends ConsumerWidget {
                               fontSize: 16,
                             ),
                           ),
+                          const SizedBox(height: 8),
                         ],
                       ),
                       trailing: isMine

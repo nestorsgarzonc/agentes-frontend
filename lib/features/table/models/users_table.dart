@@ -4,16 +4,37 @@ import 'package:equatable/equatable.dart';
 
 import 'package:restaurants/features/product/models/product_model.dart';
 
+enum TableStatus {
+  empty('empty'),
+  ordering('ordering'),
+  waitingForFood('waiting for food'),
+  eating('eating'),
+  paying('paying');
+
+  const TableStatus(this.value);
+  final String value;
+
+  static TableStatus fromString(String? value) {
+    return TableStatus.values.firstWhere((e) => e.value == value, orElse: () => TableStatus.empty);
+  }
+}
+
 class UsersTable extends Equatable {
   const UsersTable({
     required this.users,
     required this.userName,
+    this.totalPrice,
+    this.tableStatus,
   });
 
   factory UsersTable.fromMap(Map<String, dynamic> map) {
     return UsersTable(
       users: List<UserTable>.from(map['table']['usersConnected']?.map((x) => UserTable.fromMap(x))),
-      userName: map['userName'] ?? '',
+      userName: map['userName'],
+      totalPrice: map['table']['totalPrice'],
+      tableStatus: map['table']['tableStatus'] != null
+          ? TableStatus.fromString(map['table']['tableStatus'])
+          : null,
     );
   }
 
@@ -21,17 +42,23 @@ class UsersTable extends Equatable {
 
   final List<UserTable> users;
   final String? userName;
+  final num? totalPrice;
+  final TableStatus? tableStatus;
 
   @override
-  List<Object?> get props => [users, userName];
+  List<Object?> get props => [users, userName, totalPrice, tableStatus];
 
   UsersTable copyWith({
     List<UserTable>? users,
     String? userName,
+    num? totalPrice,
+    TableStatus? tableStatus,
   }) {
     return UsersTable(
       users: users ?? this.users,
       userName: userName ?? this.userName,
+      totalPrice: totalPrice ?? this.totalPrice,
+      tableStatus: tableStatus ?? this.tableStatus,
     );
   }
 
@@ -39,13 +66,17 @@ class UsersTable extends Equatable {
     return {
       'users': users.map((x) => x.toMap()).toList(),
       'userName': userName,
+      'totalPrice': totalPrice,
+      'tableStatus': tableStatus?.value,
     };
   }
 
   String toJson() => json.encode(toMap());
 
   @override
-  String toString() => 'UsersTable(users: $users, userName: $userName)';
+  String toString() {
+    return 'UsersTable(users: $users, userName: $userName, totalPrice: $totalPrice, tableStatus: $tableStatus)';
+  }
 }
 
 class UserTable extends Equatable {
