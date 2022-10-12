@@ -77,20 +77,33 @@ class TableMenuScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         Card(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Text(
-                                '¿Necesitas ayuda?',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    tableData.needsWaiter
+                                        ? '¿Estas llamando al mesero?'
+                                        : '¿Necesitas ayuda?',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text('Llamar al mesero'),
-                              ),
-                            ],
+                                Flexible(
+                                  child: TextButton(
+                                    onPressed: ()=> ref.read(tableProvider.notifier).callWaiter(),
+                                    child: Text(
+                                      tableData.needsWaiter
+                                          ? 'Dejar de llamar al mesero'
+                                          : 'Llamar al mesero',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
