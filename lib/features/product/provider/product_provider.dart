@@ -53,7 +53,7 @@ class ProductProvider extends StateNotifier<ProductState> {
   Future<void> addToOrder(ProductDetailModel product) async {
     final productJson = product.toJson();
     productJson['token'] = read(authProvider).authModel.data?.bearerToken;
-    productJson['table_id'] = read(tableProvider).tableCode;
+    productJson['tableId'] = read(tableProvider).tableCode;
     productJson['uuid'] = const Uuid().v4();
     socketIOHandler.emitMap(SocketConstants.addToOrder, productJson);
   }

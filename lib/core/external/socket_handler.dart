@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/constants/api_constants.dart';
+import 'package:restaurants/core/logger/logger.dart';
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
 typedef EventHandler<T> = dynamic Function(T data);
@@ -48,14 +49,26 @@ class SocketIOHandlerImpl implements SocketIOHandler {
   void emit(String event, String data) => socket!.emit(event, data);
 
   @override
-  void emitMap(String event, Map<String, dynamic> data) => socket!.emit(event, data);
+  void emitMap(String event, Map<String, dynamic> data) {
+    Logger.log('####### SOCKET EMITMAP #######');
+    Logger.log('Emitting $event with data');
+    Logger.log(data.toString());
+    Logger.log('####### END SOCKET EMITMAP #######');
+    socket!.emit(event, data);
+  }
 
   @override
   void on(String event, EventHandler callback) => socket!.on(event, callback);
 
   @override
   void onMap(String event, EventHandlerMap callback) {
-    socket!.on(event, (data) => callback(deserialize(data)));
+    socket!.on(event, (data) {
+      Logger.log('####### SOCKET ONMAP #######');
+      Logger.log('Receiving $event with data');
+      Logger.log(data.toString());
+      Logger.log('####### END SOCKET ONMAP #######');
+      callback(deserialize(data));
+    });
   }
 
   @override

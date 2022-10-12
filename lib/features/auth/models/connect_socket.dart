@@ -7,7 +7,7 @@ class ConnectSocket extends Equatable {
 
   factory ConnectSocket.fromMap(Map<String, dynamic> map) {
     return ConnectSocket(
-      tableId: map['table_id'] ?? '',
+      tableId: map['tableId'] ?? '',
       token: map['token'] ?? '',
     );
   }
@@ -21,7 +21,7 @@ class ConnectSocket extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
-      'table_id': tableId,
+      'tableId': tableId,
       'token': token,
     };
   }
