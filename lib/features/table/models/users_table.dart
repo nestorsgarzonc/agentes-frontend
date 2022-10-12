@@ -8,8 +8,10 @@ enum TableStatus {
   empty(value: 'empty', translatedValue: 'Vacia'),
   ordering(value: 'ordering', translatedValue: 'Ordenando'),
   waitingForFood(value: 'waiting for food', translatedValue: 'Esperando comida'),
+  confirmOrder(value: 'confirm order', translatedValue: 'Confirmando orden'),
   eating(value: 'eating', translatedValue: 'Comiendo'),
   paying(value: 'paying', translatedValue: 'Pagando');
+
 
   const TableStatus({required this.value, required this.translatedValue});
   final String value;

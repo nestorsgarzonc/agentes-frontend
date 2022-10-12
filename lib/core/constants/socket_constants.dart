@@ -4,5 +4,5 @@ class SocketConstants {
   static const addToOrder = 'add_product_to_order';
   static const listOfOrders = 'list_of_orders';
   static const callWaiter = 'call_waiter';
-
+  static const changeTableStatus = 'change_table_status';
 }
