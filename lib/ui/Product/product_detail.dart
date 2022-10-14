@@ -14,10 +14,11 @@ import 'package:restaurants/ui/widgets/custom_text_field.dart';
 import '../widgets/buttons/custom_elevated_button.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
-  const ProductDetail({super.key, required this.productId});
+  const ProductDetail({super.key, required this.productId, this.order});
   static const route = '/product-detail';
 
   final String productId;
+  final ProductDetailModel? order;
 
   @override
   ConsumerState<ProductDetail> createState() => _ProductDetailState();
@@ -112,7 +113,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    ToppingOptionsCheckbox(toppings: data.toppings, onAdd: onAddTopping),
+                    ToppingOptionsCheckbox(toppings: data.toppings, onAdd: onAddTopping, orderedToppings: widget.order?.toppings,),
                   ],
                 ),
                 const SizedBox(height: 10),
