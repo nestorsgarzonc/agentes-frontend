@@ -8,8 +8,10 @@ enum TableStatus {
   empty(value: 'empty', translatedValue: 'Vacia'),
   ordering(value: 'ordering', translatedValue: 'Ordenando'),
   waitingForFood(value: 'waiting for food', translatedValue: 'Esperando comida'),
+  confirmOrder(value: 'confirm order', translatedValue: 'Confirmando orden'),
   eating(value: 'eating', translatedValue: 'Comiendo'),
   paying(value: 'paying', translatedValue: 'Pagando');
+
 
   const TableStatus({required this.value, required this.translatedValue});
   final String value;
@@ -26,6 +28,7 @@ class UsersTable extends Equatable {
     required this.userName,
     this.totalPrice,
     this.tableStatus,
+    this.needsWaiter=false,
   });
 
   factory UsersTable.fromMap(Map<String, dynamic> map) {
@@ -33,6 +36,7 @@ class UsersTable extends Equatable {
       users: List<UserTable>.from(map['table']['usersConnected']?.map((x) => UserTable.fromMap(x))),
       userName: map['userName'],
       totalPrice: map['table']['totalPrice'],
+      needsWaiter: map['table']['needsWaiter'],
       tableStatus: map['table']['tableStatus'] != null
           ? TableStatus.fromString(map['table']['tableStatus'])
           : null,
@@ -45,21 +49,24 @@ class UsersTable extends Equatable {
   final String? userName;
   final num? totalPrice;
   final TableStatus? tableStatus;
+  final bool needsWaiter; 
 
   @override
-  List<Object?> get props => [users, userName, totalPrice, tableStatus];
+  List<Object?> get props => [users, userName, totalPrice, tableStatus, needsWaiter];
 
   UsersTable copyWith({
     List<UserTable>? users,
     String? userName,
     num? totalPrice,
     TableStatus? tableStatus,
+    bool? needsWaiter,
   }) {
     return UsersTable(
       users: users ?? this.users,
       userName: userName ?? this.userName,
       totalPrice: totalPrice ?? this.totalPrice,
       tableStatus: tableStatus ?? this.tableStatus,
+      needsWaiter: needsWaiter ?? this.needsWaiter,
     );
   }
 
@@ -69,6 +76,7 @@ class UsersTable extends Equatable {
       'userName': userName,
       'totalPrice': totalPrice,
       'tableStatus': tableStatus?.value,
+      'needsWaiter': needsWaiter,
     };
   }
 
@@ -76,7 +84,7 @@ class UsersTable extends Equatable {
 
   @override
   String toString() {
-    return 'UsersTable(users: $users, userName: $userName, totalPrice: $totalPrice, tableStatus: $tableStatus)';
+    return 'UsersTable(users: $users, userName: $userName, totalPrice: $totalPrice, tableStatus: $tableStatus, needsWaiter: $needsWaiter)';
   }
 }
 

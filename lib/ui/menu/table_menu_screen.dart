@@ -33,7 +33,7 @@ class TableMenuScreen extends ConsumerWidget {
                   onLoading: () => const Center(child: CircularProgressIndicator()),
                   onInitial: () => const SizedBox(),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 10),
                 tableProv.tableUsers.on(
                   onData: (tableData) => Expanded(
                     child: ListView(
@@ -77,24 +77,39 @@ class TableMenuScreen extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         Card(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              const Text(
-                                '¿Necesitas ayuda?',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w600,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    tableData.needsWaiter
+                                        ? '¿Estas llamando al mesero?'
+                                        : '¿Necesitas ayuda?',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: const Text('Llamar al mesero'),
-                              ),
-                            ],
+                                Flexible(
+                                  child: TextButton(
+                                    onPressed: ref.read(tableProvider.notifier).callWaiter,
+                                    child: Text(
+                                      tableData.needsWaiter
+                                          ? 'Dejar de llamar al mesero'
+                                          : 'Llamar al mesero',
+                                      textAlign: TextAlign.end,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(height: 10),
-                        ListView.builder(
+                        ListView.separated(
+                          separatorBuilder: (context, index) => const Divider(),
                           shrinkWrap: true,
                           primary: false,
                           itemCount: tableData.users.length,
@@ -114,21 +129,43 @@ class TableMenuScreen extends ConsumerWidget {
               ],
             ),
           ),
-          Positioned(
-            bottom: 5,
-            left: 20,
-            right: 20,
-            child: CustomElevatedButton(
-              onPressed: handleOnOrderNow,
-              child: const Text('Ordenar ahora'),
-            ),
+          tableProv.tableUsers.on(
+            onData: (data) {
+              if (data.tableStatus == TableStatus.ordering ||
+                  data.tableStatus == TableStatus.paying) {
+                return Positioned(
+                  bottom: 5,
+                  left: 20,
+                  right: 20,
+                  child: CustomElevatedButton(
+                    onPressed: () => handleOnOrderNow(ref, TableStatus.confirmOrder),
+                    child: const Text('Ordenar ahora'),
+                  ),
+                );
+              } else {
+                return Positioned(
+                  bottom: 5,
+                  left: 20,
+                  right: 20,
+                  child: CustomElevatedButton(
+                    onPressed: () => handleOnOrderNow(ref, TableStatus.paying),
+                    child: const Text('Pagar cuenta'),
+                  ),
+                );
+              }
+            },
+            onError: (_) => const SizedBox(),
+            onLoading: () => const SizedBox(),
+            onInitial: () => const SizedBox(),
           ),
         ],
       ),
     );
   }
 
-  void handleOnOrderNow() {}
+  void handleOnOrderNow(WidgetRef ref, TableStatus status) {
+    ref.read(tableProvider.notifier).changeStatus(status);
+  }
 }
 
 class TableUserCard extends ConsumerWidget {

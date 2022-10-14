@@ -28,7 +28,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 160,
+            expandedHeight: MediaQuery.of(context).size.height * 0.27,
             systemOverlayStyle: SystemUiOverlayStyle.light,
             backgroundColor: Colors.grey,
             flexibleSpace: FlexibleSpaceBar(
@@ -70,11 +70,13 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Text(
-                        'Mesa: ${data.tableName}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 13.5,
+                      Flexible(
+                        child: Text(
+                          'Mesa: ${data.tableName}',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     ],

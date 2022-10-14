@@ -33,10 +33,12 @@ class HelpBottomSheet extends StatelessWidget {
               IconButton(onPressed: Navigator.of(context).pop, icon: const Icon(Icons.close)),
             ],
           ),
+          const SizedBox(height: 10),
           Text(
             text,
             textAlign: TextAlign.start,
           ),
+          SizedBox(height: 30 + MediaQuery.of(context).viewInsets.bottom),
         ],
       ),
     );

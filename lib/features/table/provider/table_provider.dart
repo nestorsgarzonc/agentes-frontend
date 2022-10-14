@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:restaurants/core/constants/socket_constants.dart';
 import 'package:restaurants/core/external/socket_handler.dart';
 import 'package:restaurants/core/logger/logger.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/auth/models/connect_socket.dart';
+import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:restaurants/features/table/models/change_table_status.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
@@ -67,7 +73,7 @@ class TableProvider extends StateNotifier<TableState> {
     });
   }
 
-  Future<void> listenListOfOrders()async{
+  Future<void> listenListOfOrders() async {
     socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
       final tableUsers = UsersTable.fromMap(data);
       Logger.log('################# START listenListOfOrders #################');
@@ -75,5 +81,26 @@ class TableProvider extends StateNotifier<TableState> {
       Logger.log('################# END listenListOfOrders #################');
       state = state.copyWith(tableUsers: StateAsync.success(tableUsers), isFirstTime: false);
     });
+  }
+
+  Future<void> callWaiter() async {
+    socketIOHandler.emitMap(
+      SocketConstants.callWaiter,
+      ConnectSocket(
+        tableId: state.tableCode ?? '',
+        token: read(authProvider).authModel.data?.bearerToken ?? '',
+      ).toMap(),
+    );
+  }
+
+  Future<void> changeStatus(TableStatus status) async {
+    socketIOHandler.emitMap(
+      SocketConstants.changeTableStatus,
+      ChangeTableStatus(
+        tableId: state.tableCode ?? '',
+        token: read(authProvider).authModel.data?.bearerToken ?? '',
+        status: status,
+      ).toMap(),
+    );
   }
 }
