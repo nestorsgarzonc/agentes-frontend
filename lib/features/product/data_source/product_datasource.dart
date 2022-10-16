@@ -5,7 +5,7 @@ import 'package:restaurants/core/logger/logger.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 
 final productDatasourceProvider = Provider<ProductDatasource>((ref) {
-  return ProductDatasourceImpl.fromRead(ref.read);
+  return ProductDatasourceImpl.fromRead(ref);
 });
 
 abstract class ProductDatasource {
@@ -13,9 +13,9 @@ abstract class ProductDatasource {
 }
 
 class ProductDatasourceImpl implements ProductDatasource {
-  factory ProductDatasourceImpl.fromRead(Reader read) {
-    final apiHandler = read(apiHandlerProvider);
-    final dbHandler = read(dbHandlerProvider);
+  factory ProductDatasourceImpl.fromRead(Ref ref) {
+    final apiHandler = ref.read(apiHandlerProvider);
+    final dbHandler = ref.read(dbHandlerProvider);
     return ProductDatasourceImpl(apiHandler, dbHandler);
   }
 

@@ -6,25 +6,25 @@ import 'package:restaurants/features/restaurant/repositories/restaurant_reposito
 import 'package:restaurants/features/table/provider/table_provider.dart';
 
 final restaurantProvider = StateNotifierProvider<RestaurantProvider, RestaurantState>((ref) {
-  return RestaurantProvider.fromRead(ref.read);
+  return RestaurantProvider.fromRead(ref);
 });
 
 class RestaurantProvider extends StateNotifier<RestaurantState> {
-  RestaurantProvider({required this.restaurantRepository, required this.read})
+  RestaurantProvider({required this.restaurantRepository, required this.ref})
       : super(RestaurantState(restaurant: StateAsync.initial()));
 
-  factory RestaurantProvider.fromRead(Reader read) {
+  factory RestaurantProvider.fromRead(Ref ref) {
     return RestaurantProvider(
-      restaurantRepository: read(restaurantRepositoryProvider),
-      read: read,
+      restaurantRepository: ref.read(restaurantRepositoryProvider),
+      ref: ref,
     );
   }
 
-  final Reader read;
+  final Ref ref;
   final RestaurantRepository restaurantRepository;
 
   Future<void> getMenu() async {
-    final tableId = read(tableProvider).tableCode;
+    final tableId = ref.read(tableProvider).tableCode;
     if (tableId == null) {
       state = state.copyWith(
         restaurant: StateAsync.error(

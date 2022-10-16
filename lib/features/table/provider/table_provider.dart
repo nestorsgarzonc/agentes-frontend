@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:restaurants/core/constants/socket_constants.dart';
 import 'package:restaurants/core/external/socket_handler.dart';
 import 'package:restaurants/core/logger/logger.dart';
@@ -19,28 +16,28 @@ import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
-  return TableProvider.fromRead(ref.read);
+  return TableProvider.fromRead(ref);
 });
 
 class TableProvider extends StateNotifier<TableState> {
-  TableProvider(this.socketIOHandler, {required this.read})
+  TableProvider(this.socketIOHandler, {required this.ref})
       : super(TableState(tableUsers: StateAsync.initial()));
 
-  factory TableProvider.fromRead(Reader read) {
-    final socketIo = read(socketProvider);
-    return TableProvider(socketIo, read: read);
+  factory TableProvider.fromRead(Ref ref) {
+    final socketIo = ref.read(socketProvider);
+    return TableProvider(socketIo, ref: ref);
   }
 
-  final Reader read;
+  final Ref ref;
   final SocketIOHandler socketIOHandler;
 
   Future<void> onReadTableCode(String code) async {
     final validationError = TextFormValidator.tableCodeValidator(code);
     if (validationError != null) {
-      CustomSnackbar.showSnackBar(read(routerProvider).context, validationError);
+      CustomSnackbar.showSnackBar(ref.read(routerProvider).context, validationError);
       return;
     }
-    GoRouter.of(read(routerProvider).context).go('${IndexMenuScreen.route}?tableId=$code');
+    GoRouter.of(ref.read(routerProvider).context).go('${IndexMenuScreen.route}?tableId=$code');
   }
 
   void onClearTableCode() {
@@ -50,8 +47,8 @@ class TableProvider extends StateNotifier<TableState> {
   void onSetTableCode(String code) {
     final validationError = TextFormValidator.tableCodeValidator(code);
     if (validationError != null) {
-      GoRouter.of(read(routerProvider).context).go(OnBoarding.route);
-      CustomSnackbar.showSnackBar(read(routerProvider).context, validationError);
+      GoRouter.of(ref.read(routerProvider).context).go(OnBoarding.route);
+      CustomSnackbar.showSnackBar(ref.read(routerProvider).context, validationError);
       return;
     }
     state = state.copyWith(tableCode: code);
@@ -62,7 +59,7 @@ class TableProvider extends StateNotifier<TableState> {
       final tableUsers = UsersTable.fromMap(data);
       if (!state.isFirstTime) {
         CustomSnackbar.showSnackBar(
-          read(routerProvider).context,
+          ref.read(routerProvider).context,
           'Se ha unido ${tableUsers.userName}',
         );
       }
@@ -88,7 +85,7 @@ class TableProvider extends StateNotifier<TableState> {
       SocketConstants.callWaiter,
       ConnectSocket(
         tableId: state.tableCode ?? '',
-        token: read(authProvider).authModel.data?.bearerToken ?? '',
+        token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
       ).toMap(),
     );
   }
@@ -98,7 +95,7 @@ class TableProvider extends StateNotifier<TableState> {
       SocketConstants.changeTableStatus,
       ChangeTableStatus(
         tableId: state.tableCode ?? '',
-        token: read(authProvider).authModel.data?.bearerToken ?? '',
+        token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
         status: status,
       ).toMap(),
     );

@@ -4,7 +4,7 @@ import 'package:restaurants/core/logger/logger.dart';
 import 'package:restaurants/features/restaurant/models/restaurant_model.dart';
 
 final restaurantDataSourceProvider = Provider<RestaurantDataSource>((ref) {
-  return RestaurantDataSourceImpl.fromRead(ref.read);
+  return RestaurantDataSourceImpl.fromRead(ref);
 });
 
 abstract class RestaurantDataSource {
@@ -14,8 +14,8 @@ abstract class RestaurantDataSource {
 class RestaurantDataSourceImpl implements RestaurantDataSource {
   RestaurantDataSourceImpl(this.apiHandler);
 
-  factory RestaurantDataSourceImpl.fromRead(Reader read) {
-    return RestaurantDataSourceImpl(read(apiHandlerProvider));
+  factory RestaurantDataSourceImpl.fromRead(Ref ref) {
+    return RestaurantDataSourceImpl(ref.read(apiHandlerProvider));
   }
 
   final ApiHandler apiHandler;

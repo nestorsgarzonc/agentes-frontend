@@ -12,27 +12,27 @@ import 'package:restaurants/core/router/router.dart';
 import 'package:uuid/uuid.dart';
 
 final productProvider = StateNotifierProvider<ProductProvider, ProductState>((ref) {
-  return ProductProvider.fromRead(ref.read);
+  return ProductProvider.fromRead(ref);
 });
 
 class ProductProvider extends StateNotifier<ProductState> {
   ProductProvider({
     required this.productRepository,
-    required this.read,
+    required this.ref,
     required this.socketIOHandler,
   }) : super(ProductState(productDetail: StateAsync.initial()));
 
-  factory ProductProvider.fromRead(Reader read) {
-    final productRepository = read(productRepositoryProvider);
-    final socketIo = read(socketProvider);
+  factory ProductProvider.fromRead(Ref ref) {
+    final productRepository = ref.read(productRepositoryProvider);
+    final socketIo = ref.read(socketProvider);
     return ProductProvider(
-      read: read,
+      ref: ref,
       productRepository: productRepository,
       socketIOHandler: socketIo,
     );
   }
 
-  final Reader read;
+  final Ref ref;
   final ProductRepository productRepository;
   final SocketIOHandler socketIOHandler;
 
@@ -42,7 +42,7 @@ class ProductProvider extends StateNotifier<ProductState> {
     res.fold(
       (l) {
         state = state.copyWith(productDetail: StateAsync.error(l));
-        read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
+        ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
       },
       (r) {
         state = state.copyWith(productDetail: StateAsync.success(r));
@@ -52,8 +52,8 @@ class ProductProvider extends StateNotifier<ProductState> {
 
   Future<void> addToOrder(ProductDetailModel product) async {
     final productJson = product.toJson();
-    productJson['token'] = read(authProvider).authModel.data?.bearerToken;
-    productJson['tableId'] = read(tableProvider).tableCode;
+    productJson['token'] = ref.read(authProvider).authModel.data?.bearerToken;
+    productJson['tableId'] = ref.read(tableProvider).tableCode;
     productJson['uuid'] = const Uuid().v4();
     socketIOHandler.emitMap(SocketConstants.addToOrder, productJson);
   }

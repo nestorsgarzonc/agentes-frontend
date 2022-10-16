@@ -7,7 +7,7 @@ import 'package:restaurants/features/auth/models/auth_model.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl.fromRead(ref.read);
+  return AuthRepositoryImpl.fromRead(ref);
 });
 
 abstract class AuthRepository {
@@ -20,8 +20,8 @@ abstract class AuthRepository {
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.authDatasource});
 
-  factory AuthRepositoryImpl.fromRead(Reader read) {
-    final authDatasource = read(authDatasourceProvider);
+  factory AuthRepositoryImpl.fromRead(Ref ref) {
+    final authDatasource = ref.read(authDatasourceProvider);
     return AuthRepositoryImpl(authDatasource: authDatasource);
   }
 
@@ -42,7 +42,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Failure?> restorePassword(String email) async {
-    
     return null;
   }
 

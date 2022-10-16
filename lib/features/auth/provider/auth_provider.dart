@@ -14,27 +14,27 @@ import 'package:restaurants/features/user/models/user_model.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
 
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
-  return AuthProvider.fromRead(ref.read);
+  return AuthProvider.fromRead(ref);
 });
 
 class AuthProvider extends StateNotifier<AuthState> {
   AuthProvider({
     required this.authRepository,
-    required this.read,
+    required this.ref,
     required this.socketIOHandler,
   }) : super(AuthState(authModel: StateAsync.initial()));
 
-  factory AuthProvider.fromRead(Reader read) {
-    final authRepository = read(authRepositoryProvider);
-    final socketIo = read(socketProvider);
+  factory AuthProvider.fromRead(Ref ref) {
+    final authRepository = ref.read(authRepositoryProvider);
+    final socketIo = ref.read(socketProvider);
     return AuthProvider(
-      read: read,
+      ref: ref,
       authRepository: authRepository,
       socketIOHandler: socketIo,
     );
   }
 
-  final Reader read;
+  final Ref ref;
   final AuthRepository authRepository;
   final SocketIOHandler socketIOHandler;
 
@@ -44,12 +44,12 @@ class AuthProvider extends StateNotifier<AuthState> {
     res.fold(
       (l) {
         state = state.copyWith(authModel: StateAsync.error(l));
-        read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
+        ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
       },
       (r) {
         state = state.copyWith(authModel: StateAsync.success(r));
         startListeningSocket();
-        read(routerProvider).router.pop();
+        ref.read(routerProvider).router.pop();
       },
     );
   }
@@ -59,11 +59,11 @@ class AuthProvider extends StateNotifier<AuthState> {
     final res = await authRepository.register(user);
     if (res != null) {
       state = state.copyWith(authModel: StateAsync.error(res));
-      read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
+      ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
       return;
     }
     await login(email: user.email, password: user.password ?? '');
-    read(routerProvider).router.pop();
+    ref.read(routerProvider).router.pop();
   }
 
   Future<void> restorePassword(String email) async {
@@ -90,11 +90,11 @@ class AuthProvider extends StateNotifier<AuthState> {
   Future<void> startListeningSocket() async {
     await socketIOHandler.connect();
     final socketModel = ConnectSocket(
-      tableId: read(tableProvider).tableCode ?? '',
+      tableId: ref.read(tableProvider).tableCode ?? '',
       token: state.authModel.data?.bearerToken ?? '',
     );
-    read(tableProvider.notifier).listenTableUsers();
-    read(tableProvider.notifier).listenListOfOrders();
+    ref.read(tableProvider.notifier).listenTableUsers();
+    ref.read(tableProvider.notifier).listenListOfOrders();
     socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }
