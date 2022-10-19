@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/core/utils/currency_formatter.dart';
@@ -7,6 +8,7 @@ import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
 
 class TableMenuScreen extends ConsumerWidget {
@@ -217,7 +219,13 @@ class TableUserCard extends ConsumerWidget {
                         ],
                       ),
                       trailing: isMine
-                          ? IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
+                          ? IconButton(
+                              onPressed: () => GoRouter.of(context).push(
+                                '${ProductDetail.route}?productId=${e.id}',
+                                extra: e,
+                              ),
+                              icon: const Icon(Icons.edit),
+                            )
                           : null,
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
