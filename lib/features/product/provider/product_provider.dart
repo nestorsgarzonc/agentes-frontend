@@ -57,4 +57,13 @@ class ProductProvider extends StateNotifier<ProductState> {
     productJson['uuid'] = const Uuid().v4();
     socketIOHandler.emitMap(SocketConstants.addToOrder, productJson);
   }
+
+  Future<void> deleteItem(ProductDetailModel product) async {
+    final productDelete = {
+      'token': read(authProvider).authModel.data?.bearerToken,
+      'tableId': read(tableProvider).tableCode,
+      'uuid': product.uuid,
+    };
+    socketIOHandler.emitMap(SocketConstants.deleteItem, productDelete);
+  }
 }

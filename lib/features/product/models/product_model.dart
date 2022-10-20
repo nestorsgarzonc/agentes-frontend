@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
 class ProductDetailModel extends Equatable {
@@ -7,6 +6,7 @@ class ProductDetailModel extends Equatable {
         name: json['name'],
         price: json['price'],
         description: json['description'],
+        uuid: json['uuid'],
         imgUrl: json['imgUrl'],
         toppings: List<Topping>.from(json['toppings'].map((x) => Topping.fromJson(x))),
         isAvaliable: json['isAvaliable'],
@@ -31,6 +31,7 @@ class ProductDetailModel extends Equatable {
     required this.updatedAt,
     required this.v,
     this.note,
+    this.uuid,
     this.totalWithToppings,
   });
 
@@ -47,6 +48,7 @@ class ProductDetailModel extends Equatable {
   final int v;
   final String? note;
   final num? totalWithToppings;
+  final String? uuid;
 
   Map<String, dynamic> toJson() => {
         '_id': id,
@@ -60,6 +62,7 @@ class ProductDetailModel extends Equatable {
         'createdAt': createdAt.toIso8601String(),
         'updatedAt': updatedAt.toIso8601String(),
         '__v': v,
+        'uuid': uuid,
         'note': note,
         'totalWithToppings': totalWithToppings,
       };
@@ -76,6 +79,7 @@ class ProductDetailModel extends Equatable {
       isAvaliable,
       categoryId,
       createdAt,
+      uuid,
       updatedAt,
       v,
       note,
@@ -96,6 +100,7 @@ class ProductDetailModel extends Equatable {
     DateTime? updatedAt,
     int? v,
     String? note,
+    String? uuid,
     num? totalWithToppings,
   }) {
     return ProductDetailModel(
@@ -109,6 +114,7 @@ class ProductDetailModel extends Equatable {
       categoryId: categoryId ?? this.categoryId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      uuid: uuid??this.uuid,
       v: v ?? this.v,
       note: note ?? this.note,
       totalWithToppings: totalWithToppings ?? this.totalWithToppings,
@@ -117,7 +123,7 @@ class ProductDetailModel extends Equatable {
 
   @override
   String toString() {
-    return 'ProductDetailModel(id: $id, name: $name, price: $price, description: $description, imgUrl: $imgUrl, toppings: $toppings, isAvaliable: $isAvaliable, categoryId: $categoryId, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, note: $note, totalWithToppings: $totalWithToppings)';
+    return 'ProductDetailModel(id: $id, name: $name, price: $price, description: $description, imgUrl: $imgUrl, toppings: $toppings, isAvaliable: $isAvaliable, categoryId: $categoryId, createdAt: $createdAt, updatedAt: $updatedAt, v: $v, note: $note, totalWithToppings: $totalWithToppings, uuid: $uuid)';
   }
 }
 
