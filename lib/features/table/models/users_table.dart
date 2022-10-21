@@ -112,12 +112,14 @@ class UserTable extends Equatable {
     required this.firstName,
     required this.lastName,
     required this.orderProducts,
+    required this.price,
   });
 
   factory UserTable.fromMap(Map<String, dynamic> map) {
     return UserTable(
       userId: map['userId'] ?? '',
       firstName: map['firstName'] ?? '',
+      price: map['price'] ?? 0,
       lastName: map['lastName'] ?? '',
       orderProducts: List<ProductDetailModel>.from(
         map['orderProducts']?.map((x) => ProductDetailModel.fromJson(x)),
@@ -129,20 +131,23 @@ class UserTable extends Equatable {
   final String userId;
   final String firstName;
   final String lastName;
+  final num price;
   final List<ProductDetailModel> orderProducts;
 
   @override
-  List<Object?> get props => [userId, firstName, lastName, orderProducts];
+  List<Object?> get props => [userId, firstName, lastName, orderProducts, price];
 
   UserTable copyWith({
     String? userId,
     String? firstName,
+    num? price,
     String? lastName,
     List<ProductDetailModel>? orderProducts,
   }) {
     return UserTable(
       userId: userId ?? this.userId,
       firstName: firstName ?? this.firstName,
+      price: price ?? this.price,
       lastName: lastName ?? this.lastName,
       orderProducts: orderProducts ?? this.orderProducts,
     );
