@@ -66,4 +66,13 @@ class ProductProvider extends StateNotifier<ProductState> {
     };
     socketIOHandler.emitMap(SocketConstants.deleteItem, productDelete);
   }
+
+  Future<void> editItem(ProductDetailModel product) async {
+    final productEdit = {
+      'token': ref.read(authProvider).authModel.data?.bearerToken,
+      'tableId': ref.read(tableProvider).tableCode,
+      'uuid': product.uuid,
+    };
+    socketIOHandler.emitMap(SocketConstants.editItem, productEdit);
+  }
 }

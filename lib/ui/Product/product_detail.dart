@@ -153,7 +153,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                           /// DOS BOTONES
                           /// EDITAR: RELLENO
                           CustomElevatedButton(
-                            onPressed: () {},
+                            onPressed: _modifyItem,
                             child: const Text('Modificar orden'),
                           ),
 
@@ -261,11 +261,13 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
       NotAuthenticatedBottomSheet.show(context);
       return;
     }
-    final newProduct = widget.order?.copyWith(
+    final editProduct = widget.order?.copyWith(
       note: _notesController.text,
       toppings: toppings,
       totalWithToppings: totalWithToppings,
     );
-    if (newProduct == null) return;
+    if (editProduct == null) return;
+    ref.read(productProvider.notifier).editItem(editProduct);
+    GoRouter.of(context).pop();
   }
 }
