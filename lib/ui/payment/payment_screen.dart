@@ -55,7 +55,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   PaymentWay? paymentWay = PaymentWay.all;
   PaymentTip? paymentTip;
 
-  static const _titleStyle = TextStyle(fontSize: 18);
+  static const _titleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
 
   @override
   Widget build(BuildContext context) {
