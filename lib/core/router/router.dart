@@ -8,6 +8,7 @@ import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/auth/register_screen.dart';
+import 'package:restaurants/ui/payment/payment_screen.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
 final routerProvider = Provider<CustomRouter>((ref) {
@@ -61,6 +62,10 @@ class CustomRouter {
         GoRoute(
           path: LoginScreen.route,
           builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: PaymentScreen.route,
+          builder: (context, state) => const PaymentScreen(),
         ),
         GoRoute(
           path: RestorePasswordScreen.route,

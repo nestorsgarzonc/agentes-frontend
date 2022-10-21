@@ -6,16 +6,34 @@ import 'package:restaurants/features/product/models/product_model.dart';
 
 enum TableStatus {
   empty(value: 'empty', translatedValue: 'Vacia'),
-  ordering(value: 'ordering', translatedValue: 'Ordenando'),
-  waitingForFood(value: 'waiting for food', translatedValue: 'Esperando comida'),
-  confirmOrder(value: 'confirm order', translatedValue: 'Confirmando orden'),
-  eating(value: 'eating', translatedValue: 'Comiendo'),
-  paying(value: 'paying', translatedValue: 'Pagando');
+  ordering(
+    value: 'ordering',
+    translatedValue: 'Ordenando',
+    actionButtonLabel: 'Ordenar ahora',
+  ),
+  waitingForFood(
+    value: 'waiting for food',
+    translatedValue: 'Esperando comida',
+  ),
+  confirmOrder(
+    value: 'confirm order',
+    translatedValue: 'Confirmando orden',
+  ),
+  eating(
+    value: 'eating',
+    translatedValue: 'Comiendo',
+    actionButtonLabel: 'Pagar ahora',
+  ),
+  paying(
+    value: 'paying',
+    translatedValue: 'Pagando',
+    actionButtonLabel: 'Ir a pagar',
+  );
 
-
-  const TableStatus({required this.value, required this.translatedValue});
+  const TableStatus({required this.value, required this.translatedValue, this.actionButtonLabel});
   final String value;
   final String translatedValue;
+  final String? actionButtonLabel;
 
   static TableStatus fromString(String? value) {
     return TableStatus.values.firstWhere((e) => e.value == value, orElse: () => TableStatus.empty);
@@ -28,7 +46,7 @@ class UsersTable extends Equatable {
     required this.userName,
     this.totalPrice,
     this.tableStatus,
-    this.needsWaiter=false,
+    this.needsWaiter = false,
   });
 
   factory UsersTable.fromMap(Map<String, dynamic> map) {
@@ -49,7 +67,7 @@ class UsersTable extends Equatable {
   final String? userName;
   final num? totalPrice;
   final TableStatus? tableStatus;
-  final bool needsWaiter; 
+  final bool needsWaiter;
 
   @override
   List<Object?> get props => [users, userName, totalPrice, tableStatus, needsWaiter];

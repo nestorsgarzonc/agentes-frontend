@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/core/utils/currency_formatter.dart';
@@ -7,6 +8,7 @@ import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:restaurants/ui/payment/payment_screen.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
 
 class TableMenuScreen extends ConsumerWidget {
@@ -130,30 +132,17 @@ class TableMenuScreen extends ConsumerWidget {
             ),
           ),
           tableProv.tableUsers.on(
-            onData: (data) {
-              if (data.tableStatus == TableStatus.ordering ||
-                  data.tableStatus == TableStatus.paying) {
-                return Positioned(
-                  bottom: 5,
-                  left: 20,
-                  right: 20,
-                  child: CustomElevatedButton(
-                    onPressed: () => handleOnOrderNow(ref, TableStatus.confirmOrder),
-                    child: const Text('Ordenar ahora'),
+            onData: (data) => data.tableStatus?.actionButtonLabel == null
+                ? const SizedBox()
+                : Positioned(
+                    bottom: 5,
+                    left: 20,
+                    right: 20,
+                    child: CustomElevatedButton(
+                      onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
+                      child: Text(data.tableStatus!.actionButtonLabel!),
+                    ),
                   ),
-                );
-              } else {
-                return Positioned(
-                  bottom: 5,
-                  left: 20,
-                  right: 20,
-                  child: CustomElevatedButton(
-                    onPressed: () => handleOnOrderNow(ref, TableStatus.paying),
-                    child: const Text('Pagar cuenta'),
-                  ),
-                );
-              }
-            },
             onError: (_) => const SizedBox(),
             onLoading: () => const SizedBox(),
             onInitial: () => const SizedBox(),
@@ -163,16 +152,32 @@ class TableMenuScreen extends ConsumerWidget {
     );
   }
 
-  void handleOnOrderNow(WidgetRef ref, TableStatus status) {
-    ref.read(tableProvider.notifier).changeStatus(status);
+  void handleOnOrderNow(WidgetRef ref, TableStatus status, BuildContext context) {
+    switch (status) {
+      case TableStatus.empty:
+        ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);
+        break;
+      case TableStatus.ordering:
+        ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);
+        break;
+      case TableStatus.waitingForFood:
+        ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);
+        break;
+      case TableStatus.confirmOrder:
+        ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);
+        break;
+      case TableStatus.eating:
+        ref.read(tableProvider.notifier).changeStatus(TableStatus.paying);
+        break;
+      case TableStatus.paying:
+        GoRouter.of(context).push(PaymentScreen.route);
+        break;
+    }
   }
 }
 
 class TableUserCard extends ConsumerWidget {
-  const TableUserCard({
-    Key? key,
-    required this.userTable,
-  }) : super(key: key);
+  const TableUserCard({Key? key, required this.userTable}) : super(key: key);
 
   final UserTable userTable;
 
