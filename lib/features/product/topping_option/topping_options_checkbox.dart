@@ -4,9 +4,11 @@ import 'package:restaurants/core/utils/currency_formatter.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 
 class ToppingOptionsCheckbox extends StatefulWidget {
-  const ToppingOptionsCheckbox({super.key, required this.toppings, required this.onAdd});
+  const ToppingOptionsCheckbox(
+      {super.key, required this.toppings, required this.onAdd, this.orderedToppings,});
   final List<Topping> toppings;
   final void Function(List<Topping> value) onAdd;
+  final List<Topping>? orderedToppings;
 
   @override
   State<ToppingOptionsCheckbox> createState() => _ToppingOptionsCheckboxState();
@@ -19,9 +21,14 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
   @override
   void initState() {
     super.initState();
-    addedToppings = [...widget.toppings];
-    addedToppings = addedToppings.map((e) => e.copyWith(options: [])).toList();
-    expandedToppings = addedToppings.expand((element) => element.options).toList();
+    if (widget.orderedToppings!=null){
+      addedToppings = [...widget.orderedToppings??[]];
+      expandedToppings = addedToppings.expand((element) => element.options).toList();
+    } else {
+      addedToppings = [...widget.toppings];
+      addedToppings = addedToppings.map((e) => e.copyWith(options: [])).toList();
+      expandedToppings = addedToppings.expand((element) => element.options).toList();
+    }
     if (mounted) setState(() {});
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
 import 'package:restaurants/ui/auth/restore_password_screen.dart';
@@ -75,9 +76,12 @@ class CustomRouter {
           path: ProductDetail.route,
           builder: (context, state) {
             final productId = state.queryParams['productId'];
-            return productId == null
-                ? ErrorScreen(error: atributeErrorMessage('productId'))
-                : ProductDetail(productId: productId);
+            final prodDetail = state.extra as ProductDetailModel?;
+            if (productId == null) {
+              return ErrorScreen(error: atributeErrorMessage('productId'));
+            } else {
+              return ProductDetail(productId: productId, order: prodDetail);
+            }
           },
         ),
       ];

@@ -9,15 +9,21 @@ import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/provider/product_provider.dart';
 import 'package:restaurants/features/product/topping_option/topping_options_checkbox.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/custom_text_field.dart';
 import '../widgets/buttons/custom_elevated_button.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
-  const ProductDetail({super.key, required this.productId});
+  const ProductDetail({
+    super.key,
+    required this.productId,
+    this.order,
+  });
   static const route = '/product-detail';
 
   final String productId;
+  final ProductDetailModel? order;
 
   @override
   ConsumerState<ProductDetail> createState() => _ProductDetailState();
@@ -122,7 +128,11 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    ToppingOptionsCheckbox(toppings: data.toppings, onAdd: onAddTopping),
+                    ToppingOptionsCheckbox(
+                      toppings: data.toppings,
+                      onAdd: onAddTopping,
+                      orderedToppings: widget.order?.toppings,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 10),
@@ -133,10 +143,31 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                   controller: _notesController,
                 ),
                 const SizedBox(height: 20.0),
-                CustomElevatedButton(
-                  onPressed: _onAddToOrder,
-                  child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
-                ),
+                widget.order == null
+                    ? CustomElevatedButton(
+                        onPressed: _onAddToOrder,
+                        child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
+                      )
+                    : Column(
+                        children: [
+                          /// DOS BOTONES
+                          /// EDITAR: RELLENO
+                          CustomElevatedButton(
+                            onPressed: () {},
+                            child: const Text('Modificar orden'),
+                          ),
+
+                          const SizedBox(
+                            height: 5,
+                          ),
+
+                          /// ELIMINAR: MUESTRA UN BOTTOMSHEET DE CONFIRMACION Y CUANDO LE DE CONFIRMAR ELIMINE EL PRODUCTO
+                          TextButton(
+                            onPressed: _showBottomSheet,
+                            child: const Text('Eliminar orden'),
+                          )
+                        ],
+                      ),
                 SizedBox(height: 20.0 + MediaQuery.of(context).padding.bottom),
               ],
             ),
@@ -176,5 +207,65 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
         );
     ref.read(productProvider.notifier).addToOrder(newProduct);
     GoRouter.of(context).pop();
+  }
+
+  void _showBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return BaseBottomSheet(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('¿Estás seguro que deseas elimnar este plato de la orden?'),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: _deleteItem,
+                child: const Text('Sí'),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ElevatedButton(
+                onPressed: Navigator.of(context).pop,
+                child: const Text('No'),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _deleteItem() {
+    final userState = ref.read(authProvider).authModel;
+    if (userState.data == null) {
+      NotAuthenticatedBottomSheet.show(context);
+      return;
+    }
+    final newProduct = widget.order?.copyWith(
+      note: _notesController.text,
+      toppings: toppings,
+      totalWithToppings: totalWithToppings,
+    );
+    if (newProduct == null) return;
+    ref.read(productProvider.notifier).deleteItem(newProduct);
+    GoRouter.of(context).pop();
+  }
+
+  void _modifyItem() {
+    final userState = ref.read(authProvider).authModel;
+    if (userState.data == null) {
+      NotAuthenticatedBottomSheet.show(context);
+      return;
+    }
+    final newProduct = widget.order?.copyWith(
+      note: _notesController.text,
+      toppings: toppings,
+      totalWithToppings: totalWithToppings,
+    );
+    if (newProduct == null) return;
   }
 }

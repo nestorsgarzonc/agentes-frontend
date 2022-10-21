@@ -9,6 +9,7 @@ import 'package:restaurants/features/restaurant/provider/restaurant_provider.dar
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/payment/payment_screen.dart';
+import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
 
 class TableMenuScreen extends ConsumerWidget {
@@ -222,7 +223,13 @@ class TableUserCard extends ConsumerWidget {
                         ],
                       ),
                       trailing: isMine
-                          ? IconButton(onPressed: () {}, icon: const Icon(Icons.edit))
+                          ? IconButton(
+                              onPressed: () => GoRouter.of(context).push(
+                                '${ProductDetail.route}?productId=${e.id}',
+                                extra: e,
+                              ),
+                              icon: const Icon(Icons.edit),
+                            )
                           : null,
                       leading: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
