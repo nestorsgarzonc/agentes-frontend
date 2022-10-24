@@ -53,6 +53,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   @override
   void initState() {
     super.initState();
+    _notesController.text = widget.order?.note ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).productDetail(widget.productId);
     });
@@ -63,6 +64,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   void dispose() {
     _scrollController.removeListener(scollListener);
     _scrollController.dispose();
+    ref.invalidate(productProvider);
     super.dispose();
   }
 
@@ -177,8 +179,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   void onCreateWidget(ProductDetailModel data) {
     if (isCreated) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      total = data.price;
-      totalWithToppings = data.price;
+      total = widget.order?.price ?? data.price;
+      totalWithToppings = widget.order?.totalWithToppings ?? data.price;
       isCreated = true;
     });
   }
