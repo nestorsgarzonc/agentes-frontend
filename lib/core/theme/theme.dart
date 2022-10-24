@@ -11,7 +11,7 @@ class CustomTheme {
         titleTextStyle: TextStyle(
           color: Colors.black,
           fontSize: 17,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
         ),
       ),
       visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -51,9 +51,9 @@ enum PaymentTip {
 }
 
 class _PaymentScreenState extends ConsumerState<PaymentScreen> {
-  PaymentMethod? paymentMethod;
+  PaymentMethod? paymentMethod = PaymentMethod.cash;
   PaymentWay? paymentWay = PaymentWay.all;
-  PaymentTip? paymentTip;
+  PaymentTip? paymentTip = PaymentTip.ten;
 
   static const _titleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
 
@@ -110,9 +110,14 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
               itemCount: PaymentTip.values.length,
               itemBuilder: (context, i) => InkWell(
                 child: Chip(
-                  label: Text(PaymentTip.values[i].title),
+                  label: Text(
+                    PaymentTip.values[i].title,
+                    style: TextStyle(
+                      color: paymentTip == PaymentTip.values[i] ? Colors.white : Colors.black,
+                    ),
+                  ),
                   backgroundColor: paymentTip == PaymentTip.values[i]
-                      ? Theme.of(context).primaryColor.withOpacity(0.8)
+                      ? Theme.of(context).primaryColor
                       : Colors.grey[300],
                 ),
                 onTap: () => setState(() => paymentTip = PaymentTip.values[i]),
@@ -154,18 +159,18 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
               child: Column(
                 children: [
                   AccountTotalItem(
-                    title: 'Subtotal',
+                    title: 'Subtotal:',
                     value:
                         '\$ ${CurrencyFormatter.format(tableState.tableUsers.data?.totalPrice ?? 0)}',
                   ),
                   AccountTotalItem(
-                    title: 'Propina',
+                    title: 'Propina:',
                     value: paymentTip == null
                         ? 'No seleccionado'
                         : '\$ ${CurrencyFormatter.format(paymentTip?.calculateTip(tableState.tableUsers.data?.totalPrice ?? 0) ?? 0)}',
                   ),
                   AccountTotalItem(
-                    title: 'Total a pagar',
+                    title: 'Total a pagar:',
                     isBold: true,
                     value:
                         '\$ ${CurrencyFormatter.format((paymentTip?.calculateTip(tableState.tableUsers.data?.totalPrice ?? 0) ?? 0) + (tableState.tableUsers.data?.totalPrice ?? 0))}',
