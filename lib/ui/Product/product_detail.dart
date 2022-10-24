@@ -150,18 +150,15 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                       )
                     : Column(
                         children: [
-                          /// DOS BOTONES
-                          /// EDITAR: RELLENO
                           CustomElevatedButton(
                             onPressed: _modifyItem,
-                            child: const Text('Modificar orden'),
+                            child: Text(
+                              'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',
+                            ),
                           ),
-
                           const SizedBox(
                             height: 5,
                           ),
-
-                          /// ELIMINAR: MUESTRA UN BOTTOMSHEET DE CONFIRMACION Y CUANDO LE DE CONFIRMAR ELIMINE EL PRODUCTO
                           TextButton(
                             onPressed: _showBottomSheet,
                             child: const Text('Eliminar orden'),
@@ -205,6 +202,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
           toppings: toppings,
           totalWithToppings: totalWithToppings,
         );
+
     ref.read(productProvider.notifier).addToOrder(newProduct);
     GoRouter.of(context).pop();
   }
@@ -256,11 +254,6 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _modifyItem() {
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data == null) {
-      NotAuthenticatedBottomSheet.show(context);
-      return;
-    }
     final editProduct = widget.order?.copyWith(
       note: _notesController.text,
       toppings: toppings,

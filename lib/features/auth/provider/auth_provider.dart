@@ -12,6 +12,7 @@ import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider.fromRead(ref);
@@ -66,6 +67,29 @@ class AuthProvider extends StateNotifier<AuthState> {
     ref.read(routerProvider).router.pop();
   }
 
+  Future<void> logout() async {
+    if (state.authModel.data == null) {
+      ref
+          .read(routerProvider)
+          .router
+          .push(ErrorScreen.route, extra: {'error': 'No tienes una sesion activa'});
+      return;
+    }
+
+    final res = await authRepository.logout();
+    if (res != null) {
+      state = state.copyWith(authModel: StateAsync.error(res));
+      ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
+      return;
+    }
+    stopListeningSocket();
+    CustomSnackbar.showSnackBar(
+      ref.read(routerProvider).context,
+      'Se ha cerrado sesion exitosamente.',
+    );
+    state = AuthState(authModel: StateAsync.initial());
+  }
+
   Future<void> restorePassword(String email) async {
     final res = await authRepository.restorePassword(email);
     if (res != null) return;
@@ -85,6 +109,10 @@ class AuthProvider extends StateNotifier<AuthState> {
         state = state.copyWith(authModel: StateAsync.success(r));
       },
     );
+  }
+
+  void stopListeningSocket() {
+    socketIOHandler.disconnect();
   }
 
   Future<void> startListeningSocket() async {

@@ -68,11 +68,9 @@ class ProductProvider extends StateNotifier<ProductState> {
   }
 
   Future<void> editItem(ProductDetailModel product) async {
-    final productEdit = {
-      'token': ref.read(authProvider).authModel.data?.bearerToken,
-      'tableId': ref.read(tableProvider).tableCode,
-      'uuid': product.uuid,
-    };
-    socketIOHandler.emitMap(SocketConstants.editItem, productEdit);
+    final productJSON = product.toJson();
+    productJSON['token'] = ref.read(authProvider).authModel.data?.bearerToken;
+    productJSON['tableId'] = ref.read(tableProvider).tableCode;
+    socketIOHandler.emitMap(SocketConstants.editItem, productJSON);
   }
 }
