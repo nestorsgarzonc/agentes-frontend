@@ -36,6 +36,10 @@ class ProductProvider extends StateNotifier<ProductState> {
   final ProductRepository productRepository;
   final SocketIOHandler socketIOHandler;
 
+  void cleanProduct() {
+    state = ProductState(productDetail: StateAsync.initial());
+  }
+
   Future<void> productDetail(String productID) async {
     state = state.copyWith(productDetail: StateAsync.loading());
     final res = await productRepository.productDetail(productID);
@@ -65,5 +69,12 @@ class ProductProvider extends StateNotifier<ProductState> {
       'uuid': product.uuid,
     };
     socketIOHandler.emitMap(SocketConstants.deleteItem, productDelete);
+  }
+
+  Future<void> editItem(ProductDetailModel product) async {
+    final productJSON = product.toJson();
+    productJSON['token'] = ref.read(authProvider).authModel.data?.bearerToken;
+    productJSON['tableId'] = ref.read(tableProvider).tableCode;
+    socketIOHandler.emitMap(SocketConstants.editItem, productJSON);
   }
 }

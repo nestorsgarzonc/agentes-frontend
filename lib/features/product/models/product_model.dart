@@ -114,7 +114,7 @@ class ProductDetailModel extends Equatable {
       categoryId: categoryId ?? this.categoryId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
-      uuid: uuid??this.uuid,
+      uuid: uuid ?? this.uuid,
       v: v ?? this.v,
       note: note ?? this.note,
       totalWithToppings: totalWithToppings ?? this.totalWithToppings,

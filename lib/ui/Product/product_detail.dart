@@ -53,6 +53,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   @override
   void initState() {
     super.initState();
+    _notesController.text = widget.order?.note ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).productDetail(widget.productId);
     });
@@ -63,6 +64,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   void dispose() {
     _scrollController.removeListener(scollListener);
     _scrollController.dispose();
+    ref.invalidate(productProvider);
     super.dispose();
   }
 
@@ -150,18 +152,15 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                       )
                     : Column(
                         children: [
-                          /// DOS BOTONES
-                          /// EDITAR: RELLENO
                           CustomElevatedButton(
-                            onPressed: () {},
-                            child: const Text('Modificar orden'),
+                            onPressed: _modifyItem,
+                            child: Text(
+                              'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',
+                            ),
                           ),
-
                           const SizedBox(
                             height: 5,
                           ),
-
-                          /// ELIMINAR: MUESTRA UN BOTTOMSHEET DE CONFIRMACION Y CUANDO LE DE CONFIRMAR ELIMINE EL PRODUCTO
                           TextButton(
                             onPressed: _showBottomSheet,
                             child: const Text('Eliminar orden'),
@@ -180,8 +179,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   void onCreateWidget(ProductDetailModel data) {
     if (isCreated) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      total = data.price;
-      totalWithToppings = data.price;
+      total = widget.order?.price ?? data.price;
+      totalWithToppings = widget.order?.totalWithToppings ?? data.price;
       isCreated = true;
     });
   }
@@ -205,6 +204,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
           toppings: toppings,
           totalWithToppings: totalWithToppings,
         );
+
     ref.read(productProvider.notifier).addToOrder(newProduct);
     GoRouter.of(context).pop();
   }
@@ -256,16 +256,13 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _modifyItem() {
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data == null) {
-      NotAuthenticatedBottomSheet.show(context);
-      return;
-    }
-    final newProduct = widget.order?.copyWith(
+    final editProduct = widget.order?.copyWith(
       note: _notesController.text,
       toppings: toppings,
       totalWithToppings: totalWithToppings,
     );
-    if (newProduct == null) return;
+    if (editProduct == null) return;
+    ref.read(productProvider.notifier).editItem(editProduct);
+    GoRouter.of(context).pop();
   }
 }

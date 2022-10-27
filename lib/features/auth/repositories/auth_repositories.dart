@@ -13,6 +13,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 abstract class AuthRepository {
   Future<Either<Failure, AuthModel>> login(String email, String password);
   Future<Failure?> register(User user);
+  Future<Failure?> logout();
   Future<Failure?> restorePassword(String email);
   Future<Either<Failure, AuthModel?>> getUserByToken();
 }
@@ -49,6 +50,16 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Failure?> register(User user) async {
     try {
       await authDatasource.register(user);
+      return null;
+    } catch (e) {
+      return Failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Failure?> logout() async {
+    try {
+      await authDatasource.logout();
       return null;
     } catch (e) {
       return Failure(e.toString());
