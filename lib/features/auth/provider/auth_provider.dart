@@ -2,56 +2,92 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restaurants/core/constants/socket_constants.dart';
+import 'package:restaurants/core/external/socket_handler.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_state.dart';
 import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
-  return AuthProvider.fromRead(ref.read);
+  return AuthProvider.fromRead(ref);
 });
 
 class AuthProvider extends StateNotifier<AuthState> {
   AuthProvider({
     required this.authRepository,
-    required this.read,
-  }) : super(AuthState(user: StateAsync.initial()));
+    required this.ref,
+    required this.socketIOHandler,
+  }) : super(AuthState(authModel: StateAsync.initial()));
 
-  factory AuthProvider.fromRead(Reader read) {
-    final authRepository = read(authRepositoryProvider);
-    return AuthProvider(read: read, authRepository: authRepository);
+  factory AuthProvider.fromRead(Ref ref) {
+    final authRepository = ref.read(authRepositoryProvider);
+    final socketIo = ref.read(socketProvider);
+    return AuthProvider(
+      ref: ref,
+      authRepository: authRepository,
+      socketIOHandler: socketIo,
+    );
   }
 
-  final Reader read;
+  final Ref ref;
   final AuthRepository authRepository;
+  final SocketIOHandler socketIOHandler;
 
   Future<void> login({required String email, required String password}) async {
-    state = state.copyWith(user: StateAsync.loading());
+    state = state.copyWith(authModel: StateAsync.loading());
     final res = await authRepository.login(email, password);
     res.fold(
       (l) {
-        state = state.copyWith(user: StateAsync.error(l));
-        read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
+        state = state.copyWith(authModel: StateAsync.error(l));
+        ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': l.message});
       },
       (r) {
-        state = state.copyWith(user: StateAsync.success(r.user));
-        read(routerProvider).router.pop();
+        state = state.copyWith(authModel: StateAsync.success(r));
+        startListeningSocket();
+        ref.read(routerProvider).router.pop();
       },
     );
   }
 
   Future<void> register(User user, BuildContext context) async {
-    state = state.copyWith(user: StateAsync.loading());
+    state = state.copyWith(authModel: StateAsync.loading());
     final res = await authRepository.register(user);
     if (res != null) {
-      state = state.copyWith(user: StateAsync.error(res));
-      read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
+      state = state.copyWith(authModel: StateAsync.error(res));
+      ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
       return;
     }
     await login(email: user.email, password: user.password ?? '');
-    read(routerProvider).router.pop();
+    ref.read(routerProvider).router.pop();
+  }
+
+  Future<void> logout() async {
+    if (state.authModel.data == null) {
+      ref
+          .read(routerProvider)
+          .router
+          .push(ErrorScreen.route, extra: {'error': 'No tienes una sesion activa'});
+      return;
+    }
+
+    final res = await authRepository.logout();
+    if (res != null) {
+      state = state.copyWith(authModel: StateAsync.error(res));
+      ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
+      return;
+    }
+    stopListeningSocket();
+    CustomSnackbar.showSnackBar(
+      ref.read(routerProvider).context,
+      'Se ha cerrado sesion exitosamente.',
+    );
+    state = AuthState(authModel: StateAsync.initial());
   }
 
   Future<void> restorePassword(String email) async {
@@ -60,17 +96,33 @@ class AuthProvider extends StateNotifier<AuthState> {
   }
 
   Future<void> getUserByToken() async {
-    state = state.copyWith(user: StateAsync.loading());
+    state = state.copyWith(authModel: StateAsync.loading());
     final res = await authRepository.getUserByToken();
     res.fold(
-      (l) => state = state.copyWith(user: StateAsync.error(l)),
+      (l) => state = state.copyWith(authModel: StateAsync.error(l)),
       (r) {
         if (r == null) {
-          state = state.copyWith(user: StateAsync.initial());
+          state = state.copyWith(authModel: StateAsync.initial());
           return;
         }
-        state = state.copyWith(user: StateAsync.success(r));
+        startListeningSocket();
+        state = state.copyWith(authModel: StateAsync.success(r));
       },
     );
+  }
+
+  void stopListeningSocket() {
+    socketIOHandler.disconnect();
+  }
+
+  Future<void> startListeningSocket() async {
+    await socketIOHandler.connect();
+    final socketModel = ConnectSocket(
+      tableId: ref.read(tableProvider).tableCode ?? '',
+      token: state.authModel.data?.bearerToken ?? '',
+    );
+    ref.read(tableProvider.notifier).listenTableUsers();
+    ref.read(tableProvider.notifier).listenListOfOrders();
+    socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }

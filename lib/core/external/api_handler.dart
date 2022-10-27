@@ -8,7 +8,7 @@ import 'package:restaurants/core/external/api_response.dart';
 import 'package:restaurants/core/external/db_handler.dart';
 import 'package:restaurants/core/logger/logger.dart';
 
-final apiHandlerProvider = Provider<ApiHandler>((ref) => ApiHandlerImpl(read: ref.read));
+final apiHandlerProvider = Provider<ApiHandler>((ref) => ApiHandlerImpl(ref: ref));
 
 abstract class ApiHandler {
   Future<ApiResponse> delete(String path);
@@ -25,9 +25,9 @@ abstract class ApiHandler {
 }
 
 class ApiHandlerImpl implements ApiHandler {
-  const ApiHandlerImpl({required this.read});
+  const ApiHandlerImpl({required this.ref});
 
-  final Reader read;
+  final Ref ref;
 
   @override
   Future<ApiResponse> delete(String path) async {
@@ -179,7 +179,7 @@ class ApiHandlerImpl implements ApiHandler {
   @override
   Future<Map<String, String>> getHeaders() async {
     final token =
-        await read(dbHandlerProvider).get(DbConstants.bearerTokenKey, DbConstants.authBox);
+        await ref.read(dbHandlerProvider).get(DbConstants.bearerTokenKey, DbConstants.authBox);
     return {
       'Content-Type': 'application/json',
       'Accept': 'application/json',

@@ -26,8 +26,11 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
   @override
   void initState() {
     super.initState();
-    ref.read(tableProvider.notifier).onSetTableCode(widget.tableId);
-    ref.read(restaurantProvider.notifier).getMenu();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(tableProvider.notifier).onSetTableCode(widget.tableId);
+      ref.read(restaurantProvider.notifier).getMenu();
+      ref.read(authProvider.notifier).getUserByToken();
+    });
   }
 
   @override
@@ -36,7 +39,6 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
       bottomNavigationBar: NavigationBar(
         height: 55,
         selectedIndex: selectedIndex,
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         onDestinationSelected: handleOnNavigate,
         destinations: const [
           NavigationDestination(
@@ -65,7 +67,7 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
       setState(() => selectedIndex = index);
       return;
     }
-    final userState = ref.read(authProvider).user;
+    final userState = ref.read(authProvider).authModel;
     if (userState.data != null) {
       setState(() => selectedIndex = index);
       return;

@@ -7,21 +7,22 @@ import 'package:restaurants/features/auth/models/auth_model.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl.fromRead(ref.read);
+  return AuthRepositoryImpl.fromRead(ref);
 });
 
 abstract class AuthRepository {
   Future<Either<Failure, AuthModel>> login(String email, String password);
   Future<Failure?> register(User user);
+  Future<Failure?> logout();
   Future<Failure?> restorePassword(String email);
-  Future<Either<Failure, User?>> getUserByToken();
+  Future<Either<Failure, AuthModel?>> getUserByToken();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.authDatasource});
 
-  factory AuthRepositoryImpl.fromRead(Reader read) {
-    final authDatasource = read(authDatasourceProvider);
+  factory AuthRepositoryImpl.fromRead(Ref ref) {
+    final authDatasource = ref.read(authDatasourceProvider);
     return AuthRepositoryImpl(authDatasource: authDatasource);
   }
 
@@ -42,7 +43,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Failure?> restorePassword(String email) async {
-    
     return null;
   }
 
@@ -57,13 +57,23 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, User?>> getUserByToken() async {
+  Future<Failure?> logout() async {
+    try {
+      await authDatasource.logout();
+      return null;
+    } catch (e) {
+      return Failure(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<Failure, AuthModel?>> getUserByToken() async {
     try {
       final token = await authDatasource.getToken();
       if (token == null) return const Right(null);
       final res = await authDatasource.getUserByToken();
       await authDatasource.saveToken(res.bearerToken);
-      return Right(res.user);
+      return Right(res);
     } catch (e) {
       await authDatasource.deleteToken();
       return Left(Failure(e.toString()));

@@ -1,20 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/user/models/user_model.dart';
+import 'package:restaurants/features/auth/models/auth_model.dart';
 
 class AuthState extends Equatable {
-  const AuthState({
-    required this.user,
-  });
+  const AuthState({required this.authModel});
 
-  final StateAsync<User> user;
+  final StateAsync<AuthModel> authModel;
 
-  AuthState copyWith({StateAsync<User>? user}) {
+  AuthState copyWith({StateAsync<AuthModel>? authModel}) {
     return AuthState(
-      user: user ?? this.user,
+      authModel: authModel ?? this.authModel,
     );
   }
 
   @override
-  List<Object?> get props => [user];
+  List<Object?> get props => [authModel];
 }

@@ -87,7 +87,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          authState.user.on(
+          authState.authModel.on(
             onData: (u) => CustomElevatedButton(
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),

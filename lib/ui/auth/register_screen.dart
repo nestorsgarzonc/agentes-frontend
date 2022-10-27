@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:restaurants/core/validators/text_form_validator.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import '../widgets/backgrounds/animated_background.dart';
@@ -33,6 +34,14 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         padding: const EdgeInsets.all(10),
         children: [
           const SizedBox(height: 10),
+          Row(
+            children: [
+              IconButton(
+                onPressed: GoRouter.of(context).pop,
+                icon: const Icon(Icons.arrow_back),
+              ),
+            ],
+          ),
           const Text(
             'Regístrate',
             textAlign: TextAlign.center,
@@ -94,7 +103,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          authState.user.on(
+          authState.authModel.on(
             onData: (_) => RegisterButton(onPressed: handleOnRegister),
             onError: (_) => RegisterButton(onPressed: handleOnRegister),
             onLoading: () => const Center(child: CircularProgressIndicator()),

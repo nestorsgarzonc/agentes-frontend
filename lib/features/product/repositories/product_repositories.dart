@@ -7,25 +7,25 @@ import 'package:restaurants/features/product/models/product_model.dart';
 import '../../../core/external/api_exception.dart';
 
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
-  return ProductRepositoryImpl.fromRead(ref.read);
+  return ProductRepositoryImpl.fromRead(ref);
 });
 
 abstract class ProductRepository {
-  Future<Either<Failure,ProductDetailModel>> productDetail(String productID);
+  Future<Either<Failure, ProductDetailModel>> productDetail(String productID);
 }
 
 class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl({required this.productDatasource});
 
-  factory ProductRepositoryImpl.fromRead(Reader read) {
-    final productDatasource = read(productDatasourceProvider);
+  factory ProductRepositoryImpl.fromRead(Ref ref) {
+    final productDatasource = ref.read(productDatasourceProvider);
     return ProductRepositoryImpl(productDatasource: productDatasource);
   }
 
   final ProductDatasource productDatasource;
 
   @override
-  Future<Either<Failure,ProductDetailModel>> productDetail(String productID) async {
+  Future<Either<Failure, ProductDetailModel>> productDetail(String productID) async {
     try {
       final res = await productDatasource.productDetail(productID);
       return Right(res);

@@ -2,6 +2,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
+import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/ui/widgets/cards/product_item_card.dart';
 
@@ -22,13 +24,20 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
       onError: (error) => Center(
         child: Text(error.message),
       ),
-      onLoading: () => const Center(child: CircularProgressIndicator()),
+      onLoading: () => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Lottie.asset(LottieAssets.preparingFood, width: 200, height: 200),
+          const SizedBox(height: 10, width: double.infinity),
+          const Text('Cargando...'),
+        ],
+      ),
       onInitial: () => const Center(child: CircularProgressIndicator()),
       onData: (data) => CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
-            expandedHeight: 160,
+            expandedHeight: MediaQuery.of(context).size.height * 0.27,
             systemOverlayStyle: SystemUiOverlayStyle.light,
             backgroundColor: Colors.grey,
             flexibleSpace: FlexibleSpaceBar(
@@ -70,11 +79,13 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Text(
-                        'Mesa: ${data.tableName}',
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontSize: 13.5,
+                      Flexible(
+                        child: Text(
+                          'Mesa: ${data.tableName}',
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.8),
+                            fontSize: 13,
+                          ),
                         ),
                       ),
                     ],

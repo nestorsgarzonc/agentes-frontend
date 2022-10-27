@@ -7,12 +7,13 @@ import 'package:restaurants/features/auth/models/auth_model.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 
 final authDatasourceProvider = Provider<AuthDatasource>((ref) {
-  return AuthDatasourceImpl.fromRead(ref.read);
+  return AuthDatasourceImpl.fromRead(ref);
 });
 
 abstract class AuthDatasource {
   Future<AuthModel> login(String email, String password);
   Future<void> register(User user);
+  Future<void> logout();
   Future<void> saveToken(String token);
   Future<void> deleteToken();
   Future<String?> getToken();
@@ -20,9 +21,9 @@ abstract class AuthDatasource {
 }
 
 class AuthDatasourceImpl implements AuthDatasource {
-  factory AuthDatasourceImpl.fromRead(Reader read) {
-    final apiHandler = read(apiHandlerProvider);
-    final dbHandler = read(dbHandlerProvider);
+  factory AuthDatasourceImpl.fromRead(Ref ref) {
+    final apiHandler = ref.read(apiHandlerProvider);
+    final dbHandler = ref.read(dbHandlerProvider);
     return AuthDatasourceImpl(apiHandler, dbHandler);
   }
 
@@ -46,6 +47,21 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
+  Future<void> logout() async {
+    try {
+      await apiHandler.post(
+        '/auth/logout',
+        {},
+      );
+      await deleteToken();
+      return;
+    } catch (e, s) {
+      Logger.logError(e.toString(), s);
+      rethrow;
+    }
+  }
+
+  @override
   Future<void> register(User user) async {
     try {
       await apiHandler.post(
@@ -61,7 +77,6 @@ class AuthDatasourceImpl implements AuthDatasource {
 
   Future<void> restorePassword(String email) async {
     try {
-      
       return;
     } catch (e, s) {
       Logger.logError(e.toString(), s);

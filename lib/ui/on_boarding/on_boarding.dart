@@ -63,7 +63,7 @@ class OnBoarding extends ConsumerWidget {
             ),
             const SizedBox(height: 10),
             TextButton(
-              onPressed: () => handleOnWriteCode(context, ref.read),
+              onPressed: () => handleOnWriteCode(context, ref),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
@@ -82,10 +82,10 @@ class OnBoarding extends ConsumerWidget {
 
   void handleOnScan(BuildContext context) => GoRouter.of(context).push(TableQrReaderScreen.route);
 
-  void handleOnWriteCode(BuildContext context, Reader read) {
+  void handleOnWriteCode(BuildContext context, WidgetRef ref) {
     TableCodeBottomSheet.showManualCodeSheet(
       context: context,
-      onAccept: read(tableProvider.notifier).onReadTableCode,
+      onAccept: ref.read(tableProvider.notifier).onReadTableCode,
     );
   }
 }
