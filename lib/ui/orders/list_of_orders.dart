@@ -17,11 +17,11 @@ class ListOfOrdersScreen extends ConsumerWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: ListTile(
             contentPadding: const EdgeInsets.only(right: 16, top: 8, bottom: 8, left: 4),
-            onTap: () {},
+            onTap: () {
+              //TODO: ADD NAVIGATION TO ORDER DETAILS
+            },
             horizontalTitleGap: 10,
-            leading: const FlutterLogo(
-              size: 70,
-            ),
+            leading: const FlutterLogo(size: 70),
             trailing: const Icon(Icons.chevron_right_outlined),
             title: const Text(
               'Takuma',
