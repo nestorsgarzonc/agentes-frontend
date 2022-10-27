@@ -9,6 +9,7 @@ import 'package:restaurants/ui/error/error_screen.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
 import 'package:restaurants/ui/auth/register_screen.dart';
+import 'package:restaurants/ui/orders/list_of_orders.dart';
 import 'package:restaurants/ui/payment/payment_screen.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 
@@ -71,6 +72,10 @@ class CustomRouter {
         GoRoute(
           path: RestorePasswordScreen.route,
           builder: (context, state) => const RestorePasswordScreen(),
+        ),
+        GoRoute(
+          path: ListOfOrdersScreen.route,
+          builder: (context, state) => const ListOfOrdersScreen(),
         ),
         GoRoute(
           path: ProductDetail.route,

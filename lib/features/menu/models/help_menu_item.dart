@@ -1,12 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:restaurants/ui/orders/list_of_orders.dart';
 
 class HelpMenuItem {
   const HelpMenuItem({required this.title, required this.content, this.onTap});
 
   final String title;
   final String content;
-  final Function(WidgetRef ref)? onTap;
+  final void Function(WidgetRef ref)? onTap;
 
   static List<HelpMenuItem> items = [
     const HelpMenuItem(
@@ -17,6 +19,11 @@ class HelpMenuItem {
     const HelpMenuItem(
       title: 'Pedir la cuenta',
       content: 'Luego de comer, puedes presionar el botón de "Pedir cuenta" para pedir la cuenta.',
+    ),
+    HelpMenuItem(
+      title: 'Ver mis ordenes',
+      content: '',
+      onTap: (ref) => ref.read(routerProvider).router.push(ListOfOrdersScreen.route),
     ),
     const HelpMenuItem(
       title: '¿Cómo ordenar?',
@@ -52,6 +59,6 @@ class HelpMenuItem {
       title: 'Cerrar sesion',
       content: '',
       onTap: (ref) => ref.read(authProvider.notifier).logout(),
-    )
+    ),
   ];
 }

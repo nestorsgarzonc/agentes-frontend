@@ -28,8 +28,8 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Lottie.asset(LottieAssets.preparingFood, width: 200, height: 200),
-          const SizedBox(height: 10, width: double.infinity),
-          const Text('Cargando...'),
+          const SizedBox(width: double.infinity),
+          const Text('Cargando...', style: TextStyle(fontWeight: FontWeight.w500)),
         ],
       ),
       onInitial: () => const Center(child: CircularProgressIndicator()),
