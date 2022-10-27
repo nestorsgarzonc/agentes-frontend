@@ -5,4 +5,5 @@ class LottieAssets {
   static const sailor = 'assets/lottie/sailor.json';
   static const login = 'assets/lottie/login.json';
   static const ordering = 'assets/lottie/ordering.json';
+  static const preparingFood = 'assets/lottie/preparing-food.json';
 }
