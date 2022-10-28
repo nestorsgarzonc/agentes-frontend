@@ -1,7 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/external/api_handler.dart';
 import 'package:restaurants/core/logger/logger.dart';
-import 'package:restaurants/features/orders/models/order_model.dart';
+import 'package:restaurants/features/orders/models/order_product_model.dart';
+import 'package:restaurants/features/orders/models/orders_model.dart';
 
 final ordersDatasourceProvider = Provider<OrdersDataSource>((ref) {
   return OrdersDataSourceImpl.fromRef(ref);
@@ -9,6 +10,7 @@ final ordersDatasourceProvider = Provider<OrdersDataSource>((ref) {
 
 abstract class OrdersDataSource {
   Future<Orders> getOrders();
+  Future<OrderProduct> getOrder(String id);
 }
 
 class OrdersDataSourceImpl implements OrdersDataSource {
@@ -27,6 +29,18 @@ class OrdersDataSourceImpl implements OrdersDataSource {
       const path = '/order/user-orders';
       final res = await apiHandler.get(path);
       return Orders.fromMap(res.responseMap!);
+    } catch (e, s) {
+      Logger.logError(e.toString(), s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OrderProduct> getOrder(String id) async {
+    try {
+      final path = '/order/$id';
+      final res = await apiHandler.get(path);
+      return OrderProduct.fromMap(res.responseMap!);
     } catch (e, s) {
       Logger.logError(e.toString(), s);
       rethrow;

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/orders/models/order_model.dart';
+import 'package:restaurants/features/orders/models/orders_model.dart';
 
 class OrderState extends Equatable {
   const OrderState({required this.orders});

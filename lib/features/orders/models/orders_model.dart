@@ -3,9 +3,18 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Orders extends Equatable {
-  Orders({
+  const Orders({
     required this.orders,
   });
+
+  factory Orders.fromMap(Map<String, dynamic> map) {
+    return Orders(
+      orders: List.from(map['orders']),
+    );
+  }
+
+  factory Orders.fromJson(String source) => Orders.fromMap(json.decode(source));
+
   final List orders;
 
   @override
@@ -26,15 +35,7 @@ class Orders extends Equatable {
     };
   }
 
-  factory Orders.fromMap(Map<String, dynamic> map) {
-    return Orders(
-      orders: List.from(map['orders']),
-    );
-  }
-
   String toJson() => json.encode(toMap());
-
-  factory Orders.fromJson(String source) => Orders.fromMap(json.decode(source));
 
   @override
   String toString() => 'Orders(orders: $orders)';
