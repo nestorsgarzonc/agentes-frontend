@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:restaurants/features/bill/bill_screen.dart';
+import 'package:restaurants/features/bill/individual_pay_screen.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/ui/Product/product_detail.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
@@ -36,9 +38,14 @@ class CustomRouter {
 
   static List<GoRoute> get routes => [
         GoRoute(path: OnBoarding.route, builder: (context, state) => const OnBoarding()),
+        GoRoute(path: BillScreen.route, builder: (context, state) => const BillScreen()),
         GoRoute(
           path: TableQrReaderScreen.route,
           builder: (context, state) => const TableQrReaderScreen(),
+        ),
+        GoRoute(
+          path: IndividualPayScreen.route,
+          builder: (context, state) => const IndividualPayScreen(),
         ),
         GoRoute(
           path: IndexMenuScreen.route,
