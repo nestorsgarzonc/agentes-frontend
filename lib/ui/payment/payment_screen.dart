@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/utils/currency_formatter.dart';
+import 'package:restaurants/features/orders/models/pay_order_mod.dart';
+import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/menu/widgets/table_user_card.dart';
+import 'package:restaurants/ui/payment/account_total_item.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/account_detail_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
+import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
 
 class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen({super.key});
@@ -18,21 +22,23 @@ class PaymentScreen extends ConsumerStatefulWidget {
 }
 
 enum PaymentMethod {
-  cash(title: 'Efectivo'),
-  card(title: 'Tarjeta credito'),
-  pse(title: 'PSE');
+  cash(title: 'Efectivo', paymentValue: 'cash'),
+  card(title: 'Tarjeta credito', paymentValue: 'card'),
+  pse(title: 'PSE', paymentValue: 'pse');
 
-  const PaymentMethod({required this.title});
+  const PaymentMethod({required this.title, required this.paymentValue});
 
   final String title;
+  final String paymentValue;
 }
 
 enum PaymentWay {
-  all(title: 'Pago total'),
-  split(title: 'Pago individual');
+  all(title: 'Pago total', paymentValue: 'all'),
+  split(title: 'Pago individual', paymentValue: 'split');
 
-  const PaymentWay({required this.title});
+  const PaymentWay({required this.title, required this.paymentValue});
 
+  final String paymentValue;
   final String title;
 }
 
@@ -187,41 +193,25 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
     );
   }
 
-  void handleOnPayNow() {}
+  void handleOnPayNow() {
+    if (paymentMethod == null) {
+      CustomSnackbar.showSnackBar(context, 'Selecciona un metodo de pago');
+      return;
+    }
+    if (paymentWay == null) {
+      CustomSnackbar.showSnackBar(context, 'Selecciona una forma de pago');
+      return;
+    }
+    ref.read(ordersProvider.notifier).payOrder(
+          PayOrderModel(
+            tableId: ref.read(tableProvider).tableCode!,
+            tip: paymentTip?.value ?? 0,
+            paymentMethod: paymentMethod!.paymentValue,
+            paymentWay: paymentWay!.paymentValue,
+          ),
+        );
+  }
 
   void showAccountDetail(UsersTable usersTable) =>
       AccountDetailBottomSheet.show(context, usersTable);
-}
-
-class AccountTotalItem extends StatelessWidget {
-  const AccountTotalItem({
-    super.key,
-    required this.title,
-    required this.value,
-    this.isBold = false,
-  });
-
-  final String title;
-  final String value;
-  final bool isBold;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: TextStyle(fontWeight: isBold ? FontWeight.bold : null),
-          ),
-          Text(
-            value,
-            style: TextStyle(fontWeight: isBold ? FontWeight.bold : null),
-          ),
-        ],
-      ),
-    );
-  }
 }
