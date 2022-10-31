@@ -71,7 +71,7 @@ class _BillScreen extends ConsumerState<BillScreen> {
                   ...data.usersOrder
                       .map(
                         (e) => Card(
-                          margin: EdgeInsets.zero,
+                          margin: const EdgeInsets.symmetric(vertical: 5),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
