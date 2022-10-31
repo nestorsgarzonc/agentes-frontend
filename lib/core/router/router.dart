@@ -39,7 +39,15 @@ class CustomRouter {
 
   static List<GoRoute> get routes => [
         GoRoute(path: OnBoarding.route, builder: (context, state) => const OnBoarding()),
-        GoRoute(path: BillScreen.route, builder: (context, state) => const BillScreen()),
+        GoRoute(
+          path: BillScreen.route,
+          builder: (context, state) {
+            final transactionId = state.queryParams['transactionId'];
+            return transactionId == null
+                ? ErrorScreen(error: atributeErrorMessage('transactionId'))
+                : BillScreen(transactionId: transactionId);
+          },
+        ),
         GoRoute(
           path: TableQrReaderScreen.route,
           builder: (context, state) => const TableQrReaderScreen(),

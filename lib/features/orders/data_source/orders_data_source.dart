@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/external/api_handler.dart';
 import 'package:restaurants/core/logger/logger.dart';
+import 'package:restaurants/features/orders/models/order_complete_response.dart';
 import 'package:restaurants/features/orders/models/pay_order_mod.dart';
 import 'package:restaurants/features/orders/models/pay_order_response.dart';
 import 'package:restaurants/features/orders/models/order_product_model.dart';
@@ -14,6 +15,7 @@ abstract class OrdersDataSource {
   Future<Orders> getOrders();
   Future<OrderProduct> getOrder(String id);
   Future<PayOrderResponse> payOrder(PayOrderModel order);
+  Future<OrderCompleteResponse> getOrderById(String id);
 }
 
 class OrdersDataSourceImpl implements OrdersDataSource {
@@ -49,13 +51,25 @@ class OrdersDataSourceImpl implements OrdersDataSource {
       rethrow;
     }
   }
-  
+
   @override
-  Future<PayOrderResponse> payOrder(PayOrderModel order) async{
+  Future<PayOrderResponse> payOrder(PayOrderModel order) async {
     try {
-      const  path = '/order/table-order';
+      const path = '/order/table-order';
       final res = await apiHandler.post(path, order.toMap());
       return PayOrderResponse.fromMap(res.responseMap!);
+    } catch (e, s) {
+      Logger.logError(e.toString(), s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<OrderCompleteResponse> getOrderById(String id) async {
+    try {
+      final path = '/order/user-orders/$id';
+      final res = await apiHandler.get(path);
+      return OrderCompleteResponse.fromMap(res.responseMap!);
     } catch (e, s) {
       Logger.logError(e.toString(), s);
       rethrow;

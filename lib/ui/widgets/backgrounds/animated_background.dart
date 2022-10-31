@@ -96,18 +96,18 @@ class _AnimatedBackgroundState extends State<AnimatedBackground> {
             ),
           ),
           Positioned(
-            top: 40 + MediaQuery.of(context).padding.top,
-            left: 30,
-            right: 30,
-            bottom: 40 + MediaQuery.of(context).padding.bottom,
+            top: 20 + MediaQuery.of(context).padding.top,
+            left: 20,
+            right: 20,
+            bottom: 20 + MediaQuery.of(context).padding.bottom,
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white.withOpacity(0.88),
-                    Colors.white.withOpacity(0.98),
+                    Colors.white.withOpacity(0.9),
+                    Colors.white.withOpacity(1),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(20),

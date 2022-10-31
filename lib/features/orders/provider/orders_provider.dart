@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:restaurants/features/bill/bill_screen.dart';
 import 'package:restaurants/features/orders/models/pay_order_mod.dart';
 import 'package:restaurants/features/orders/provider/order_state.dart';
 import 'package:restaurants/features/orders/repository/orders_repository.dart';
@@ -12,7 +13,7 @@ final ordersProvider = StateNotifierProvider<OrdersProvider, OrderState>((ref) {
 });
 
 class OrdersProvider extends StateNotifier<OrderState> {
-  OrdersProvider(this.ordersRepository, this.ref) : super(OrderState(orders: StateAsync.initial()));
+  OrdersProvider(this.ordersRepository, this.ref) : super(OrderState.initial());
 
   factory OrdersProvider.fromRef(Ref ref) {
     final ordersRepository = ref.read(ordersRepositoryProvider);
@@ -26,12 +27,10 @@ class OrdersProvider extends StateNotifier<OrderState> {
     ref.read(dialogsProvider).showLoadingDialog('Pagando orden...');
     final res = await ordersRepository.payOrder(order);
     ref.read(dialogsProvider).removeDialog();
+    final router = ref.read(routerProvider).router;
     res.fold(
-      (l) => ref
-          .read(routerProvider)
-          .router
-          .push(ErrorScreen.route, extra: {'error': l.message}),
-      (r) => null,
+      (l) => router.push(ErrorScreen.route, extra: {'error': l.message}),
+      (r) => router.push('${BillScreen.route}?transactionId=${r.id}'),
     );
   }
 
@@ -44,5 +43,12 @@ class OrdersProvider extends StateNotifier<OrderState> {
     );
   }
 
-  Future<void> getOrderById(String id) async {}
+  Future<void> getOrderById(String id) async {
+    state = state.copyWith(order: StateAsync.loading());
+    final order = await ordersRepository.getOrderById(id);
+    order.fold(
+      (l) => state = state.copyWith(order: StateAsync.error(l)),
+      (r) => state = state.copyWith(order: StateAsync.success(r)),
+    );
+  }
 }

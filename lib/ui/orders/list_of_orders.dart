@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:restaurants/core/constants/lotti_assets.dart';
 import 'package:restaurants/core/utils/currency_formatter.dart';
+import 'package:restaurants/core/utils/formatters.dart';
+import 'package:restaurants/features/bill/bill_screen.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 
 class ListOfOrdersScreen extends ConsumerStatefulWidget {
@@ -56,11 +59,10 @@ class _ListOfOrdersScreenState extends ConsumerState<ListOfOrdersScreen> {
                         bottom: 8,
                         left: 4,
                       ),
-                      onTap: () {
-                        //TODO: ADD NAVIGATION TO ORDER DETAILS
-                      },
+                      onTap: () => GoRouter.of(context)
+                          .push('${BillScreen.route}?transactionId=${order.id}'),
                       horizontalTitleGap: 10,
-                      leading: Image.network(order.restaurantImage),
+                      leading: Image.network(order.restaurantImage, width: 80),
                       trailing: const Icon(Icons.chevron_right_outlined),
                       title: Text(
                         order.restaurantName,
@@ -71,7 +73,7 @@ class _ListOfOrdersScreenState extends ConsumerState<ListOfOrdersScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 2),
-                          Text('Fecha: ${order.creationDate}'),
+                          Text('Fecha: ${Formatters.dateFormatter(order.creationDate)}'),
                           const SizedBox(height: 1),
                           Text(
                             'Precio: \$ ${CurrencyFormatter.format(order.totalPrice)}',

@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:lottie/lottie.dart';
-import 'package:restaurants/core/constants/lotti_assets.dart';
-import 'package:restaurants/core/validators/text_form_validator.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/ui/auth/register_screen.dart';
-import 'package:restaurants/ui/widgets/backgrounds/animated_background.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
-import 'package:restaurants/ui/widgets/custom_text_field.dart';
 
 class IndividualPayScreen extends ConsumerStatefulWidget {
   const IndividualPayScreen({super.key});
@@ -20,8 +12,6 @@ class IndividualPayScreen extends ConsumerStatefulWidget {
 }
 
 class _IndividualPayScreen extends ConsumerState<IndividualPayScreen> {
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     bool? isSelected = false;
