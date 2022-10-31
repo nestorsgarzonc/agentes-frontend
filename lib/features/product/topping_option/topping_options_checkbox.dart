@@ -25,7 +25,7 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
   @override
   void initState() {
     super.initState();
-    if (widget.orderedToppings != null) {
+    if (widget.orderedToppings != null && (widget.orderedToppings ?? []).isNotEmpty) {
       addedToppings = [...widget.orderedToppings ?? []];
       expandedToppings = addedToppings.expand((element) => element.options).toList();
     } else {
