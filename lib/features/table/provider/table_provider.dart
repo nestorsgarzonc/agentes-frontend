@@ -80,6 +80,16 @@ class TableProvider extends StateNotifier<TableState> {
     });
   }
 
+  Future<void> stopCallingWaiter() async {
+    socketIOHandler.emitMap(
+      SocketConstants.stopCallWaiter,
+      ConnectSocket(
+        tableId: state.tableCode ?? '',
+        token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
+      ).toMap(),
+    );
+  }
+
   Future<void> callWaiter() async {
     socketIOHandler.emitMap(
       SocketConstants.callWaiter,
