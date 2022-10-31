@@ -21,7 +21,7 @@ class TableState extends Equatable {
     return TableState(
       tableCode: tableCode ?? this.tableCode,
       tableUsers: tableUsers ?? this.tableUsers,
-      isFirstTime: isFirstTime?? this.isFirstTime,
+      isFirstTime: isFirstTime ?? this.isFirstTime,
     );
   }
 }
