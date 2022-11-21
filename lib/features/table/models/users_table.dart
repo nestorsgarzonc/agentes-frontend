@@ -69,9 +69,9 @@ class UsersTable extends Equatable {
     return UsersTable(
       users: List<UserTable>.from(map['table']['usersConnected']?.map((x) => UserTable.fromMap(x))),
       userName: map['userName'],
-      totalPrice: map['table']['totalPrice'],
-      needsWaiter: map['table']['needsWaiter'],
-      tableStatus: map['table']['tableStatus'] != null
+      totalPrice: map['table']?['totalPrice'],
+      needsWaiter: map['table']?['needsWaiter'],
+      tableStatus: map['table']?['tableStatus'] != null
           ? TableStatus.fromString(map['table']['tableStatus'])
           : null,
     );

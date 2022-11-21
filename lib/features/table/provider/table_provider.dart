@@ -72,6 +72,7 @@ class TableProvider extends StateNotifier<TableState> {
 
   Future<void> listenListOfOrders() async {
     socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
+      //TODO: SI DATA LLEGA NULL ENTONCES MUESTRO PANTALLA DE ERROR Y REDIRIJO A ONBOARDING
       final tableUsers = UsersTable.fromMap(data);
       Logger.log('################# START listenListOfOrders #################');
       Logger.log(tableUsers.toString());
