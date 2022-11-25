@@ -182,6 +182,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
       total = widget.order?.price ?? data.price;
       totalWithToppings = widget.order?.totalWithToppings ?? data.price;
       isCreated = true;
+      if (mounted) setState(() {});
     });
   }
 
