@@ -106,7 +106,8 @@ class CustomRouter {
         ),
       ];
 
-  BuildContext get context => goRouter.navigator!.context;
+  BuildContext get context =>
+      goRouter.routeInformationParser.configuration.navigatorKey.currentState!.context;
 
   GoRouter get router => goRouter;
 }
