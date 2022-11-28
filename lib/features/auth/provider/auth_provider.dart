@@ -9,6 +9,7 @@ import 'package:restaurants/core/wrappers/state_wrapper.dart';
 import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_state.dart';
 import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
+import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import 'package:restaurants/ui/error/error_screen.dart';
@@ -67,7 +68,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     ref.read(routerProvider).router.pop();
   }
 
-  Future<void> logout() async {
+  Future<void> logout({String? logoutMessage}) async {
     if (state.authModel.data == null) {
       ref
           .read(routerProvider)
@@ -85,7 +86,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     stopListeningSocket();
     CustomSnackbar.showSnackBar(
       ref.read(routerProvider).context,
-      'Se ha cerrado sesion exitosamente.',
+      logoutMessage ?? 'Se ha cerrado sesion exitosamente.',
     );
     state = AuthState(authModel: StateAsync.initial());
   }
@@ -123,6 +124,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     );
     ref.read(tableProvider.notifier).listenTableUsers();
     ref.read(tableProvider.notifier).listenListOfOrders();
+    ref.read(ordersProvider.notifier).listenOnPay();
     socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }

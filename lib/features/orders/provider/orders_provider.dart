@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:restaurants/core/constants/socket_constants.dart';
+import 'package:restaurants/core/external/socket_handler.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:restaurants/core/wrappers/state_wrapper.dart';
 import 'package:restaurants/features/bill/bill_screen.dart';
@@ -13,14 +15,17 @@ final ordersProvider = StateNotifierProvider<OrdersProvider, OrderState>((ref) {
 });
 
 class OrdersProvider extends StateNotifier<OrderState> {
-  OrdersProvider(this.ordersRepository, this.ref) : super(OrderState.initial());
+  OrdersProvider(this.ordersRepository, this.ref, this.socketIOHandler)
+      : super(OrderState.initial());
 
   factory OrdersProvider.fromRef(Ref ref) {
     final ordersRepository = ref.read(ordersRepositoryProvider);
-    return OrdersProvider(ordersRepository, ref);
+    final socketIOHandler = ref.read(socketProvider);
+    return OrdersProvider(ordersRepository, ref, socketIOHandler);
   }
 
   final OrdersRepository ordersRepository;
+  final SocketIOHandler socketIOHandler;
   final Ref ref;
 
   Future<void> payOrder(PayOrderModel order) async {
@@ -30,8 +35,15 @@ class OrdersProvider extends StateNotifier<OrderState> {
     final router = ref.read(routerProvider).router;
     res.fold(
       (l) => router.push(ErrorScreen.route, extra: {'error': l.message}),
-      (r) => router.push('${BillScreen.route}?transactionId=${r.id}'),
+      (r) {}, //=> router.push('${BillScreen.route}?transactionId=${r.id}'),
     );
+  }
+
+  void listenOnPay() {
+    socketIOHandler.onMap(SocketConstants.listenOnPay, (data) {
+      final orderId = data['orderId'];
+      ref.read(routerProvider).router.push('${BillScreen.route}?transactionId=$orderId');
+    });
   }
 
   Future<void> getOrders() async {

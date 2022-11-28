@@ -5,8 +5,9 @@ class SocketConstants {
   static const listOfOrders = 'list_of_orders';
   static const callWaiter = 'table:call-waiter';
   static const stopCallWaiter = 'table:stop-calling-waiter';
-  static const changeTableStatus = 'table:change-status';
   static const orderNow = 'table:order-now';
   static const deleteItem = 'order:delete-item';
+  static const changeTableStatus = 'table:change-status';
   static const editItem = 'order:edit-item';
+  static const listenOnPay = 'on_payed_account';
 }

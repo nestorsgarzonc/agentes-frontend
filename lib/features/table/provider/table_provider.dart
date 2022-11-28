@@ -71,8 +71,12 @@ class TableProvider extends StateNotifier<TableState> {
   }
 
   Future<void> listenListOfOrders() async {
-    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
-      //TODO: SI DATA LLEGA NULL ENTONCES MUESTRO PANTALLA DE ERROR Y REDIRIJO A ONBOARDING
+    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) async {
+      if (data.isEmpty || data['table'] == null) {
+        ref.read(authProvider.notifier).logout(logoutMessage: 'La mesa ha sido cerrada.');
+        ref.read(routerProvider).router.go(OnBoarding.route);
+        return;
+      }
       final tableUsers = UsersTable.fromMap(data);
       Logger.log('################# START listenListOfOrders #################');
       Logger.log(tableUsers.toString());
