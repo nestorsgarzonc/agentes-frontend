@@ -95,9 +95,9 @@ class TableMenuScreen extends ConsumerWidget {
                                 ),
                                 Flexible(
                                   child: TextButton(
-                                    onPressed: tableData.needsWaiter?
-                                    ref.read(tableProvider.notifier).stopCallingWaiter:
-                                    ref.read(tableProvider.notifier).callWaiter,
+                                    onPressed: tableData.needsWaiter
+                                        ? ref.read(tableProvider.notifier).stopCallingWaiter
+                                        : ref.read(tableProvider.notifier).callWaiter,
                                     child: Text(
                                       tableData.needsWaiter
                                           ? 'Dejar de llamar al mesero'
@@ -159,7 +159,7 @@ class TableMenuScreen extends ConsumerWidget {
         ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);
         break;
       case TableStatus.ordering:
-        ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);
+        ref.read(tableProvider.notifier).orderNow();
         break;
       case TableStatus.confirmOrder:
         ref.read(tableProvider.notifier).changeStatus(TableStatus.eating);

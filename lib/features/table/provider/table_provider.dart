@@ -111,4 +111,14 @@ class TableProvider extends StateNotifier<TableState> {
       ).toMap(),
     );
   }
+
+  Future<void> orderNow() async {
+    socketIOHandler.emitMap(
+      SocketConstants.orderNow,
+      {
+        'tableId': state.tableCode ?? '',
+        'token': ref.read(authProvider).authModel.data?.bearerToken ?? '',
+      },
+    );
+  }
 }
