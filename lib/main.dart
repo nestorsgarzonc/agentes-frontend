@@ -9,7 +9,6 @@ import 'package:restaurants/app.dart';
 
 void main() async {
   EquatableConfig.stringify = true;
-  HttpOverrides.global = MyHttpOverrides();
   initializeDateFormatting('es_CO', null);
   await Hive.initFlutter();
   runApp(const ProviderScope(child: MyApp()));
