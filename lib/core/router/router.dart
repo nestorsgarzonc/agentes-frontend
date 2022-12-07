@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:restaurants/features/bill/ui/bill_screen.dart';
 import 'package:restaurants/features/bill/ui/individual_pay_screen.dart';
-import 'package:restaurants/features/product/models/product_model.dart';
+import 'package:oyt_front_product/models/product_model.dart';
 import 'package:restaurants/features/product/ui/product_detail.dart';
 import 'package:restaurants/features/auth/ui/login_screen.dart';
 import 'package:restaurants/features/auth/ui/restore_password_screen.dart';

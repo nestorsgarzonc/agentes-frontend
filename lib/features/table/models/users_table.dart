@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-
-import 'package:restaurants/features/product/models/product_model.dart';
+import 'package:oyt_front_product/models/product_model.dart';
 
 enum TableStatus {
   empty(
