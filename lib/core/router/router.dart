@@ -8,7 +8,7 @@ import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/ui/product_detail.dart';
 import 'package:restaurants/features/auth/ui/login_screen.dart';
 import 'package:restaurants/features/auth/ui/restore_password_screen.dart';
-import 'package:restaurants/features/menu/ui/index_menu_screen.dart';
+import 'package:restaurants/features/home/ui/index_menu_screen.dart';
 import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
 import 'package:restaurants/features/auth/ui/register_screen.dart';
 import 'package:restaurants/features/orders/ui/list_of_orders.dart';

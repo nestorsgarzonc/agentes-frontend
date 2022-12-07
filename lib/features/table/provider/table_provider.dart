@@ -11,7 +11,7 @@ import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/table/models/change_table_status.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
-import 'package:restaurants/features/menu/ui/index_menu_screen.dart';
+import 'package:restaurants/features/home/ui/index_menu_screen.dart';
 import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
