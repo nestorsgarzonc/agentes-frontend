@@ -17,22 +17,19 @@ dependencies:
   dartz: ^0.10.1
   equatable: ^2.0.5
   flutter_riverpod: ^2.1.1
-  font_awesome_flutter: ^10.2.1
-  go_router: ^5.2.0
-  google_fonts: ^3.0.1
+  font_awesome_flutter: ^10.3.0
+  go_router: ^5.2.1
   hive_flutter: ^1.1.0
-  hive: ^2.2.3
-  http: ^0.13.5
   intl: ^0.17.0
   lottie: ^2.0.0
   mobile_scanner: ^2.1.0
   riverpod: ^2.1.1
-  socket_io_client: ^2.0.0
   uuid: ^3.0.7
   oyt_front_core:
     path: ./packages/oyt_front_core
 
 dev_dependencies:
+  dart_code_metrics: ^5.1.0
   flutter_lints: ^2.0.0
 
 flutter:

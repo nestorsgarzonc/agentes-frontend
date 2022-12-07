@@ -13,11 +13,10 @@ class OrderProduct extends Equatable {
     );
   }
   factory OrderProduct.fromJson(String source) => OrderProduct.fromMap(json.decode(source));
-  
+
   final List orders;
 
   @override
-  // TODO: implement props
   List<Object> get props => [orders];
 
   OrderProduct copyWith({

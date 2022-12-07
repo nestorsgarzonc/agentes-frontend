@@ -4,10 +4,10 @@ import 'package:flutter/services.dart';
 class CustomTextField extends StatelessWidget {
   const CustomTextField({
     required this.label,
+    required this.controller,
     this.autofocus = false,
     this.obscureText = false,
     this.validator,
-    this.controller,
     this.decoration,
     this.focusNode,
     this.inputFormatters,
@@ -19,7 +19,7 @@ class CustomTextField extends StatelessWidget {
     super.key,
   });
 
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final FocusNode? focusNode;
   final InputDecoration? decoration;
   final TextInputType? keyboardType;
