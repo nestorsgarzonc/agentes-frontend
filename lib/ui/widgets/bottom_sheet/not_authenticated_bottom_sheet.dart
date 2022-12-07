@@ -2,20 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
+import 'package:oyt_front_widgets/bottom_sheet/bottom_sheet_constants.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
-import 'package:oyt_front_widgets/widgets/bottom_sheet/base_bottom_sheet.dart';
+import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class NotAuthenticatedBottomSheet extends StatelessWidget {
   const NotAuthenticatedBottomSheet({super.key});
 
-  static void show(BuildContext context) {
-    showModalBottomSheet(
+  static Future<void> show(BuildContext context) {
+    return showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius:
-            BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-      ),
+      shape: BottomSheetConstants.shape,
       builder: (context) => const NotAuthenticatedBottomSheet(),
     );
   }

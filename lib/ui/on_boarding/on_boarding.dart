@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
-import 'package:oyt_front_widgets/widgets/bottom_sheet/table_code_sheet.dart';
+import 'package:oyt_front_widgets/bottom_sheet/table_code_sheet.dart';
 import 'package:oyt_front_widgets/widgets/divider.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 

@@ -10,7 +10,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final routerProv = ref.read(routerProvider);
     return MaterialApp.router(
-      title: 'Restaurants',
+      title: 'OYT - Dinner',
       routeInformationProvider: routerProv.goRouter.routeInformationProvider,
       routeInformationParser: routerProv.goRouter.routeInformationParser,
       routerDelegate: routerProv.goRouter.routerDelegate,
