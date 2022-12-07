@@ -5,7 +5,7 @@ import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
-import 'package:restaurants/ui/on_boarding/on_boarding.dart';
+import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 

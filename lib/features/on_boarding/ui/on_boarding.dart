@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_widgets/widgets/cards/on_boarding_animation_title.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
+import 'package:restaurants/features/table/ui/table_qr_reader_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/table_code_sheet.dart';
 import 'package:oyt_front_widgets/widgets/divider.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';

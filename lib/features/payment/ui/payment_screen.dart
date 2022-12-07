@@ -6,9 +6,9 @@ import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/ui/menu/widgets/table_user_card.dart';
-import 'package:restaurants/ui/payment/account_total_item.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/account_detail_bottom_sheet.dart';
+import 'package:restaurants/features/menu/ui/widgets/table_user_card.dart';
+import 'package:restaurants/features/payment/ui/account_total_item.dart';
+import 'package:restaurants/features/widgets/bottom_sheet/account_detail_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 

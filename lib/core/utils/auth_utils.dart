@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
+import 'package:restaurants/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 import '../../features/auth/provider/auth_provider.dart';
 
 class AuthUtils {

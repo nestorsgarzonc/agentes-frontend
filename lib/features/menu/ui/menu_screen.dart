@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
-import 'package:restaurants/ui/widgets/cards/product_item_card.dart';
+import 'package:restaurants/features/widgets/cards/product_item_card.dart';
 
 class MenuScreen extends ConsumerStatefulWidget {
   const MenuScreen({super.key});
