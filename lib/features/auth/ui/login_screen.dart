@@ -9,6 +9,7 @@ import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/auth/ui/register_screen.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
+import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -32,14 +33,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         padding: const EdgeInsets.all(10),
         children: [
           const SizedBox(height: 15),
-          Row(
-            children: [
-              IconButton(
-                onPressed: GoRouter.of(context).pop,
-                icon: const Icon(Icons.arrow_back),
-              ),
-            ],
-          ),
+          const BackIconButton(),
           const Text(
             '¡Bienvenido!',
             textAlign: TextAlign.center,

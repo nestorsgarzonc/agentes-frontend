@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
+import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
@@ -10,10 +11,10 @@ import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class BillScreen extends ConsumerStatefulWidget {
-  const BillScreen({required this.transactionId, super.key});
+  const BillScreen({required this.canPop, required this.transactionId, super.key});
 
   final String transactionId;
-
+  final bool canPop;
   static const route = '/individual_pay_screen';
 
   @override
@@ -33,15 +34,16 @@ class _BillScreen extends ConsumerState<BillScreen> {
   Widget build(BuildContext context) {
     final orderState = ref.watch(ordersProvider);
     return WillPopScope(
-      onWillPop: () => Future.value(false),
+      onWillPop: () => Future.value(widget.canPop),
       child: AnimatedBackground(
         child: orderState.order.on(
           onData: (data) => Column(
             children: [
               Expanded(
                 child: ListView(
-                  padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                  padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
                   children: [
+                    if (widget.canPop) const BackIconButton(),
                     Row(
                       children: [
                         Image.network(
@@ -190,6 +192,10 @@ class _BillScreen extends ConsumerState<BillScreen> {
   }
 
   void handleOnContinue() {
+    if (widget.canPop) {
+      GoRouter.of(context).pop();
+      return;
+    }
     GoRouter.of(context).go(OnBoarding.route);
     ref.read(authProvider.notifier).logout(logoutMessage: 'Gracias por usar On Your Table');
   }

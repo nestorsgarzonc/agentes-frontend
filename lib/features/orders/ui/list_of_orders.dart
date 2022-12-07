@@ -53,14 +53,9 @@ class _ListOfOrdersScreenState extends ConsumerState<ListOfOrdersScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.only(
-                        right: 16,
-                        top: 8,
-                        bottom: 8,
-                        left: 4,
-                      ),
+                      contentPadding: const EdgeInsets.only(right: 16, top: 8, bottom: 8, left: 4),
                       onTap: () => GoRouter.of(context)
-                          .push('${BillScreen.route}?transactionId=${order.id}'),
+                          .push('${BillScreen.route}?transactionId=${order.id}&canPop=true'),
                       horizontalTitleGap: 10,
                       leading: Image.network(order.restaurantImage, width: 80),
                       trailing: const Icon(Icons.chevron_right_outlined),

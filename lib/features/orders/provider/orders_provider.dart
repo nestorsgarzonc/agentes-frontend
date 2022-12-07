@@ -44,7 +44,10 @@ class OrdersProvider extends StateNotifier<OrderState> {
   void listenOnPay() {
     socketIOHandler.onMap(SocketConstants.listenOnPay, (data) {
       final orderId = data['orderId'];
-      ref.read(routerProvider).router.push('${BillScreen.route}?transactionId=$orderId');
+      ref
+          .read(routerProvider)
+          .router
+          .push('${BillScreen.route}?transactionId=$orderId&canPop=false');
     });
   }
 
