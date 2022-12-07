@@ -34,6 +34,8 @@ dependencies:
     path: ./packages/oyt_front_restaurant
   oyt_front_product:
     path: ./packages/oyt_front_product
+  oyt_front_order:
+    path: ./packages/oyt_front_order
 
 dev_dependencies:
   dart_code_metrics: ^5.1.0

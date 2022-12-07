@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/orders/models/order_complete_response.dart';
-import 'package:restaurants/features/orders/models/orders_model.dart';
+import 'package:oyt_front_order/models/order_complete_response.dart';
+import 'package:oyt_front_order/models/orders_model.dart';
 
 class OrderState extends Equatable {
   const OrderState({required this.order, required this.orders});

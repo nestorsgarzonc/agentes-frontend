@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
-import 'package:restaurants/features/orders/models/pay_order_mod.dart';
+import 'package:oyt_front_order/models/pay_order_mod.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
