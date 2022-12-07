@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:restaurants/features/auth/models/connect_socket.dart';
+import 'package:oyt_front_auth/models/connect_socket.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 
 class ChangeTableStatus extends ConnectSocket {

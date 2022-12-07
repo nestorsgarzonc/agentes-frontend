@@ -1,16 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oyt_front_auth/models/connect_socket.dart';
+import 'package:oyt_front_auth/models/user_model.dart';
+import 'package:oyt_front_auth/repositories/auth_repositories.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_state.dart';
-import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/features/user/models/user_model.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 

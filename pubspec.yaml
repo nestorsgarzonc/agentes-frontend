@@ -28,6 +28,8 @@ dependencies:
     path: ./packages/oyt_front_core
   oyt_front_widgets:
     path: ./packages/oyt_front_widgets
+  oyt_front_auth:
+    path: ./packages/oyt_front_auth
 
 dev_dependencies:
   dart_code_metrics: ^5.1.0

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:oyt_front_auth/models/auth_model.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/auth/models/auth_model.dart';
 
 class AuthState extends Equatable {
   const AuthState({required this.authModel});
