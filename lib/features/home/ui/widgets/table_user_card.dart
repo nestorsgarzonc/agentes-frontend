@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/features/table/models/users_table.dart';
+import 'package:oyt_front_table/models/users_table.dart';
 import 'package:restaurants/features/product/ui/product_detail.dart';
 
 class TableUserCard extends ConsumerWidget {

@@ -4,7 +4,7 @@ import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_order/models/pay_order_mod.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
-import 'package:restaurants/features/table/models/users_table.dart';
+import 'package:oyt_front_table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/home/ui/widgets/table_user_card.dart';
 import 'package:restaurants/features/payment/ui/account_total_item.dart';

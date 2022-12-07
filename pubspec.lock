@@ -319,6 +319,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  oyt_front_table:
+    dependency: "direct main"
+    description:
+      path: "packages/oyt_front_table"
+      relative: true
+    source: path
+    version: "0.0.1"
   oyt_front_widgets:
     dependency: "direct main"
     description:

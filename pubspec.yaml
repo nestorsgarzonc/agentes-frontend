@@ -36,6 +36,8 @@ dependencies:
     path: ./packages/oyt_front_product
   oyt_front_order:
     path: ./packages/oyt_front_order
+  oyt_front_table:
+    path: ./packages/oyt_front_table
 
 dev_dependencies:
   dart_code_metrics: ^5.1.0
