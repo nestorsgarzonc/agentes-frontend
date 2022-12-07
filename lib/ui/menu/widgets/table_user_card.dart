@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/utils/currency_formatter.dart';
+import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/ui/Product/product_detail.dart';

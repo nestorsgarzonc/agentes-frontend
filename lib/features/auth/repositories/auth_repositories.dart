@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/external/api_exception.dart';
-import 'package:restaurants/core/failure/failure.dart';
+import 'package:oyt_front_core/external/api_exception.dart';
+import 'package:oyt_front_core/failure/failure.dart';
 import 'package:restaurants/features/auth/data_source/auth_datasource.dart';
 import 'package:restaurants/features/auth/models/auth_model.dart';
 import 'package:restaurants/features/user/models/user_model.dart';

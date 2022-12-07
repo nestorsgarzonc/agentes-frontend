@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/constants/lotti_assets.dart';
+import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/table_code_sheet.dart';

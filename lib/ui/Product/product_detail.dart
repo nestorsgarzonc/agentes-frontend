@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/utils/currency_formatter.dart';
+import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/provider/product_provider.dart';

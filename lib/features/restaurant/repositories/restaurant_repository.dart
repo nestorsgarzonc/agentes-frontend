@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/failure/failure.dart';
+import 'package:oyt_front_core/failure/failure.dart';
 import 'package:restaurants/features/restaurant/data_sources/restaurant_data_source.dart';
 import 'package:restaurants/features/restaurant/models/restaurant_model.dart';
 

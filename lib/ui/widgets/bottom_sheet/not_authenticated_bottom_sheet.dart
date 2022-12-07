@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:restaurants/core/constants/lotti_assets.dart';
+import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';

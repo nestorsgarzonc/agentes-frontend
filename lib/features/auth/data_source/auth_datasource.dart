@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/constants/db_constants.dart';
-import 'package:restaurants/core/external/api_handler.dart';
-import 'package:restaurants/core/external/db_handler.dart';
-import 'package:restaurants/core/logger/logger.dart';
+import 'package:oyt_front_core/constants/db_constants.dart';
+import 'package:oyt_front_core/external/api_handler.dart';
+import 'package:oyt_front_core/external/db_handler.dart';
+import 'package:oyt_front_core/logger/logger.dart';
 import 'package:restaurants/features/auth/models/auth_model.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 

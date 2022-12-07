@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/validators/text_form_validator.dart';
+import 'package:oyt_front_core/validators/text_form_validator.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
 import '../widgets/backgrounds/animated_background.dart';
 import '../widgets/custom_text_field.dart';

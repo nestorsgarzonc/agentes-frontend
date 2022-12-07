@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/constants/socket_constants.dart';
-import 'package:restaurants/core/external/socket_handler.dart';
-import 'package:restaurants/core/logger/logger.dart';
+import 'package:oyt_front_core/constants/socket_constants.dart';
+import 'package:oyt_front_core/external/socket_handler.dart';
+import 'package:oyt_front_core/logger/logger.dart';
+import 'package:oyt_front_core/validators/text_form_validator.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/core/validators/text_form_validator.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
 import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/table/models/change_table_status.dart';

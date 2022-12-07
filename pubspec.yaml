@@ -29,6 +29,8 @@ dependencies:
   riverpod: ^2.1.1
   socket_io_client: ^2.0.0
   uuid: ^3.0.7
+  oyt_front_core:
+    path: ./packages/oyt_front_core
 
 dev_dependencies:
   flutter_lints: ^2.0.0

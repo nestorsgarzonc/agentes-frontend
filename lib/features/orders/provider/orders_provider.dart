@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/constants/socket_constants.dart';
-import 'package:restaurants/core/external/socket_handler.dart';
+import 'package:oyt_front_core/constants/socket_constants.dart';
+import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/features/bill/bill_screen.dart';
 import 'package:restaurants/features/orders/models/pay_order_mod.dart';
 import 'package:restaurants/features/orders/provider/order_state.dart';

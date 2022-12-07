@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/external/api_handler.dart';
-import 'package:restaurants/core/external/db_handler.dart';
-import 'package:restaurants/core/logger/logger.dart';
+import 'package:oyt_front_core/external/api_handler.dart';
+import 'package:oyt_front_core/external/db_handler.dart';
+import 'package:oyt_front_core/logger/logger.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 
 final productDatasourceProvider = Provider<ProductDatasource>((ref) {

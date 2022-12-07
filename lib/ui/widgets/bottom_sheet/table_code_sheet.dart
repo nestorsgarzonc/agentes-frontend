@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:restaurants/core/validators/text_form_validator.dart';
+import 'package:oyt_front_core/validators/text_form_validator.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/custom_text_field.dart';
 

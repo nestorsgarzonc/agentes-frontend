@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/utils/currency_formatter.dart';
+import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:restaurants/features/restaurant/models/restaurant_model.dart' as resm;
 import 'package:restaurants/ui/Product/product_detail.dart';
 

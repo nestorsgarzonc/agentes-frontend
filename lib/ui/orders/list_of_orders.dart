@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:restaurants/core/constants/lotti_assets.dart';
-import 'package:restaurants/core/utils/currency_formatter.dart';
-import 'package:restaurants/core/utils/formatters.dart';
+import 'package:oyt_front_core/constants/lotti_assets.dart';
+import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:restaurants/features/bill/bill_screen.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 

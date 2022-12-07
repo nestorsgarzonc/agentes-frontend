@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 
 class ProductState extends Equatable {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/utils/currency_formatter.dart';
-import 'package:restaurants/core/utils/formatters.dart';
+import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';

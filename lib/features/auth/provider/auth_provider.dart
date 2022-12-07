@@ -1,11 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/constants/socket_constants.dart';
-import 'package:restaurants/core/external/socket_handler.dart';
+import 'package:oyt_front_core/constants/socket_constants.dart';
+import 'package:oyt_front_core/external/socket_handler.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
 import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_state.dart';
 import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
