@@ -26,7 +26,9 @@ dependencies:
   riverpod: ^2.1.1
   uuid: ^3.0.7
   oyt_front_core:
-    path: ./packages/oyt_front_core
+    git: https://github.com/nestorsgarzonc/oyt_front_core.git
+  oyt_front_widgets:
+    git: https://github.com/nestorsgarzonc/oyt_front_widgets.git
 
 dev_dependencies:
   dart_code_metrics: ^5.1.0

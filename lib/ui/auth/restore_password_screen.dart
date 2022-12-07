@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/validators/text_form_validator.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/ui/widgets/backgrounds/animated_background.dart';
-import 'package:restaurants/ui/widgets/custom_text_field.dart';
+import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
+import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 
 class RestorePasswordScreen extends ConsumerStatefulWidget {
   const RestorePasswordScreen({super.key});

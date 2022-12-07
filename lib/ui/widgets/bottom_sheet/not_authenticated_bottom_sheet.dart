@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:restaurants/ui/auth/login_screen.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
-import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/widgets/bottom_sheet/base_bottom_sheet.dart';
+import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class NotAuthenticatedBottomSheet extends StatelessWidget {
   const NotAuthenticatedBottomSheet({super.key});

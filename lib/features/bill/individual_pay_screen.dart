@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class IndividualPayScreen extends ConsumerStatefulWidget {
   const IndividualPayScreen({super.key});

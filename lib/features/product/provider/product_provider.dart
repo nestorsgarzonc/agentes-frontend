@@ -7,7 +7,7 @@ import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/provider/product_state.dart';
 import 'package:restaurants/features/product/repositories/product_repositories.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:restaurants/core/router/router.dart';
 import 'package:uuid/uuid.dart';
 

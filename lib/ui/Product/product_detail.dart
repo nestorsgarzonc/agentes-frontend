@@ -4,15 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/product/models/product_model.dart';
 import 'package:restaurants/features/product/provider/product_provider.dart';
 import 'package:restaurants/features/product/topping_option/topping_options_checkbox.dart';
-import 'package:restaurants/ui/error/error_screen.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
+import 'package:oyt_front_widgets/widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:restaurants/ui/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
-import 'package:restaurants/ui/widgets/custom_text_field.dart';
-import '../widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
   const ProductDetail({

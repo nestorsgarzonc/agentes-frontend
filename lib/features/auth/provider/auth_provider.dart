@@ -11,8 +11,8 @@ import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
-import 'package:restaurants/ui/error/error_screen.dart';
-import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider.fromRead(ref);

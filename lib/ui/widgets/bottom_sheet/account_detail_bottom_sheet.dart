@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/ui/menu/widgets/table_user_card.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/base_bottom_sheet.dart';
+import 'package:oyt_front_widgets/widgets/bottom_sheet/base_bottom_sheet.dart';
 
 class AccountDetailBottomSheet extends StatelessWidget {
   const AccountDetailBottomSheet({super.key, required this.usersTable});

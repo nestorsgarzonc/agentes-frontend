@@ -8,7 +8,7 @@ import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/ui/menu/widgets/table_user_card.dart';
 import 'package:restaurants/ui/payment/payment_screen.dart';
-import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class TableMenuScreen extends ConsumerWidget {
   const TableMenuScreen({super.key});

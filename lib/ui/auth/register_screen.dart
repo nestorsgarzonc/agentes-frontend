@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/validators/text_form_validator.dart';
+import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
+import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 import 'package:restaurants/features/user/models/user_model.dart';
-import '../widgets/backgrounds/animated_background.dart';
-import '../widgets/custom_text_field.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../widgets/buttons/custom_elevated_button.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});

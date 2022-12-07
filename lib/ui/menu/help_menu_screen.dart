@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:restaurants/ui/menu/widgets/help_item_card.dart';
-import 'package:restaurants/ui/widgets/bottom_sheet/help_bottom_sheet.dart';
+import 'package:oyt_front_widgets/widgets/bottom_sheet/help_bottom_sheet.dart';
 import '../../features/menu/models/help_menu_item.dart';
 
 class HelpMenuScreen extends ConsumerStatefulWidget {

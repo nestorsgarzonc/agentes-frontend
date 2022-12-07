@@ -7,8 +7,8 @@ import 'package:restaurants/features/bill/bill_screen.dart';
 import 'package:restaurants/features/orders/models/pay_order_mod.dart';
 import 'package:restaurants/features/orders/provider/order_state.dart';
 import 'package:restaurants/features/orders/repository/orders_repository.dart';
-import 'package:restaurants/ui/dialogs/custom_dialogs.dart';
-import 'package:restaurants/ui/error/error_screen.dart';
+import 'package:oyt_front_widgets/dialogs/custom_dialogs.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
 
 final ordersProvider = StateNotifierProvider<OrdersProvider, OrderState>((ref) {
   return OrdersProvider.fromRef(ref);
@@ -29,13 +29,15 @@ class OrdersProvider extends StateNotifier<OrderState> {
   final Ref ref;
 
   Future<void> payOrder(PayOrderModel order) async {
-    ref.read(dialogsProvider).showLoadingDialog('Pagando orden...');
+    ref
+        .read(dialogsProvider)
+        .showLoadingDialog(ref.read(routerProvider).context, 'Pagando orden...');
     final res = await ordersRepository.payOrder(order);
-    ref.read(dialogsProvider).removeDialog();
+    ref.read(dialogsProvider).removeDialog(ref.read(routerProvider).context);
     final router = ref.read(routerProvider).router;
     res.fold(
       (l) => router.push(ErrorScreen.route, extra: {'error': l.message}),
-      (r) {}, //=> router.push('${BillScreen.route}?transactionId=${r.id}'),
+      (r) {},
     );
   }
 

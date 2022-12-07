@@ -13,7 +13,7 @@ import 'package:restaurants/features/table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
 import 'package:restaurants/ui/menu/index_menu_screen.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
-import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
   return TableProvider.fromRead(ref);

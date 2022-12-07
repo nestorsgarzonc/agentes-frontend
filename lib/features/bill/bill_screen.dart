@@ -6,8 +6,8 @@ import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/ui/on_boarding/on_boarding.dart';
-import 'package:restaurants/ui/widgets/backgrounds/animated_background.dart';
-import 'package:restaurants/ui/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
+import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class BillScreen extends ConsumerStatefulWidget {
   const BillScreen({required this.transactionId, super.key});

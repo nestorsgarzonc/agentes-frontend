@@ -287,9 +287,20 @@ packages:
   oyt_front_core:
     dependency: "direct main"
     description:
-      path: "packages/oyt_front_core"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: "1aa2d88fbc912169eae187eab67d76b9797469cc"
+      url: "https://github.com/nestorsgarzonc/oyt_front_core.git"
+    source: git
+    version: "0.0.1"
+  oyt_front_widgets:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: a5f347895f741a18560f054b33ba1856c76d5b24
+      url: "https://github.com/nestorsgarzonc/oyt_front_widgets.git"
+    source: git
     version: "0.0.1"
   package_config:
     dependency: transitive
