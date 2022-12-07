@@ -11,3 +11,7 @@ git clone https://github.com/nestorsgarzonc/oyt_front_auth
 cd oyt_front_auth
 flutter pub get
 cd ..
+git clone https://github.com/nestorsgarzonc/oyt_front_restaurant
+cd oyt_front_auth
+flutter pub get
+cd ..

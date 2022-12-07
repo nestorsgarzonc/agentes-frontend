@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
-import 'package:restaurants/features/restaurant/models/restaurant_model.dart' as resm;
+import 'package:oyt_front_restaurant/models/restaurant_model.dart' as resm;
 import 'package:restaurants/features/product/ui/product_detail.dart';
 
 class ProductItemCard extends StatelessWidget {

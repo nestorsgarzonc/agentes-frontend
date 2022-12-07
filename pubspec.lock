@@ -298,6 +298,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  oyt_front_restaurant:
+    dependency: "direct main"
+    description:
+      path: "packages/oyt_front_restaurant"
+      relative: true
+    source: path
+    version: "0.0.1"
   oyt_front_widgets:
     dependency: "direct main"
     description:
