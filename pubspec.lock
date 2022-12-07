@@ -23,7 +23,7 @@ packages:
     source: hosted
     version: "0.11.2"
   animated_text_kit:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: animated_text_kit
       url: "https://pub.dartlang.org"
