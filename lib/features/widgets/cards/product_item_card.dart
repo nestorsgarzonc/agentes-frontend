@@ -1,40 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_restaurant/models/restaurant_model.dart' as resm;
-import 'package:oyt_front_table/models/users_table.dart';
 import 'package:restaurants/features/product/ui/product_detail.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
 
-class ProductItemCard extends ConsumerWidget {
+class ProductItemCard extends StatelessWidget {
   const ProductItemCard({Key? key, required this.menuItem}) : super(key: key);
 
   final resm.MenuItem menuItem;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final tableProv = ref.watch(tableProvider);
+  Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 5,
       ),
       child: ListTile(
-        onTap: tableProv.tableUsers.on(
-          onData: (data) => data.tableStatus == TableStatus.ordering
-              ? () => GoRouter.of(context).push('${ProductDetail.route}?productId=${menuItem.id}')
-              : () => {},
-          onError: (e) {
-            return null;
-          },
-          onLoading: () {
-            return null;
-          },
-          onInitial: () {
-            return null;
-          },
-        ),
+        onTap: () => GoRouter.of(context).push('${ProductDetail.route}?productId=${menuItem.id}'),
         enabled: menuItem.isAvaliable,
         contentPadding: const EdgeInsets.only(
           right: 5,

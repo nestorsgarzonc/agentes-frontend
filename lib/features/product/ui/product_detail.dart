@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_table/models/users_table.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_product/models/product_model.dart';
@@ -11,6 +12,7 @@ import 'package:restaurants/features/product/provider/product_provider.dart';
 import 'package:restaurants/features/home/ui/topping_options_checkbox.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
+import 'package:restaurants/features/table/provider/table_provider.dart';
 import 'package:restaurants/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 
@@ -71,6 +73,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     final productState = ref.watch(productProvider);
+    final tableProv = ref.watch(tableProvider);
     return Scaffold(
       body: productState.productDetail.on(
         onError: (e) => ErrorScreen(error: e.message),
@@ -147,7 +150,19 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 const SizedBox(height: 20.0),
                 widget.order == null
                     ? CustomElevatedButton(
-                        onPressed: _onAddToOrder,
+                        onPressed: tableProv.tableUsers.on(
+                          onData: (data) => data.tableStatus == TableStatus.ordering
+                              ? _onAddToOrder
+                              : () => ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('No puedes agregar productos si no estás ordenando.'),
+                                    ),
+                                  ),
+                          onError: (e) => () {},
+                          onLoading: () => () {},
+                          onInitial: () => () {},
+                        ),
                         child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
                       )
                     : Column(
