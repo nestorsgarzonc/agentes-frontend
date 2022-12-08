@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/failure/failure.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
+import 'package:oyt_front_core/failure/failure.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
+import 'package:oyt_front_restaurant/repositories/restaurant_repository.dart';
 import 'package:restaurants/features/restaurant/provider/restaurant_state.dart';
-import 'package:restaurants/features/restaurant/repositories/restaurant_repository.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
 
 final restaurantProvider = StateNotifierProvider<RestaurantProvider, RestaurantState>((ref) {
@@ -34,7 +34,7 @@ class RestaurantProvider extends StateNotifier<RestaurantState> {
       return;
     }
     state = state.copyWith(restaurant: StateAsync.loading());
-    final result = await restaurantRepository.getRestaurant(tableId);
+    final result = await restaurantRepository.getMenuByTable(tableId);
     result.fold(
       (failure) => state = state.copyWith(restaurant: StateAsync.error(failure)),
       (restaurant) => state = state.copyWith(restaurant: StateAsync.success(restaurant)),

@@ -1,18 +1,18 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/constants/socket_constants.dart';
-import 'package:restaurants/core/external/socket_handler.dart';
+import 'package:oyt_front_auth/models/connect_socket.dart';
+import 'package:oyt_front_auth/models/user_model.dart';
+import 'package:oyt_front_auth/repositories/auth_repositories.dart';
+import 'package:oyt_front_core/constants/socket_constants.dart';
+import 'package:oyt_front_core/external/socket_handler.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_state.dart';
-import 'package:restaurants/features/auth/repositories/auth_repositories.dart';
+import 'package:restaurants/features/orders/provider/orders_provider.dart';
 import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/features/user/models/user_model.dart';
-import 'package:restaurants/ui/error/error_screen.dart';
-import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 final authProvider = StateNotifierProvider<AuthProvider, AuthState>((ref) {
   return AuthProvider.fromRead(ref);
@@ -67,7 +67,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     ref.read(routerProvider).router.pop();
   }
 
-  Future<void> logout() async {
+  Future<void> logout({String? logoutMessage}) async {
     if (state.authModel.data == null) {
       ref
           .read(routerProvider)
@@ -85,7 +85,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     stopListeningSocket();
     CustomSnackbar.showSnackBar(
       ref.read(routerProvider).context,
-      'Se ha cerrado sesion exitosamente.',
+      logoutMessage ?? 'Se ha cerrado sesion exitosamente.',
     );
     state = AuthState(authModel: StateAsync.initial());
   }
@@ -123,6 +123,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     );
     ref.read(tableProvider.notifier).listenTableUsers();
     ref.read(tableProvider.notifier).listenListOfOrders();
+    ref.read(ordersProvider.notifier).listenOnPay();
     socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }

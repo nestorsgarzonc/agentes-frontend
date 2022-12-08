@@ -1,19 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/core/constants/socket_constants.dart';
-import 'package:restaurants/core/external/socket_handler.dart';
-import 'package:restaurants/core/logger/logger.dart';
+import 'package:oyt_front_auth/models/connect_socket.dart';
+import 'package:oyt_front_core/constants/socket_constants.dart';
+import 'package:oyt_front_core/external/socket_handler.dart';
+import 'package:oyt_front_core/logger/logger.dart';
+import 'package:oyt_front_core/validators/text_form_validator.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/core/validators/text_form_validator.dart';
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/auth/models/connect_socket.dart';
 import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/features/table/models/change_table_status.dart';
-import 'package:restaurants/features/table/models/users_table.dart';
+import 'package:oyt_front_table/models/change_table_status.dart';
+import 'package:oyt_front_table/models/users_table.dart';
 import 'package:restaurants/features/table/provider/table_state.dart';
-import 'package:restaurants/ui/menu/index_menu_screen.dart';
-import 'package:restaurants/ui/on_boarding/on_boarding.dart';
-import 'package:restaurants/ui/widgets/snackbar/custom_snackbar.dart';
+import 'package:restaurants/features/home/ui/index_menu_screen.dart';
+import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
   return TableProvider.fromRead(ref);
@@ -71,8 +71,12 @@ class TableProvider extends StateNotifier<TableState> {
   }
 
   Future<void> listenListOfOrders() async {
-    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
-      //TODO: SI DATA LLEGA NULL ENTONCES MUESTRO PANTALLA DE ERROR Y REDIRIJO A ONBOARDING
+    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) async {
+      if (data.isEmpty || data['table'] == null) {
+        ref.read(authProvider.notifier).logout(logoutMessage: 'La mesa ha sido cerrada.');
+        ref.read(routerProvider).router.go(OnBoarding.route);
+        return;
+      }
       final tableUsers = UsersTable.fromMap(data);
       Logger.log('################# START listenListOfOrders #################');
       Logger.log(tableUsers.toString());
@@ -109,6 +113,16 @@ class TableProvider extends StateNotifier<TableState> {
         token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
         status: status,
       ).toMap(),
+    );
+  }
+
+  Future<void> orderNow() async {
+    socketIOHandler.emitMap(
+      SocketConstants.orderNow,
+      {
+        'tableId': state.tableCode ?? '',
+        'token': ref.read(authProvider).authModel.data?.bearerToken ?? '',
+      },
     );
   }
 }

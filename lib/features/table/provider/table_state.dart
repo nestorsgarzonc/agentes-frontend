@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
-
-import 'package:restaurants/core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/table/models/users_table.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
+import 'package:oyt_front_table/models/users_table.dart';
 
 class TableState extends Equatable {
   const TableState({required this.tableUsers, this.tableCode, this.isFirstTime = true});

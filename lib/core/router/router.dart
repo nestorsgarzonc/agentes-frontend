@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:restaurants/features/bill/bill_screen.dart';
-import 'package:restaurants/features/bill/individual_pay_screen.dart';
-import 'package:restaurants/features/product/models/product_model.dart';
-import 'package:restaurants/ui/Product/product_detail.dart';
-import 'package:restaurants/ui/auth/login_screen.dart';
-import 'package:restaurants/ui/auth/restore_password_screen.dart';
-import 'package:restaurants/ui/error/error_screen.dart';
-import 'package:restaurants/ui/menu/index_menu_screen.dart';
-import 'package:restaurants/ui/on_boarding/on_boarding.dart';
-import 'package:restaurants/ui/auth/register_screen.dart';
-import 'package:restaurants/ui/orders/list_of_orders.dart';
-import 'package:restaurants/ui/payment/payment_screen.dart';
-import 'package:restaurants/ui/table/table_qr_reader_screen.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
+import 'package:restaurants/features/bill/ui/bill_screen.dart';
+import 'package:restaurants/features/bill/ui/individual_pay_screen.dart';
+import 'package:oyt_front_product/models/product_model.dart';
+import 'package:restaurants/features/product/ui/product_detail.dart';
+import 'package:restaurants/features/auth/ui/login_screen.dart';
+import 'package:restaurants/features/auth/ui/restore_password_screen.dart';
+import 'package:restaurants/features/home/ui/index_menu_screen.dart';
+import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
+import 'package:restaurants/features/auth/ui/register_screen.dart';
+import 'package:restaurants/features/orders/ui/list_of_orders.dart';
+import 'package:restaurants/features/payment/ui/payment_screen.dart';
+import 'package:restaurants/features/table/ui/table_qr_reader_screen.dart';
 
 final routerProvider = Provider<CustomRouter>((ref) {
   return CustomRouter();
@@ -43,9 +43,10 @@ class CustomRouter {
           path: BillScreen.route,
           builder: (context, state) {
             final transactionId = state.queryParams['transactionId'];
+            final canPop = state.queryParams['canPop'] == 'true';
             return transactionId == null
                 ? ErrorScreen(error: atributeErrorMessage('transactionId'))
-                : BillScreen(transactionId: transactionId);
+                : BillScreen(transactionId: transactionId, canPop: canPop);
           },
         ),
         GoRoute(
@@ -106,7 +107,8 @@ class CustomRouter {
         ),
       ];
 
-  BuildContext get context => goRouter.navigator!.context;
+  BuildContext get context =>
+      goRouter.routeInformationParser.configuration.navigatorKey.currentState!.context;
 
   GoRouter get router => goRouter;
 }
