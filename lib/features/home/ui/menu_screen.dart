@@ -2,11 +2,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lottie/lottie.dart';
-import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:diner/features/restaurant/provider/restaurant_provider.dart';
 import 'package:diner/features/widgets/cards/product_item_card.dart';
 import 'package:oyt_front_widgets/image/image_api_widget.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
+import 'package:oyt_front_widgets/loading/screen_loading_widget.dart';
 
 class MenuScreen extends ConsumerStatefulWidget {
   const MenuScreen({super.key});
@@ -25,15 +25,8 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
       onError: (error) => Center(
         child: Text(error.message),
       ),
-      onLoading: () => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Lottie.asset(LottieAssets.preparingFood, width: 200, height: 200),
-          const SizedBox(width: double.infinity),
-          const Text('Cargando...', style: TextStyle(fontWeight: FontWeight.w500)),
-        ],
-      ),
-      onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
+      onLoading: () => const ScreenLoadingWidget(),
+      onInitial: () => const LoadingWidget(),
       onData: (data) => CustomScrollView(
         slivers: [
           SliverAppBar(

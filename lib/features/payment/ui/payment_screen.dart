@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_order/models/pay_order_mod.dart';
 import 'package:diner/features/orders/provider/orders_provider.dart';
@@ -102,8 +103,8 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
               );
             },
             onError: (err) => Text('$err'),
-            onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
-            onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
+            onLoading: () => const LoadingWidget(),
+            onInitial: () => const LoadingWidget(),
           ),
           const SizedBox(height: 10),
           const Text('Selecciona la propina:', style: _titleStyle),

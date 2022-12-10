@@ -10,6 +10,7 @@ import 'package:diner/features/auth/ui/register_screen.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -86,7 +87,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),
             ),
-            onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
+            onLoading: () => const LoadingWidget(),
             onInitial: () => CustomElevatedButton(
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),
@@ -103,9 +104,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void handleOnLogin() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
     ref.read(authProvider.notifier).login(
           email: _emailController.text,
           password: _passwordController.text,

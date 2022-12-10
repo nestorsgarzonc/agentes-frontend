@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
@@ -185,8 +186,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
             ],
           ),
           onError: (error) => Center(child: Text('$error')),
-          onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
-          onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
+          onLoading: () => const LoadingWidget(),
+          onInitial: () => const LoadingWidget(),
         ),
       ),
     );

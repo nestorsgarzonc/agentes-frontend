@@ -8,6 +8,7 @@ import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -106,7 +107,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           authState.authModel.on(
             onData: (_) => RegisterButton(onPressed: handleOnRegister),
             onError: (_) => RegisterButton(onPressed: handleOnRegister),
-            onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
+            onLoading: () => const LoadingWidget(),
             onInitial: () => RegisterButton(onPressed: handleOnRegister),
           ),
           const SizedBox(height: 20),

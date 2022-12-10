@@ -11,9 +11,7 @@ class MyApp extends ConsumerWidget {
     final routerProv = ref.read(routerProvider);
     return MaterialApp.router(
       title: 'OYT - Dinner',
-      routeInformationProvider: routerProv.goRouter.routeInformationProvider,
-      routeInformationParser: routerProv.goRouter.routeInformationParser,
-      routerDelegate: routerProv.goRouter.routerDelegate,
+      routerConfig: routerProv.goRouter,
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.myTheme(),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
@@ -31,7 +32,7 @@ class TableMenuScreen extends ConsumerWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                   ),
                   onError: (err) => Center(child: Text('Error ${err.message}')),
-                  onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
+                  onLoading: () => const LoadingWidget(),
                   onInitial: () => const SizedBox(),
                 ),
                 const SizedBox(height: 10),

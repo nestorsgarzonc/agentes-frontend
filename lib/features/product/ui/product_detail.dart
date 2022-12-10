@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
+import 'package:oyt_front_widgets/loading/screen_loading_widget.dart';
 import 'package:oyt_front_widgets/image/image_api_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -78,8 +79,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     return Scaffold(
       body: productState.productDetail.on(
         onError: (e) => ErrorScreen(error: e.message),
-        onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
-        onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
+        onLoading: () => const ScreenLoadingWidget(),
+        onInitial: () => const ScreenLoadingWidget(),
         onData: (data) {
           onCreateWidget(data);
           return NestedScrollView(
