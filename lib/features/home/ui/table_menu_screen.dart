@@ -139,7 +139,7 @@ class TableMenuScreen extends ConsumerWidget {
                     bottom: 5,
                     left: 20,
                     right: 20,
-                    child: changeStatus(data.tableStatus!, data)
+                    child: canChangeStatus(data.tableStatus!, data)
                         ? CustomElevatedButton(
                             onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
                             child: Text(data.tableStatus!.actionButtonLabel!),
@@ -155,7 +155,7 @@ class TableMenuScreen extends ConsumerWidget {
     );
   }
 
-  bool changeStatus(TableStatus status, UsersTable usersTable) {
+  bool canChangeStatus(TableStatus status, UsersTable usersTable) {
     if (status != TableStatus.ordering && usersTable.totalPrice != 0) {
       return true;
     }
