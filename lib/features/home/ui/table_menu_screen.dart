@@ -12,6 +12,7 @@ import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class TableMenuScreen extends ConsumerWidget {
   const TableMenuScreen({super.key});
+  //ignore this comment
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
