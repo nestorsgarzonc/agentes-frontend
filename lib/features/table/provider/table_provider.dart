@@ -63,9 +63,6 @@ class TableProvider extends StateNotifier<TableState> {
           'Se ha unido ${tableUsers.userName}',
         );
       }
-      Logger.log('################# START onNewUserJoined #################');
-      Logger.log(tableUsers.toString());
-      Logger.log('################# END onNewUserJoined #################');
       state = state.copyWith(tableUsers: StateAsync.success(tableUsers), isFirstTime: false);
     });
   }
@@ -78,9 +75,6 @@ class TableProvider extends StateNotifier<TableState> {
         return;
       }
       final tableUsers = UsersTable.fromMap(data);
-      Logger.log('################# START listenListOfOrders #################');
-      Logger.log(tableUsers.toString());
-      Logger.log('################# END listenListOfOrders #################');
       state = state.copyWith(tableUsers: StateAsync.success(tableUsers), isFirstTime: false);
     });
   }
