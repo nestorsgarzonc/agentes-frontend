@@ -139,10 +139,10 @@ class TableMenuScreen extends ConsumerWidget {
                     bottom: 5,
                     left: 20,
                     right: 20,
-                    child: CustomElevatedButton(
-                      onPressed: () => changeStatus(data.tableStatus!, data)? handleOnOrderNow(ref, data.tableStatus!, context) : {},
+                    child: changeStatus(data.tableStatus!, data)? CustomElevatedButton(
+                      onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
                       child: Text(data.tableStatus!.actionButtonLabel!),
-                    ),
+                    ): const SizedBox(),
                   ),
             onError: (_) => const SizedBox(),
             onLoading: () => const SizedBox(),
@@ -154,7 +154,7 @@ class TableMenuScreen extends ConsumerWidget {
   }
 
   bool changeStatus(TableStatus status, UsersTable usersTable) {
-    if (status != TableStatus.empty && usersTable.totalPrice != 0) {
+    if (status != TableStatus.ordering && usersTable.totalPrice != 0) {
       return true;
     }
     return false;

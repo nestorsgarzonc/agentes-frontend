@@ -102,7 +102,7 @@ class TableUserCard extends ConsumerWidget {
     );
   }
 
-  bool isOrdering(TableStatus status) {
+  bool isOrdering(TableStatus? status) {
     if (status == TableStatus.ordering) {
       return true;
     }
