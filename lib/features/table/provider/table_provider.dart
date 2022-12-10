@@ -3,16 +3,15 @@ import 'package:go_router/go_router.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
-import 'package:oyt_front_core/logger/logger.dart';
 import 'package:oyt_front_core/validators/text_form_validator.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
-import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:diner/core/router/router.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_table/models/change_table_status.dart';
 import 'package:oyt_front_table/models/users_table.dart';
-import 'package:restaurants/features/table/provider/table_state.dart';
-import 'package:restaurants/features/home/ui/index_menu_screen.dart';
-import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
+import 'package:diner/features/table/provider/table_state.dart';
+import 'package:diner/features/home/ui/index_menu_screen.dart';
+import 'package:diner/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {

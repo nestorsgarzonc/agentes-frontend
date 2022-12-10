@@ -6,14 +6,14 @@ import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_table/models/users_table.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_product/models/product_model.dart';
-import 'package:restaurants/features/product/provider/product_provider.dart';
-import 'package:restaurants/features/home/ui/topping_options_checkbox.dart';
+import 'package:diner/features/product/provider/product_provider.dart';
+import 'package:diner/features/home/ui/topping_options_checkbox.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
+import 'package:diner/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
@@ -155,8 +155,9 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                               ? _onAddToOrder
                               : () => ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
-                                      content:
-                                          Text('No puedes agregar productos si no estás ordenando.'),
+                                      content: Text(
+                                        'No puedes agregar productos si no estás ordenando.',
+                                      ),
                                     ),
                                   ),
                           onError: (e) => () {},

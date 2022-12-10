@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/core/utils/auth_utils.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/features/orders/ui/list_of_orders.dart';
+import 'package:diner/core/router/router.dart';
+import 'package:diner/core/utils/auth_utils.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/orders/ui/list_of_orders.dart';
 
 class HelpMenuItem {
   const HelpMenuItem({required this.title, required this.content, this.onTap});

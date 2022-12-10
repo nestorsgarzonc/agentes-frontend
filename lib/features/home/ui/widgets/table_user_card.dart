@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_table/models/users_table.dart';
-import 'package:restaurants/features/product/ui/product_detail.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:diner/features/product/ui/product_detail.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
 
 class TableUserCard extends ConsumerWidget {
   const TableUserCard({
@@ -71,14 +71,14 @@ class TableUserCard extends ConsumerWidget {
                         ),
                         trailing: tableProv.tableUsers.on(
                           onData: (data) => isMine && isOrdering(data.tableStatus!)
-                            ? IconButton(
-                                onPressed: () => GoRouter.of(context).push(
-                                  '${ProductDetail.route}?productId=${e.id}',
-                                  extra: e,
-                                ),
-                                icon: const Icon(Icons.edit),
-                              )
-                            : null,
+                              ? IconButton(
+                                  onPressed: () => GoRouter.of(context).push(
+                                    '${ProductDetail.route}?productId=${e.id}',
+                                    extra: e,
+                                  ),
+                                  icon: const Icon(Icons.edit),
+                                )
+                              : null,
                           onError: (_) => const SizedBox(),
                           onLoading: () => const SizedBox(),
                           onInitial: () => const SizedBox(),

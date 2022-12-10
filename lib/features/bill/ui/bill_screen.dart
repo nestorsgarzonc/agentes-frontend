@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/features/orders/provider/orders_provider.dart';
-import 'package:restaurants/features/on_boarding/ui/on_boarding.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/orders/provider/orders_provider.dart';
+import 'package:diner/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 

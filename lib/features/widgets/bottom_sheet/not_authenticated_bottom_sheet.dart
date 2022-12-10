@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:oyt_front_widgets/bottom_sheet/bottom_sheet_constants.dart';
-import 'package:restaurants/features/auth/ui/login_screen.dart';
+import 'package:diner/features/auth/ui/login_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 

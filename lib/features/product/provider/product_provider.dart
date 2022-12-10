@@ -2,13 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_product/models/product_model.dart';
-import 'package:restaurants/features/product/provider/product_state.dart';
+import 'package:diner/features/product/provider/product_state.dart';
 import 'package:oyt_front_product/repositories/product_repositories.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
-import 'package:restaurants/core/router/router.dart';
+import 'package:diner/core/router/router.dart';
 import 'package:uuid/uuid.dart';
 
 final productProvider = StateNotifierProvider<ProductProvider, ProductState>((ref) {

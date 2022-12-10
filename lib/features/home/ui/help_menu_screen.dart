@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:restaurants/features/home/ui/widgets/help_item_card.dart';
+import 'package:diner/features/home/ui/widgets/help_item_card.dart';
 import 'package:oyt_front_widgets/bottom_sheet/help_bottom_sheet.dart';
 import '../models/help_menu_item.dart';
 

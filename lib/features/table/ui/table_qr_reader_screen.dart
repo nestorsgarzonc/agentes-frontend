@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class TableQrReaderScreen extends ConsumerStatefulWidget {
