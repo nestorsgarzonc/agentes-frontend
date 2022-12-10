@@ -1,6 +1,5 @@
-import 'dart:ui';
+import 'package:diner/features/home/ui/widgets/menu_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diner/features/restaurant/provider/restaurant_provider.dart';
 import 'package:diner/features/widgets/cards/product_item_card.dart';
@@ -22,72 +21,12 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
   Widget build(BuildContext context) {
     final restaurantState = ref.watch(restaurantProvider);
     return restaurantState.restaurant.on(
-      onError: (error) => Center(
-        child: Text(error.message),
-      ),
+      onError: (error) => Center(child: Text(error.message)),
       onLoading: () => const ScreenLoadingWidget(),
       onInitial: () => const LoadingWidget(),
       onData: (data) => CustomScrollView(
         slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: MediaQuery.of(context).size.height * 0.27,
-            systemOverlayStyle: SystemUiOverlayStyle.light,
-            backgroundColor: Colors.grey,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.all(16),
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ImageFiltered(
-                    imageFilter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-                    child: data.imageUrl == null
-                        ? const FlutterLogo()
-                        : ImageApi(
-                            data.imageUrl!,
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  Container(color: Colors.black.withOpacity(0.2)),
-                ],
-              ),
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  data.logoUrl == null
-                      ? const FlutterLogo()
-                      : ImageApi(
-                          data.logoUrl!,
-                          height: 50,
-                          width: 50,
-                        ),
-                  const SizedBox(width: 5),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        data.name,
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.8),
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      Flexible(
-                        child: Text(
-                          'Mesa: ${data.tableName}',
-                          style: TextStyle(
-                            color: Colors.white.withOpacity(0.8),
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
+          MenuAppBar(restaurantData: data),
           SliverToBoxAdapter(
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 10),
