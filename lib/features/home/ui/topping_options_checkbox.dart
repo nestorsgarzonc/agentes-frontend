@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_product/models/product_model.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class ToppingOptionsCheckbox extends StatefulWidget {
   const ToppingOptionsCheckbox({
@@ -85,7 +86,7 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                                     Text('\$ ${CurrencyFormatter.format(toppingOption.price)}'),
                                 secondary: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
+                                  child: ImageApi(
                                     toppingOption.imgUrl,
                                     width: 60,
                                     height: 60,
@@ -121,7 +122,7 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                                     Text('\$ ${CurrencyFormatter.format(toppingOption.price)}'),
                                 secondary: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
+                                  child: ImageApi(
                                     toppingOption.imgUrl,
                                     width: 60,
                                     height: 60,

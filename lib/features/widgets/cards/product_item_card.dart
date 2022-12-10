@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_restaurant/models/restaurant_model.dart' as resm;
 import 'package:diner/features/product/ui/product_detail.dart';
@@ -25,7 +26,7 @@ class ProductItemCard extends StatelessWidget {
           bottom: 10,
         ),
         horizontalTitleGap: 10,
-        leading: Image.network(
+        leading: ImageApi(
           menuItem.imgUrl,
           width: 100,
         ),

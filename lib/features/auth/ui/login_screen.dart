@@ -54,11 +54,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             alignment: Alignment.center,
             height: 180,
             width: 180,
-            child: Lottie.asset(
-              LottieAssets.login,
-              height: 180.0,
-              fit: BoxFit.fitHeight,
-            ),
+            child: Lottie.asset(LottieAssets.login, height: 180.0, fit: BoxFit.fitHeight),
           ),
           const SizedBox(height: 10),
           Form(
@@ -90,7 +86,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),
             ),
-            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
             onInitial: () => CustomElevatedButton(
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),

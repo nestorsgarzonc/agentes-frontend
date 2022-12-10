@@ -31,7 +31,7 @@ class TableMenuScreen extends ConsumerWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
                   ),
                   onError: (err) => Center(child: Text('Error ${err.message}')),
-                  onLoading: () => const Center(child: CircularProgressIndicator()),
+                  onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
                   onInitial: () => const SizedBox(),
                 ),
                 const SizedBox(height: 10),

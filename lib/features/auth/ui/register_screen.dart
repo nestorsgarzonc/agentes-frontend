@@ -106,7 +106,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           authState.authModel.on(
             onData: (_) => RegisterButton(onPressed: handleOnRegister),
             onError: (_) => RegisterButton(onPressed: handleOnRegister),
-            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
             onInitial: () => RegisterButton(onPressed: handleOnRegister),
           ),
           const SizedBox(height: 20),

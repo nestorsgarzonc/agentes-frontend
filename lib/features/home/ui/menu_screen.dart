@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:diner/features/restaurant/provider/restaurant_provider.dart';
 import 'package:diner/features/widgets/cards/product_item_card.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class MenuScreen extends ConsumerStatefulWidget {
   const MenuScreen({super.key});
@@ -32,7 +33,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
           const Text('Cargando...', style: TextStyle(fontWeight: FontWeight.w500)),
         ],
       ),
-      onInitial: () => const Center(child: CircularProgressIndicator()),
+      onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
       onData: (data) => CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -49,7 +50,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                     imageFilter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
                     child: data.imageUrl == null
                         ? const FlutterLogo()
-                        : Image.network(
+                        : ImageApi(
                             data.imageUrl!,
                             fit: BoxFit.cover,
                           ),
@@ -62,7 +63,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                 children: [
                   data.logoUrl == null
                       ? const FlutterLogo()
-                      : Image.network(
+                      : ImageApi(
                           data.logoUrl!,
                           height: 50,
                           width: 50,
@@ -130,7 +131,7 @@ class _MenuScreenState extends ConsumerState<MenuScreen> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               const Spacer(),
-                              Image.network(
+                              ImageApi(
                                 cat.imgUrl,
                                 height: isSelected ? 48 : 45,
                                 width: 100,

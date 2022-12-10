@@ -6,6 +6,7 @@ import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_table/models/users_table.dart';
 import 'package:diner/features/product/ui/product_detail.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class TableUserCard extends ConsumerWidget {
   const TableUserCard({
@@ -85,7 +86,7 @@ class TableUserCard extends ConsumerWidget {
                         ),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
+                          child: ImageApi(
                             e.imgUrl,
                             width: 60,
                             height: 60,

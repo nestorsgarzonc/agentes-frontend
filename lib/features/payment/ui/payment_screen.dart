@@ -102,8 +102,8 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
               );
             },
             onError: (err) => Text('$err'),
-            onLoading: () => const Center(child: CircularProgressIndicator()),
-            onInitial: () => const Center(child: CircularProgressIndicator()),
+            onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
+            onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
           ),
           const SizedBox(height: 10),
           const Text('Selecciona la propina:', style: _titleStyle),

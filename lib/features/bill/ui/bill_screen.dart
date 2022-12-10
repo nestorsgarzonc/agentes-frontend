@@ -9,6 +9,7 @@ import 'package:diner/features/orders/provider/orders_provider.dart';
 import 'package:diner/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class BillScreen extends ConsumerStatefulWidget {
   const BillScreen({required this.canPop, required this.transactionId, super.key});
@@ -46,7 +47,7 @@ class _BillScreen extends ConsumerState<BillScreen> {
                     if (widget.canPop) const BackIconButton(),
                     Row(
                       children: [
-                        Image.network(
+                        ImageApi(
                           data.restaurantLogo,
                           height: 30,
                           width: 110,
@@ -184,8 +185,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
             ],
           ),
           onError: (error) => Center(child: Text('$error')),
-          onLoading: () => const Center(child: CircularProgressIndicator()),
-          onInitial: () => const Center(child: CircularProgressIndicator()),
+          onLoading: () => const Center(child: CircularProgressIndicator.adaptive()),
+          onInitial: () => const Center(child: CircularProgressIndicator.adaptive()),
         ),
       ),
     );
