@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:diner/features/restaurant/provider/restaurant_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_menu/ui/menu_screen_body.dart';
-import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_widgets/loading/screen_loading_widget.dart';
 
 class MenuScreen extends ConsumerWidget {
@@ -16,7 +15,7 @@ class MenuScreen extends ConsumerWidget {
     return restaurantState.restaurant.on(
       onError: (error) => Center(child: Text(error.message)),
       onLoading: () => const ScreenLoadingWidget(),
-      onInitial: () => const LoadingWidget(),
+      onInitial: () => const ScreenLoadingWidget(),
       onData: (data) => MenuScreenBody(
         restaurantData: data,
         onTapProduct: (menuItem) => GoRouter.of(context).push(
