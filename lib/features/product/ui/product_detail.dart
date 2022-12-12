@@ -42,17 +42,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   num totalWithToppings = 0;
   bool isCreated = false;
 
-  void scollListener() {
-    if (_scrollController.offset >= 100) {
-      setState(() {
-        isExpanded = false;
-      });
-    } else {
-      setState(() {
-        isExpanded = true;
-      });
-    }
-  }
+  void scrollListener() => setState(() => isExpanded = _scrollController.offset >= 100);
 
   @override
   void initState() {
@@ -61,12 +51,12 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).productDetail(widget.productId);
     });
-    _scrollController.addListener(scollListener);
+    _scrollController.addListener(scrollListener);
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(scollListener);
+    _scrollController.removeListener(scrollListener);
     _scrollController.dispose();
     ref.invalidate(productProvider);
     super.dispose();
