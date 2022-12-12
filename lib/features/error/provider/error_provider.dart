@@ -21,14 +21,14 @@ class ErrorProvider extends StateNotifier<ErrorState> {
 
   final Ref ref;
   final SocketIOHandler socketIOHandler;
+  //
 
   Future<void> listenError() async {
     socketIOHandler.onMap(SocketConstants.error, (data) async {
-      if (data.isNotEmpty) {
-        CustomSnackbar.showSnackBar(ref.read(routerProvider).context, 'no user id');
-        ref.read(routerProvider).router.go(OnBoarding.route);
+      if (data.isNotEmpty && !data.containsKey('reason')) {
         return;
       }
+    CustomSnackbar.showSnackBar(ref.read(routerProvider).context, data['reason'].toString());
     }
   );}
 }
