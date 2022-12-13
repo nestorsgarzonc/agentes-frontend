@@ -38,6 +38,7 @@ dependencies:
     path: ./packages/oyt_front_order
   oyt_front_table:
     path: ./packages/oyt_front_table
+  firebase_core: ^1.19.0
 
 dev_dependencies:
   dart_code_metrics: ^5.1.0
