@@ -4,17 +4,12 @@ import 'package:diner/features/home/ui/widgets/help_item_card.dart';
 import 'package:oyt_front_widgets/bottom_sheet/help_bottom_sheet.dart';
 import '../models/help_menu_item.dart';
 
-class HelpMenuScreen extends ConsumerStatefulWidget {
+class HelpMenuScreen extends ConsumerWidget {
   const HelpMenuScreen({super.key});
   static const route = '/help_menu';
 
   @override
-  ConsumerState<HelpMenuScreen> createState() => _HelpMenuScreenState();
-}
-
-class _HelpMenuScreenState extends ConsumerState<HelpMenuScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
@@ -35,11 +30,9 @@ class _HelpMenuScreenState extends ConsumerState<HelpMenuScreen> {
                   final item = HelpMenuItem.items[index];
                   return HelpItemCard(
                     title: item.title,
-                    onTap: () {
-                      item.onTap == null
-                          ? HelpBottomSheet.show(context, item.content, item.title)
-                          : item.onTap?.call(ref);
-                    },
+                    onTap: () => item.onTap == null
+                        ? HelpBottomSheet.show(context, item.content, item.title)
+                        : item.onTap?.call(ref),
                   );
                 },
               ),

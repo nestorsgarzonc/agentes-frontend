@@ -1,3 +1,4 @@
+import 'package:diner/core/utils/auth_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +8,6 @@ import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:diner/features/home/ui/help_menu_screen.dart';
 import 'package:diner/features/home/ui/menu_screen.dart';
 import 'package:diner/features/home/ui/table_menu_screen.dart';
-import 'package:diner/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 
 class IndexMenuScreen extends ConsumerStatefulWidget {
   const IndexMenuScreen({super.key, required this.tableId});
@@ -67,12 +67,6 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
       setState(() => selectedIndex = index);
       return;
     }
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data != null) {
-      setState(() => selectedIndex = index);
-      return;
-    } else {
-      NotAuthenticatedBottomSheet.show(context);
-    }
+    AuthUtils.onVerification(ref, () => setState(() => selectedIndex = index));
   }
 }

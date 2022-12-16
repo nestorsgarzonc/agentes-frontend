@@ -1,4 +1,5 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
+import 'package:diner/core/utils/auth_utils.dart';
 import 'package:oyt_front_widgets/loading/screen_loading_widget.dart';
 import 'package:oyt_front_widgets/image/image_api_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,12 @@ import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_table/models/users_table.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
-import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_product/models/product_model.dart';
 import 'package:diner/features/product/provider/product_provider.dart';
 import 'package:diner/features/home/ui/topping_options_checkbox.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
-import 'package:diner/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
@@ -203,19 +202,15 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _onAddToOrder() {
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data == null) {
-      NotAuthenticatedBottomSheet.show(context);
-      return;
-    }
-    final newProduct = ref.read(productProvider).productDetail.data!.copyWith(
-          note: _notesController.text,
-          toppings: toppings,
-          totalWithToppings: totalWithToppings,
-        );
-
-    ref.read(productProvider.notifier).addToOrder(newProduct);
-    GoRouter.of(context).pop();
+    AuthUtils.onVerification(ref, () {
+      final newProduct = ref.read(productProvider).productDetail.data!.copyWith(
+            note: _notesController.text,
+            toppings: toppings,
+            totalWithToppings: totalWithToppings,
+          );
+      ref.read(productProvider.notifier).addToOrder(newProduct);
+      GoRouter.of(context).pop();
+    });
   }
 
   void _showBottomSheet() {
@@ -249,19 +244,16 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _deleteItem() {
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data == null) {
-      NotAuthenticatedBottomSheet.show(context);
-      return;
-    }
-    final newProduct = widget.order?.copyWith(
-      note: _notesController.text,
-      toppings: toppings,
-      totalWithToppings: totalWithToppings,
-    );
-    if (newProduct == null) return;
-    ref.read(productProvider.notifier).deleteItem(newProduct);
-    GoRouter.of(context).pop();
+    AuthUtils.onVerification(ref, () {
+      final newProduct = widget.order?.copyWith(
+        note: _notesController.text,
+        toppings: toppings,
+        totalWithToppings: totalWithToppings,
+      );
+      if (newProduct == null) return;
+      ref.read(productProvider.notifier).deleteItem(newProduct);
+      GoRouter.of(context).pop();
+    });
   }
 
   void _modifyItem() {
