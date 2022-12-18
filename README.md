@@ -1,3 +1,7 @@
+git submodule init
+git submodule update
+flutter pub get
+
 # restaurants
 
 6306b31905ad6214a4bb34e2
