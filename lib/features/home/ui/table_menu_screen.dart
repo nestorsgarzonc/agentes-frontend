@@ -14,6 +14,7 @@ import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class TableMenuScreen extends ConsumerWidget {
   const TableMenuScreen({super.key});
+  //ignore this comment
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
