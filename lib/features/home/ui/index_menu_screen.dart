@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:restaurants/features/auth/provider/auth_provider.dart';
-import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/features/home/ui/help_menu_screen.dart';
-import 'package:restaurants/features/home/ui/menu_screen.dart';
-import 'package:restaurants/features/home/ui/table_menu_screen.dart';
-import 'package:restaurants/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/restaurant/provider/restaurant_provider.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
+import 'package:diner/features/home/ui/help_menu_screen.dart';
+import 'package:diner/features/home/ui/menu_screen.dart';
+import 'package:diner/features/home/ui/table_menu_screen.dart';
+import 'package:diner/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 
 class IndexMenuScreen extends ConsumerStatefulWidget {
   const IndexMenuScreen({super.key, required this.tableId});

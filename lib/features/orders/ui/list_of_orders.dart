@@ -5,8 +5,8 @@ import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
-import 'package:restaurants/features/bill/ui/bill_screen.dart';
-import 'package:restaurants/features/orders/provider/orders_provider.dart';
+import 'package:diner/features/bill/ui/bill_screen.dart';
+import 'package:diner/features/orders/provider/orders_provider.dart';
 
 class ListOfOrdersScreen extends ConsumerStatefulWidget {
   const ListOfOrdersScreen({super.key});

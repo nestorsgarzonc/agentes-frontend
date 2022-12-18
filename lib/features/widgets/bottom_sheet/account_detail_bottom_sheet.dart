@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oyt_front_widgets/bottom_sheet/bottom_sheet_constants.dart';
 import 'package:oyt_front_table/models/users_table.dart';
-import 'package:restaurants/features/home/ui/widgets/table_user_card.dart';
+import 'package:diner/features/home/ui/widgets/table_user_card.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
 
 class AccountDetailBottomSheet extends StatelessWidget {

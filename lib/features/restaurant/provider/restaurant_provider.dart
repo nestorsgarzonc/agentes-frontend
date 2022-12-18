@@ -2,8 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/failure/failure.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:oyt_front_restaurant/repositories/restaurant_repository.dart';
-import 'package:restaurants/features/restaurant/provider/restaurant_state.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:diner/features/restaurant/provider/restaurant_state.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
 
 final restaurantProvider = StateNotifierProvider<RestaurantProvider, RestaurantState>((ref) {
   return RestaurantProvider.fromRead(ref);

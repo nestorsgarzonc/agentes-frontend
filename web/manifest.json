@@ -1,6 +1,6 @@
 {
-    "name": "restaurants",
-    "short_name": "restaurants",
+    "name": "oyt_diner",
+    "short_name": "oyt_diner",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -3,15 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
-import 'package:restaurants/features/restaurant/provider/restaurant_provider.dart';
+import 'package:diner/features/restaurant/provider/restaurant_provider.dart';
 import 'package:oyt_front_table/models/users_table.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
-import 'package:restaurants/features/home/ui/widgets/table_user_card.dart';
-import 'package:restaurants/features/payment/ui/payment_screen.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
+import 'package:diner/features/home/ui/widgets/table_user_card.dart';
+import 'package:diner/features/payment/ui/payment_screen.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class TableMenuScreen extends ConsumerWidget {
   const TableMenuScreen({super.key});
+  //ignore this comment
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -139,10 +140,12 @@ class TableMenuScreen extends ConsumerWidget {
                     bottom: 5,
                     left: 20,
                     right: 20,
-                    child: CustomElevatedButton(
-                      onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
-                      child: Text(data.tableStatus!.actionButtonLabel!),
-                    ),
+                    child: canChangeStatus(data.tableStatus!, data)
+                        ? CustomElevatedButton(
+                            onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
+                            child: Text(data.tableStatus!.actionButtonLabel!),
+                          )
+                        : const SizedBox(),
                   ),
             onError: (_) => const SizedBox(),
             onLoading: () => const SizedBox(),
@@ -151,6 +154,13 @@ class TableMenuScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  bool canChangeStatus(TableStatus status, UsersTable usersTable) {
+    if (status != TableStatus.ordering && usersTable.totalPrice != 0) {
+      return true;
+    }
+    return false;
   }
 
   void handleOnOrderNow(WidgetRef ref, TableStatus status, BuildContext context) {

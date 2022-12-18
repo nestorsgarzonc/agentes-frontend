@@ -7,10 +7,10 @@ import 'package:oyt_front_auth/repositories/auth_repositories.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
-import 'package:restaurants/core/router/router.dart';
-import 'package:restaurants/features/auth/provider/auth_state.dart';
-import 'package:restaurants/features/orders/provider/orders_provider.dart';
-import 'package:restaurants/features/table/provider/table_provider.dart';
+import 'package:diner/core/router/router.dart';
+import 'package:diner/features/auth/provider/auth_state.dart';
+import 'package:diner/features/orders/provider/orders_provider.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
