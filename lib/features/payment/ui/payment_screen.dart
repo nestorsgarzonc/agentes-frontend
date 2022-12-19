@@ -43,6 +43,16 @@ enum PaymentWay {
   final String title;
 }
 
+enum IndividualPaymentMethod {
+  same(title: 'Igual monto', method: 'same'),
+  respective(title: 'Cada quien lo suyo', method: 'respective');
+
+  const IndividualPaymentMethod({required this.title, required this.method});
+
+  final String method;
+  final String title;
+}
+
 enum PaymentTip {
   fiveteen(title: '15%', value: 15),
   ten(title: '10%', value: 10),
@@ -61,6 +71,10 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   PaymentMethod? paymentMethod = PaymentMethod.cash;
   PaymentWay? paymentWay = PaymentWay.all;
   PaymentTip? paymentTip = PaymentTip.ten;
+  IndividualPaymentMethod? individualPaymentMethod = IndividualPaymentMethod.same;
+
+  String paymentWayValue = 'all';
+  String individualMethod = 'same';
 
   static const _titleStyle = TextStyle(fontSize: 18, fontWeight: FontWeight.w600);
 
@@ -140,23 +154,48 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                 value: e,
                 title: Text(e.title),
                 groupValue: paymentWay,
-                onChanged: (value) => setState(() => paymentWay = value),
+                onChanged: (value) =>
+                    {paymentWayValue = e.paymentValue, setState(() => paymentWay = value)},
               ),
             ),
           ),
           const SizedBox(height: 20),
-          const Text('Selecciona el metodo de pago:', style: _titleStyle),
-          const SizedBox(height: 5),
-          ...PaymentMethod.values.map(
-            (e) => Card(
-              child: RadioListTile<PaymentMethod>(
-                value: e,
-                title: Text(e.title),
-                groupValue: paymentMethod,
-                onChanged: (value) => setState(() => paymentMethod = value),
-              ),
-            ),
-          ),
+          paymentWayValue == 'all'
+              ? Column(
+                  children: [
+                    const Text('Selecciona el metodo de pago:', style: _titleStyle),
+                    const SizedBox(height: 5),
+                    ...PaymentMethod.values.map(
+                      (e) => Card(
+                        child: RadioListTile<PaymentMethod>(
+                          value: e,
+                          title: Text(e.title),
+                          groupValue: paymentMethod,
+                          onChanged: (value) => setState(() => paymentMethod = value),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    const Text('Selecciona la forma de pago individual:', style: _titleStyle),
+                    const SizedBox(height: 5),
+                    ...IndividualPaymentMethod.values.map(
+                      (e) => Card(
+                        child: RadioListTile<IndividualPaymentMethod>(
+                          value: e,
+                          title: Text(e.title),
+                          groupValue: individualPaymentMethod,
+                          onChanged: (value) => {
+                            individualMethod = e.method,
+                            setState(() => individualPaymentMethod = value)
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
           const SizedBox(height: 20),
           const Text('Resumen de cuenta:', style: _titleStyle),
           const SizedBox(height: 10),
@@ -167,8 +206,9 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                 children: [
                   AccountTotalItem(
                     title: 'Subtotal:',
-                    value:
-                        '\$ ${CurrencyFormatter.format(tableState.tableUsers.data?.totalPrice ?? 0)}',
+                    value: individualMethod == 'respective'
+                        ? '\$ ${CurrencyFormatter.format(tableState.tableUsers.data?.totalPrice ?? 0)}'
+                        : '\$ ${CurrencyFormatter.format(tableState.tableUsers.data!.totalPrice! / tableState.tableUsers.data!.users.length)}',
                   ),
                   AccountTotalItem(
                     title: 'Propina:',
@@ -179,8 +219,9 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                   AccountTotalItem(
                     title: 'Total a pagar:',
                     isBold: true,
-                    value:
-                        '\$ ${CurrencyFormatter.format((paymentTip?.calculateTip(tableState.tableUsers.data?.totalPrice ?? 0) ?? 0) + (tableState.tableUsers.data?.totalPrice ?? 0))}',
+                    value: individualMethod == 'respective'
+                        ? '\$ ${CurrencyFormatter.format((paymentTip?.calculateTip(tableState.tableUsers.data?.totalPrice ?? 0) ?? 0) + (tableState.tableUsers.data?.totalPrice ?? 0))}'
+                        : '\$ ${CurrencyFormatter.format((paymentTip?.calculateTip(tableState.tableUsers.data?.totalPrice ?? 0) ?? 0) + (tableState.tableUsers.data!.totalPrice! / tableState.tableUsers.data!.users.length))}',
                   ),
                 ],
               ),
