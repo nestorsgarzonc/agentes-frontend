@@ -45,7 +45,7 @@ enum PaymentWay {
 
 enum IndividualPaymentMethod {
   same(title: 'Igual monto', method: 'same'),
-  respective(title: 'Cada quien lo suyo', method: 'respective');
+  respective(title: 'Monto ordenado', method: 'respective');
 
   const IndividualPaymentMethod({required this.title, required this.method});
 
@@ -162,6 +162,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
           const SizedBox(height: 20),
           paymentWayValue == 'all'
               ? Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text('Selecciona el metodo de pago:', style: _titleStyle),
                     const SizedBox(height: 5),
@@ -178,6 +179,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                   ],
                 )
               : Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text('Selecciona la forma de pago individual:', style: _titleStyle),
                     const SizedBox(height: 5),
