@@ -230,7 +230,12 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          CustomElevatedButton(onPressed: handleOnPayNow, child: const Text('Pagar ahora')),
+          CustomElevatedButton(
+            onPressed: handleOnPayNow,
+            child: individualMethod == 'respective'
+                ? const Text('Pagar ahora')
+                : const Text('Ir al pago individual'),
+          ),
           const SizedBox(height: 50),
         ],
       ),
