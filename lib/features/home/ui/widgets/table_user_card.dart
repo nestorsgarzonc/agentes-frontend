@@ -71,7 +71,7 @@ class TableUserCard extends ConsumerWidget {
                           ],
                         ),
                         trailing: tableProv.tableUsers.on(
-                          onData: (data) => isMine && isOrdering(data.tableStatus!)
+                          onData: (data) => isMine && _isOrdering(data.tableStatus)
                               ? IconButton(
                                   onPressed: () => GoRouter.of(context).push(
                                     '${ProductDetail.route}?productId=${e.id}',
@@ -103,10 +103,5 @@ class TableUserCard extends ConsumerWidget {
     );
   }
 
-  bool isOrdering(TableStatus? status) {
-    if (status == TableStatus.ordering) {
-      return true;
-    }
-    return false;
-  }
+  bool _isOrdering(TableStatus? status) => status == TableStatus.ordering;
 }
