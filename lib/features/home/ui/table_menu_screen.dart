@@ -74,8 +74,7 @@ class TableMenuScreen extends ConsumerWidget {
           ),
           tableProv.tableUsers.on(
             onData: (data) => _canChangeStatus(data.tableStatus, data)
-                ? const SizedBox()
-                : Positioned(
+                ? Positioned(
                     bottom: 5,
                     left: 20,
                     right: 20,
@@ -83,7 +82,8 @@ class TableMenuScreen extends ConsumerWidget {
                       onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
                       child: Text(data.tableStatus!.actionButtonLabel!),
                     ),
-                  ),
+                  )
+                : const SizedBox(),
             onError: (error) => Center(child: Text('Error $error')),
             onLoading: () => const LoadingWidget(),
             onInitial: () => const LoadingWidget(),
@@ -94,9 +94,10 @@ class TableMenuScreen extends ConsumerWidget {
   }
 
   bool _canChangeStatus(TableStatus? status, UsersTable usersTable) =>
-      status == TableStatus.ordering &&
+      usersTable.hasSomeProducts &&
+      !usersTable.isTableEmpty &&
       usersTable.totalPrice != 0 &&
-      status?.actionButtonLabel == null;
+      status?.actionButtonLabel != null;
 
   void handleOnOrderNow(WidgetRef ref, TableStatus? status, BuildContext context) {
     switch (status) {
