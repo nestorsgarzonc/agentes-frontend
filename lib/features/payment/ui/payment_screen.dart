@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oyt_front_core/enums/payments_enum.dart';
 import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_order/models/pay_order_mod.dart';
@@ -20,41 +21,6 @@ class PaymentScreen extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _PaymentScreenState();
-}
-
-enum PaymentMethod {
-  cash(title: 'Efectivo', paymentValue: 'cash'),
-  card(title: 'Tarjeta credito', paymentValue: 'card'),
-  pse(title: 'PSE', paymentValue: 'pse');
-
-  const PaymentMethod({required this.title, required this.paymentValue});
-
-  final String title;
-  final String paymentValue;
-}
-
-enum PaymentWay {
-  all(title: 'Pago total', paymentValue: 'all'),
-  split(title: 'Pago individual', paymentValue: 'split');
-
-  const PaymentWay({required this.title, required this.paymentValue});
-
-  final String paymentValue;
-  final String title;
-}
-
-enum PaymentTip {
-  fiveteen(title: '15%', value: 15),
-  ten(title: '10%', value: 10),
-  five(title: '5%', value: 5),
-  none(title: 'Sin propina', value: 0);
-
-  const PaymentTip({required this.title, required this.value});
-
-  num calculateTip(num total) => total * (value / 100);
-
-  final String title;
-  final int value;
 }
 
 class _PaymentScreenState extends ConsumerState<PaymentScreen> {
