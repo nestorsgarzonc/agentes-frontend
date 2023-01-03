@@ -5,7 +5,7 @@ import 'package:oyt_front_core/push_notifications/push_notif_provider.dart';
 import 'package:oyt_front_core/theme/theme.dart';
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key}) ;
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
