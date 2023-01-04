@@ -32,7 +32,6 @@ dependencies:
     path: ./packages/oyt_front_menu
 
 dev_dependencies:
-  dart_code_metrics: ^5.3.0
   flutter_lints: ^2.0.0
 
 flutter:
