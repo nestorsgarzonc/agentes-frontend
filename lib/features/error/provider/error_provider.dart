@@ -1,5 +1,4 @@
 import 'package:diner/core/router/router.dart';
-import 'package:diner/features/on_boarding/ui/on_boarding.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
@@ -21,7 +20,6 @@ class ErrorProvider extends StateNotifier<ErrorState> {
 
   final Ref ref;
   final SocketIOHandler socketIOHandler;
-  //
 
   Future<void> listenError() async {
     socketIOHandler.onMap(SocketConstants.error, (data) async {

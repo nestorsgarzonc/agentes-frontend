@@ -24,6 +24,7 @@ class BillScreen extends ConsumerStatefulWidget {
 }
 
 class _BillScreen extends ConsumerState<BillScreen> {
+  //se pasa el paymentWay
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
