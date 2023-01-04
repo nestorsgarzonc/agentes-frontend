@@ -10,8 +10,7 @@ final errorProvider = StateNotifierProvider<ErrorProvider, ErrorState>((ref) {
 });
 
 class ErrorProvider extends StateNotifier<ErrorState> {
-  ErrorProvider(this.socketIOHandler, {required this.ref})
-      : super(const ErrorState());
+  ErrorProvider(this.socketIOHandler, {required this.ref}) : super(const ErrorState());
 
   factory ErrorProvider.fromRead(Ref ref) {
     final socketIo = ref.read(socketProvider);
@@ -26,7 +25,7 @@ class ErrorProvider extends StateNotifier<ErrorState> {
       if (data.isNotEmpty && !data.containsKey('reason')) {
         return;
       }
-    CustomSnackbar.showSnackBar(ref.read(routerProvider).context, data['reason'].toString());
-    }
-  );}
+      CustomSnackbar.showSnackBar(ref.read(routerProvider).context, data['reason'].toString());
+    });
+  }
 }

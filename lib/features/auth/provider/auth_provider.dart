@@ -1,11 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:diner/features/error/provider/error_provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
+import 'package:oyt_front_auth/models/login_model.dart';
 import 'package:oyt_front_auth/models/user_model.dart';
 import 'package:oyt_front_auth/repositories/auth_repositories.dart';
+import 'package:oyt_front_core/constants/firebase_constants.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
+import 'package:oyt_front_core/logger/logger.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:diner/core/router/router.dart';
 import 'package:diner/features/auth/provider/auth_state.dart';
@@ -41,7 +46,16 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<void> login({required String email, required String password}) async {
     state = state.copyWith(authModel: StateAsync.loading());
-    final res = await authRepository.login(email, password);
+    final deviceToken = await FirebaseMessaging.instance.getToken(
+      vapidKey: FirebaseConstants.vapidKey,
+    );
+    Logger.log('deviceToken: $deviceToken');
+    final loginModel = LoginModel(
+      email: email,
+      password: password,
+      deviceToken: deviceToken ?? '',
+    );
+    final res = await authRepository.login(loginModel);
     res.fold(
       (l) {
         state = state.copyWith(authModel: StateAsync.error(l));
@@ -124,6 +138,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     ref.read(tableProvider.notifier).listenTableUsers();
     ref.read(tableProvider.notifier).listenListOfOrders();
     ref.read(ordersProvider.notifier).listenOnPay();
+    ref.read(errorProvider.notifier).listenError();
     socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }
