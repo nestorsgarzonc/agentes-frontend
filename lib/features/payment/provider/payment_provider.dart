@@ -6,24 +6,31 @@ import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:diner/features/payment/provider/payment_state.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
+import 'package:diner/features/payment/repository/payment_repository.dart';
+import 'package:oyt_front_core/wrappers/state_wrapper.dart';
+import 'package:oyt_front_table/models/users_table.dart';
+import 'package:oyt_front_widgets/error/error_screen.dart';
 
 final paymentProvider = StateNotifierProvider<PaymentProvider, PaymentState>((ref) {
   return PaymentProvider.fromRead(ref);
 });
 
 class PaymentProvider extends StateNotifier<PaymentState> {
-  PaymentProvider(this.socketIOHandler, {required this.ref})
-      : super(const PaymentState());
 
   factory PaymentProvider.fromRead(Ref ref) {
+    final paymentRepository = ref.read(paymentRepositoryProvider);
     final socketIo = ref.read(socketProvider);
-    return PaymentProvider(socketIo, ref: ref);
+    return PaymentProvider(paymentRepository, socketIo, ref: ref);
   }
 
+  PaymentProvider(this.paymentRepository, this.socketIOHandler, {required this.ref})
+      : super(PaymentState.initial());
+  
+  final PaymentRepository paymentRepository;
   final Ref ref;
   final SocketIOHandler socketIOHandler;
 
-  Future<void> askAccount(String paymentWay) async {
+  Future<void> askAccount(String paymentWay, String paymentMethod, num tip) async { // 1. Pedir cuenta
     final account = {
       'token' : ref.read(authProvider).authModel.data?.bearerToken,
       'tableId' : ref.read(tableProvider).tableCode,
@@ -32,12 +39,22 @@ class PaymentProvider extends StateNotifier<PaymentState> {
     socketIOHandler.emitMap(SocketConstants.askAccount, account);
   }
 
-  Future<void> singlePayment() async {
-    socketIOHandler.emitMap(SocketConstants.singlePayment, {});
+  Future<void> payAccountSingle(String paymentWay, String paymentMethod, String individualPaymentWay) async { //Pago individual
+    final List<String> paysFor = [];
+    ref.read(tableProvider).tableUsers.data?.users.forEach((element) {paysFor.add(element.userId);});
+    final paymentInfo = {
+      'paymentWay' : paymentWay,
+      'paymentMethod' : paymentMethod,
+      'individualPaymentWay' : individualPaymentWay,
+      'paysFor' : paysFor,
+      'token' : ref.read(authProvider).authModel.data?.bearerToken,
+      'tableId': ref.read(tableProvider).tableCode,
+    };
+    socketIOHandler.emitMap(SocketConstants.payAccountSingle, paymentInfo);
   }
 
-  Future<void> listenOnTableOrder() async {
-    socketIOHandler.onMap(SocketConstants.tableOrder, (data) {
+  Future<void> singlePayment() async {
+    socketIOHandler.onMap(SocketConstants.singlePayment, (data) {
       if (!data.containsKey('paymentWay')) {
         return;
       }
@@ -49,9 +66,27 @@ class PaymentProvider extends StateNotifier<PaymentState> {
     });
   }
 
-  Future<void> listenOnListofOrders() async {
-    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
-      
+  Future<void> tableOrder(String paymentMethod, num tip) async {
+    state = state.copyWith();
+    final res = await paymentRepository.getPayment(paymentMethod, tip);
+    if (res != null) {
+      ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
+      return;
+    }
+  }
+
+  Future<void> listenListofOrders() async { 
+    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) { // Campo paymentStatus para saber quién ha pagado
+      // Si uno va a pagar por todos, solo se escucha este evento y se envía al que paga a la pantalla de pago (bill_screen), los demás se actualiza para que no puedan pagar
+      if (data.isEmpty || data['orderId'] == null) {
+        ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': 'Error: no se pudo realizar el pago.'});
+        return;
+      }
+      final orderId = data['orderId'];
+      ref
+          .read(routerProvider)
+          .router
+          .push('${BillScreen.route}?transactionId=$orderId&canPop=false');
     });
   }
 }

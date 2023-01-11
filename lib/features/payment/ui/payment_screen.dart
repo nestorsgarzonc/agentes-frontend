@@ -1,5 +1,6 @@
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/auth/provider/auth_state.dart';
+import 'package:diner/features/bill/ui/bill_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/logger/logger.dart';
@@ -14,6 +15,9 @@ import 'package:diner/features/home/ui/widgets/table_user_card.dart';
 import 'package:diner/features/payment/ui/account_total_item.dart';
 import 'package:diner/features/widgets/bottom_sheet/account_detail_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
+import 'package:diner/features/payment/provider/payment_provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class PaymentScreen extends ConsumerStatefulWidget {
   const PaymentScreen({super.key});
@@ -297,6 +301,17 @@ if(canCalculateOnInitial){
   }
 
   void handleOnPayNow() {
+    switch (paymentWay) {
+      case PaymentWay.all:
+        ref.read(paymentProvider.notifier).askAccount(paymentWay.paymentValue, paymentMethod.paymentValue, tip);
+        break;
+      case PaymentWay.split:
+        ref.read(paymentProvider.notifier).payAccountSingle(paymentWay.paymentValue, paymentMethod.paymentValue, individualPaymentMethod.method);
+        break;
+      default:
+        CustomSnackbar.showSnackBar(context, 'No fue posible realizar el pago');
+        break;
+    }
     ref.read(ordersProvider.notifier).payOrder(
           PayOrderModel(
             tableId: ref.read(tableProvider).tableCode!,
