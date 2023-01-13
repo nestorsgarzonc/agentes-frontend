@@ -1,16 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:diner/features/error/provider/error_provider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
 import 'package:oyt_front_auth/models/login_model.dart';
 import 'package:oyt_front_auth/models/user_model.dart';
 import 'package:oyt_front_auth/repositories/auth_repositories.dart';
-import 'package:oyt_front_core/constants/firebase_constants.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
-import 'package:oyt_front_core/logger/logger.dart';
 import 'package:oyt_front_core/push_notifications/push_notif_provider.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:diner/core/router/router.dart';
