@@ -11,6 +11,7 @@ import 'package:oyt_front_core/constants/firebase_constants.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:oyt_front_core/logger/logger.dart';
+import 'package:oyt_front_core/push_notifications/push_notif_provider.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:diner/core/router/router.dart';
 import 'package:diner/features/auth/provider/auth_state.dart';
@@ -46,15 +47,8 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<void> login({required String email, required String password}) async {
     state = state.copyWith(authModel: StateAsync.loading());
-    final deviceToken = await FirebaseMessaging.instance.getToken(
-      vapidKey: FirebaseConstants.vapidKey,
-    );
-    Logger.log('deviceToken: $deviceToken');
-    final loginModel = LoginModel(
-      email: email,
-      password: password,
-      deviceToken: deviceToken ?? '',
-    );
+    final fcmToken = await ref.read(pushNotificationsProvider).getToken();
+    final loginModel = LoginModel(email: email, password: password, deviceToken: fcmToken);
     final res = await authRepository.login(loginModel);
     res.fold(
       (l) {
