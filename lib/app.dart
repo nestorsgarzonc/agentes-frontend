@@ -12,12 +12,9 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  late PushNotificationProvider pushNotificationProvider;
-
   @override
   void initState() {
-    pushNotificationProvider = ref.read(pushNotificationsProvider);
-    pushNotificationProvider.setupInteractedMessage();
+    ref.read(pushNotificationsProvider).setupInteractedMessage();
     super.initState();
   }
 
@@ -25,7 +22,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final routerProv = ref.read(routerProvider);
     return MaterialApp.router(
-      scaffoldMessengerKey: pushNotificationProvider.messengerKey,
+      scaffoldMessengerKey: ref.read(pushNotificationsProvider).messengerKey,
       title: 'OYT - Dinner',
       routerConfig: routerProv.goRouter,
       debugShowCheckedModeBanner: false,
