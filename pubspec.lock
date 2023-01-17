@@ -302,7 +302,7 @@ packages:
       name: lottie
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   matcher:
     dependency: transitive
     description:
@@ -489,7 +489,7 @@ packages:
       name: socket_io_client
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.0"
+    version: "2.0.1"
   socket_io_common:
     dependency: transitive
     description:

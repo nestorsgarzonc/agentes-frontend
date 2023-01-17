@@ -5,19 +5,16 @@ import 'package:oyt_front_core/push_notifications/push_notif_provider.dart';
 import 'package:oyt_front_core/theme/theme.dart';
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key}) ;
+  const MyApp({super.key});
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  final _messangerKey = GlobalKey<ScaffoldMessengerState>();
-
   @override
   void initState() {
-    final pushNotification = PushNotificationProvider(messengerKey: _messangerKey);
-    pushNotification.setupInteractedMessage();
+    ref.read(pushNotificationsProvider).setupInteractedMessage();
     super.initState();
   }
 
@@ -25,7 +22,7 @@ class _MyAppState extends ConsumerState<MyApp> {
   Widget build(BuildContext context) {
     final routerProv = ref.read(routerProvider);
     return MaterialApp.router(
-      scaffoldMessengerKey: _messangerKey,
+      scaffoldMessengerKey: ref.read(pushNotificationsProvider).messengerKey,
       title: 'OYT - Dinner',
       routerConfig: routerProv.goRouter,
       debugShowCheckedModeBanner: false,
