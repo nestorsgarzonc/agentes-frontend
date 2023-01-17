@@ -10,15 +10,13 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  EquatableConfig.stringify = true;
-  initializeDateFormatting('es_CO', null);
-  await Hive.initFlutter();
   if (kIsWeb) {
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   } else {
-    await Firebase.initializeApp(
-      options: Firebase.apps.isNotEmpty ? DefaultFirebaseOptions.currentPlatform : null,
-    );
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   }
+  EquatableConfig.stringify = true;
+  initializeDateFormatting('es_CO', null);
+  await Hive.initFlutter();
   runApp(const ProviderScope(child: MyApp()));
 }
