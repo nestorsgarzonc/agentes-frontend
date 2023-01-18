@@ -59,6 +59,7 @@ class ProductProvider extends StateNotifier<ProductState> {
     productJson['token'] = ref.read(authProvider).authModel.data?.bearerToken;
     productJson['tableId'] = ref.read(tableProvider).tableCode;
     productJson['uuid'] = const Uuid().v4();
+    print(productJson);
     socketIOHandler.emitMap(SocketConstants.addToOrder, productJson);
   }
 
