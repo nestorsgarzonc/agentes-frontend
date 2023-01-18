@@ -53,8 +53,8 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                       currentTopping.name,
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
-                    Text('Minimo de opciones: ${currentTopping.minOptions}'),
-                    Text('Maximo de opciones: ${currentTopping.maxOptions}'),
+                    Text('Mínimo de opciones: ${currentTopping.minOptions}'),
+                    Text('Máximo de opciones: ${currentTopping.maxOptions}'),
                     Column(
                       children: currentTopping.options.map((toppingOption) {
                         if (currentTopping.type == 'checkBox') {

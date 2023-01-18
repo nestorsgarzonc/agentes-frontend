@@ -134,7 +134,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 const SizedBox(height: 10),
                 CustomTextField(
                   label: 'Comentarios',
-                  hintText: 'Algo que debamos saber como: sin cebolla, sin tomate, etc.',
+                  hintText: 'Algo que debamos saber como sin cebolla, sin tomate, etc...',
                   maxLines: 3,
                   controller: _notesController,
                 ),
@@ -221,7 +221,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('¿Estás seguro que deseas elimnar este plato de la orden?'),
+              const Text('¿Estás seguro que deseas eliminar este plato de la orden?'),
               const SizedBox(
                 height: 10,
               ),
