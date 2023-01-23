@@ -10,7 +10,7 @@ final paymentDatasourceProvider = Provider<PaymentDatasource>((ref) {
 });
 
 abstract class PaymentDatasource {
-  Future<void> postPaymentForAll(String paymentMethod, num tip);
+  Future<void> postPaymentForAll(String paymentWay, String paymentMethod, num tip);
 }
 
 class PaymentDatasourceImpl implements PaymentDatasource {
@@ -29,10 +29,10 @@ class PaymentDatasourceImpl implements PaymentDatasource {
   final TableState tableHandler;
 
   @override
-  Future<void> postPaymentForAll(String paymentMethod, num tip) async {
+  Future<void> postPaymentForAll(String paymentWay, String paymentMethod, num tip) async {
     try {
       await apiHandler.post('api/order/table-order', {
-        'paymentWay' : 'altogether',
+        'paymentWay' : paymentWay,
         'paymentMethod' : paymentMethod,
         'tip' : tip,
         'tableId' : tableHandler.tableCode

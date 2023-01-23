@@ -47,9 +47,10 @@ class CustomRouter {
           builder: (context, state) {
             final transactionId = state.queryParams['transactionId'];
             final canPop = state.queryParams['canPop'] == 'true';
-            return transactionId == null
+            final individualPaymentWay = state.queryParams['individualPaymentWay'];
+            return transactionId == null || individualPaymentWay == null
                 ? ErrorScreen(error: atributeErrorMessage('transactionId'))
-                : BillScreen(transactionId: transactionId, canPop: canPop);
+                : BillScreen(transactionId: transactionId, canPop: canPop, individualPaymentWay: individualPaymentWay,);
           },
         ),
         GoRoute(

@@ -13,10 +13,11 @@ import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class BillScreen extends ConsumerStatefulWidget {
-  const BillScreen({required this.canPop, required this.transactionId, super.key});
+  const BillScreen({required this.canPop, required this.transactionId, required this.individualPaymentWay, super.key});
 
   final String transactionId;
   final bool canPop;
+  final String? individualPaymentWay;
   static const route = '/individual_pay_screen';
 
   @override
@@ -36,6 +37,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
   @override
   Widget build(BuildContext context) {
     final orderState = ref.watch(ordersProvider);
+    final userState = ref.watch(authProvider);
+    final user = userState.authModel.data?.user;
     return WillPopScope(
       onWillPop: () => Future.value(widget.canPop),
       child: AnimatedBackground(
@@ -90,7 +93,7 @@ class _BillScreen extends ConsumerState<BillScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                Text(
                                     '${e.firstName} ${e.lastName}',
                                     style:
                                         const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -104,13 +107,16 @@ class _BillScreen extends ConsumerState<BillScreen> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(op.name),
-                                                Text('\$ ${CurrencyFormatter.format(op.price)}')
+                                                widget.individualPaymentWay == 'equal'
+                                                ? Text('\$ ${CurrencyFormatter.format(data.totalPrice / data.usersOrder.length)}')
+                                                : Text('\$ ${CurrencyFormatter.format(op.price)}')
                                               ],
                                             ),
                                             if (op.getToppingOptions.isNotEmpty)
                                               Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
+                                                children: widget.individualPaymentWay == 'respective' 
+                                                ?[
                                                   const SizedBox(height: 10),
                                                   const Text('Toppings:'),
                                                   const SizedBox(height: 5),
@@ -126,7 +132,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
                                                       ],
                                                     ),
                                                   )
-                                                ],
+                                                ]
+                                                :[],
                                               ),
                                           ],
                                         ),
@@ -166,10 +173,12 @@ class _BillScreen extends ConsumerState<BillScreen> {
                           'Total:',
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          '\$ ${CurrencyFormatter.format(data.totalPrice)}',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
+                        data.paymentWay == 'all'
+                        ? Text('\$ ${CurrencyFormatter.format(data.totalPrice)}')
+                        : Text( widget.individualPaymentWay == 'equal'
+                          ? '\$ ${CurrencyFormatter.format(data.totalPrice / data.usersOrder.length)}'
+                          : '\$ ${CurrencyFormatter.format(data.usersOrder.firstWhere((e) => e.id == user?.id).price)}',
+                          )
                       ],
                     ),
                     const SizedBox(height: 10),

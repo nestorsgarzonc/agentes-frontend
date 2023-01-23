@@ -68,4 +68,21 @@ class OrdersProvider extends StateNotifier<OrderState> {
       (r) => state = state.copyWith(order: StateAsync.success(r)),
     );
   }
+
+  Future<void> listenListOfOrders() async {
+    socketIOHandler.onMap(SocketConstants.listOfOrders, (data) {
+      if (data.isEmpty || data['orderId'] == null) {
+        ref
+            .read(routerProvider)
+            .router
+            .push(ErrorScreen.route, extra: {'error': 'Error: no se pudo realizar el pago.'});
+        return;
+      }
+      final orderId = data['orderId'];
+      ref
+          .read(routerProvider)
+          .router
+          .push('${BillScreen.route}?transactionId=$orderId&canPop=false');
+    });
+  }
 }

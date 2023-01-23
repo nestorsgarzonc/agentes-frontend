@@ -7,8 +7,6 @@ import 'package:diner/features/payment/provider/payment_state.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:diner/features/payment/repository/payment_repository.dart';
-import 'package:oyt_front_core/wrappers/state_wrapper.dart';
-import 'package:oyt_front_table/models/users_table.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 
 final paymentProvider = StateNotifierProvider<PaymentProvider, PaymentState>((ref) {
@@ -65,15 +63,16 @@ class PaymentProvider extends StateNotifier<PaymentState> {
         .push('${BillScreen.route}?transactionId=$orderId&canPop=false');
     });
   }
-
-  Future<void> tableOrder(String paymentMethod, num tip) async {
+/*
+  Future<void> tableOrder(String paymentWay, String paymentMethod, num tip) async {
     state = state.copyWith();
-    final res = await paymentRepository.getPayment(paymentMethod, tip);
+    final res = await paymentRepository.getPayment(paymentWay, paymentMethod, tip);
     if (res != null) {
       ref.read(routerProvider).router.push(ErrorScreen.route, extra: {'error': res.message});
       return;
     }
   }
+*/
 
   Future<void> listenListofOrders() async { 
     socketIOHandler.onMap(SocketConstants.listOfOrders, (data) { // Campo paymentStatus para saber quién ha pagado
