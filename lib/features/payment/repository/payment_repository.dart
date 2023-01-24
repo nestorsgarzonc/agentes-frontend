@@ -1,13 +1,14 @@
 import 'package:diner/features/payment/data_source/payment_datasource.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/failure/failure.dart';
+import 'package:diner/features/payment/ui/payment_screen.dart';
 
 final paymentRepositoryProvider = Provider<PaymentRepository>((ref) {
   return PaymentRepositoryImpl.fromRef(ref);
 });
 
 abstract class PaymentRepository {
-  Future<Failure?> getPayment(String paymentWay, String paymentMethod, num tip);
+  Future<Failure?> getPayment(PaymentWay paymentWay, PaymentMethod paymentMethod, num tip);
 }
 
 class PaymentRepositoryImpl implements PaymentRepository {
@@ -21,7 +22,7 @@ class PaymentRepositoryImpl implements PaymentRepository {
   final PaymentDatasource paymentDataSource;
 
   @override
-  Future<Failure?> getPayment(String paymentWay, String paymentMethod, num tip) async {
+  Future<Failure?> getPayment(PaymentWay paymentWay, PaymentMethod paymentMethod, num tip) async {
     try {
       await paymentDataSource.postPaymentForAll(paymentWay, paymentMethod, tip);
       return null;

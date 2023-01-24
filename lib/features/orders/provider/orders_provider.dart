@@ -9,6 +9,8 @@ import 'package:oyt_front_order/models/pay_order_mod.dart';
 import 'package:oyt_front_order/repository/orders_repository.dart';
 import 'package:oyt_front_widgets/dialogs/custom_dialogs.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
+import 'package:diner/features/auth/provider/auth_provider.dart';
+import 'package:diner/features/table/provider/table_provider.dart';
 
 final ordersProvider = StateNotifierProvider<OrdersProvider, OrderState>((ref) {
   return OrdersProvider.fromRef(ref);
@@ -67,6 +69,16 @@ class OrdersProvider extends StateNotifier<OrderState> {
       (l) => state = state.copyWith(order: StateAsync.error(l)),
       (r) => state = state.copyWith(order: StateAsync.success(r)),
     );
+  }
+
+  Future<void> askAccount(String paymentWay, String paymentMethod, num tip) async {
+    // 1. Pedir cuenta
+    final account = {
+      'token': ref.read(authProvider).authModel.data?.bearerToken,
+      'tableId': ref.read(tableProvider).tableCode,
+      'paymentWay': paymentWay,
+    };
+    socketIOHandler.emitMap(SocketConstants.askAccount, account);
   }
 
   Future<void> listenListOfOrders() async {

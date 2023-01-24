@@ -40,16 +40,14 @@ enum PaymentMethod {
 }
 
 enum PaymentWay {
-  all(title: 'Pago total', paymentValue: 'all'),
-  split(title: 'Pago individual', paymentValue: 'split');
+  all(title: 'Pago total', paymentValue: 'all', paymentLabel: 'Pagar ahora'),
+  split(title: 'Pago individual', paymentValue: 'split', paymentLabel: 'Ir al pago individual');
 
-  const PaymentWay({required this.title, required this.paymentValue});
-
-  String get paymentLabel =>
-      title == PaymentWay.all.title ? 'Pagar ahora' : 'Ir al pago individual';
+  const PaymentWay({required this.title, required this.paymentValue, required this.paymentLabel});
 
   final String paymentValue;
   final String title;
+  final String paymentLabel;
 }
 
 enum IndividualPaymentMethod {
