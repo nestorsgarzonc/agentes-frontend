@@ -9,7 +9,7 @@ import 'package:oyt_front_table/models/users_table.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:diner/features/home/ui/widgets/table_user_card.dart';
 import 'package:diner/features/payment/ui/payment_screen.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
+
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class TableMenuScreen extends ConsumerWidget {
@@ -78,7 +78,7 @@ class TableMenuScreen extends ConsumerWidget {
                     bottom: 5,
                     left: 20,
                     right: 20,
-                    child: CustomElevatedButton(
+                    child: FilledButton(
                       onPressed: () => handleOnOrderNow(ref, data.tableStatus!, context),
                       child: Text(data.tableStatus!.actionButtonLabel!),
                     ),
