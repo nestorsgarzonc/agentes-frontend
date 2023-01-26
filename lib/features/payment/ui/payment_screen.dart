@@ -14,7 +14,6 @@ import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:diner/features/home/ui/widgets/table_user_card.dart';
 import 'package:diner/features/payment/ui/account_total_item.dart';
 import 'package:diner/features/widgets/bottom_sheet/account_detail_bottom_sheet.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:diner/features/payment/provider/payment_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
@@ -247,7 +246,7 @@ if(canCalculateOnInitial){
                 ),
               ),
               const SizedBox(height: 20),
-              CustomElevatedButton(
+              FilledButton(
                 onPressed: handleOnPayNow,
                 child: Text(paymentWay.paymentLabel),
               ),

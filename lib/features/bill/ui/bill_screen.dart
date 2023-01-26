@@ -9,7 +9,6 @@ import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/orders/provider/orders_provider.dart';
 import 'package:diner/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class BillScreen extends ConsumerStatefulWidget {
@@ -184,7 +183,7 @@ class _BillScreen extends ConsumerState<BillScreen> {
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
-                      child: CustomElevatedButton(
+                      child: FilledButton(
                         onPressed: handleOnContinue,
                         child: const Text('Continuar'),
                       ),

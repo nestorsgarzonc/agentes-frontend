@@ -6,7 +6,6 @@ import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:diner/features/table/ui/table_qr_reader_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/table_code_sheet.dart';
 import 'package:oyt_front_widgets/widgets/divider.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class OnBoarding extends ConsumerWidget {
   const OnBoarding({Key? key}) : super(key: key);
@@ -28,7 +27,7 @@ class OnBoarding extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            CustomElevatedButton(
+            FilledButton(
               onPressed: () => handleOnScan(context),
               child: Row(
                 mainAxisSize: MainAxisSize.min,

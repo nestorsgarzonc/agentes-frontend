@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_table/models/users_table.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:oyt_front_product/models/product_model.dart';
 import 'package:diner/features/product/provider/product_provider.dart';
 import 'package:diner/features/home/ui/topping_options_checkbox.dart';
@@ -140,7 +139,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 ),
                 const SizedBox(height: 20.0),
                 widget.order == null
-                    ? CustomElevatedButton(
+                    ? FilledButton(
                         onPressed: tableProv.tableUsers.on(
                           onData: (data) => data.tableStatus == TableStatus.ordering
                               ? _onAddToOrder
@@ -159,7 +158,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                       )
                     : Column(
                         children: [
-                          CustomElevatedButton(
+                          FilledButton(
                             onPressed: _modifyItem,
                             child: Text(
                               'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',

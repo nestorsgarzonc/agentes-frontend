@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 
 class IndividualPayScreen extends ConsumerStatefulWidget {
   const IndividualPayScreen({super.key});
@@ -48,7 +47,7 @@ class _IndividualPayScreen extends ConsumerState<IndividualPayScreen> {
                 foregroundColor: Colors.white,
                 child: const Icon(Icons.person),
               ),
-              trailing: CustomElevatedButton(
+              trailing: FilledButton(
                 child: const Text('Pagar ahora'),
                 onPressed: () {},
               ),
