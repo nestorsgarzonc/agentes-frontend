@@ -8,7 +8,7 @@ import Foundation
 import firebase_core
 import firebase_messaging
 import mobile_scanner
-import path_provider_macos
+import path_provider_foundation
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
