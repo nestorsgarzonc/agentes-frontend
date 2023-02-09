@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:diner/features/error/provider/error_provider.dart';
+import 'package:diner/features/event_bus/provider/event_bus_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
@@ -127,6 +128,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       token: state.authModel.data?.bearerToken ?? '',
     );
     ref.read(tableProvider.notifier).listenTableUsers();
+    ref.read(eventBusProvider.notifier).startListeningSocket();
     ref.read(tableProvider.notifier).listenListOfOrders();
     ref.read(ordersProvider.notifier).listenOnPay();
     ref.read(errorProvider.notifier).listenError();
