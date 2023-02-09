@@ -23,7 +23,7 @@ class RestaurantProvider extends StateNotifier<RestaurantState> {
   final Ref ref;
   final RestaurantRepository restaurantRepository;
 
-  Future<void> getMenu() async {
+  Future<void> getMenu({bool silent = false}) async {
     final tableId = ref.read(tableProvider).tableCode;
     if (tableId == null) {
       state = state.copyWith(
@@ -33,7 +33,7 @@ class RestaurantProvider extends StateNotifier<RestaurantState> {
       );
       return;
     }
-    state = state.copyWith(restaurant: StateAsync.loading());
+    if (!silent) state = state.copyWith(restaurant: StateAsync.loading());
     final result = await restaurantRepository.getMenuByTable(tableId);
     result.fold(
       (failure) => state = state.copyWith(restaurant: StateAsync.error(failure)),
