@@ -45,12 +45,12 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
 
   @override
   void initState() {
-    super.initState();
     _notesController.text = widget.order?.note ?? '';
+    _scrollController.addListener(scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).productDetail(widget.productId);
     });
-    _scrollController.addListener(scrollListener);
+    super.initState();
   }
 
   @override
@@ -141,27 +141,29 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 const SizedBox(height: 20.0),
                 widget.order == null
                     ? FilledButton(
-                        onPressed: tableProv.tableUsers.on(
-                          onData: (data) {
-                            if (data.tableStatus == TableStatus.ordering) {
-                              _onAddToOrder();
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text('No puedes agregar productos si no estás ordenando.'),
-                                ),
-                              );
-                            }
-                            return null;
-                          },
-                          onError: (e) => () {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(SnackBar(content: Text(e.message)));
-                          },
-                          onLoading: () => _onAddToOrder,
-                          onInitial: () => _onAddToOrder,
-                        ),
+                        onPressed: () {
+                          tableProv.tableUsers.on(
+                            onData: (data) {
+                              if (data.tableStatus == TableStatus.ordering) {
+                                _onAddToOrder();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content:
+                                        Text('No puedes agregar productos si no estás ordenando.'),
+                                  ),
+                                );
+                              }
+                              return null;
+                            },
+                            onError: (e) => () {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(content: Text(e.message)));
+                            },
+                            onLoading: () => _onAddToOrder,
+                            onInitial: () => _onAddToOrder,
+                          );
+                        },
                         child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
                       )
                     : Column(
@@ -191,8 +193,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void onCreateWidget(ProductDetailModel data) {
-    if (isCreated) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isCreated) return;
       total = widget.order?.price ?? data.price;
       totalWithToppings = widget.order?.totalWithToppings ?? data.price;
       isCreated = true;
