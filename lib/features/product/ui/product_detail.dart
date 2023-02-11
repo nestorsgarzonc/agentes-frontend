@@ -160,8 +160,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(content: Text(e.message)));
                             },
-                            onLoading: () => _onAddToOrder,
-                            onInitial: () => _onAddToOrder,
+                            onLoading: _onAddToOrder,
+                            onInitial: _onAddToOrder,
                           );
                         },
                         child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),

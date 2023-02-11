@@ -91,7 +91,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
                   ),
                   backgroundColor: paymentTip == PaymentTip.values[i]
                       ? Theme.of(context).primaryColor
-                      : Colors.grey[300],
+                      : Theme.of(context).chipTheme.backgroundColor,
                 ),
                 onTap: () => setState(() => paymentTip = PaymentTip.values[i]),
               ),
