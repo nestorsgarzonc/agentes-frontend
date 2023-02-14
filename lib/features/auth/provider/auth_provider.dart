@@ -123,6 +123,11 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<void> startListeningSocket() async {
     await socketIOHandler.connect();
+    socketIOHandler.onReconnect((_) => listenSocket());
+    listenSocket();
+  }
+
+  void listenSocket() {
     final socketModel = ConnectSocket(
       tableId: ref.read(tableProvider).tableCode ?? '',
       token: state.authModel.data?.bearerToken ?? '',
