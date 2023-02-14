@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:diner/features/error/provider/error_provider.dart';
 import 'package:diner/features/event_bus/provider/event_bus_provider.dart';
+import 'package:diner/features/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
@@ -73,7 +74,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     ref.read(routerProvider).router.pop();
   }
 
-  Future<void> logout({String? logoutMessage}) async {
+  Future<void> logout({String? logoutMessage, bool withLeaveTable = false}) async {
     if (state.authModel.data == null) {
       ref
           .read(routerProvider)
@@ -81,7 +82,15 @@ class AuthProvider extends StateNotifier<AuthState> {
           .push(ErrorScreen.route, extra: {'error': 'No tienes una sesion activa'});
       return;
     }
-
+    if (withLeaveTable) {
+      socketIOHandler.emitMap(
+        SocketConstants.leaveTableDinner,
+        ConnectSocket(
+          tableId: ref.read(tableProvider).tableCode ?? '',
+          token: state.authModel.data?.bearerToken ?? '',
+        ).toMap(),
+      );
+    }
     final res = await authRepository.logout();
     if (res != null) {
       state = state.copyWith(authModel: StateAsync.error(res));
@@ -94,6 +103,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       logoutMessage ?? 'Se ha cerrado sesion exitosamente.',
     );
     state = AuthState(authModel: StateAsync.initial());
+    ref.read(homeScreenProvider.notifier).onNavigate(0);
   }
 
   Future<void> restorePassword(String email) async {

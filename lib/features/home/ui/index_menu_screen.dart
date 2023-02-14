@@ -1,4 +1,5 @@
 import 'package:diner/core/utils/auth_utils.dart';
+import 'package:diner/features/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -57,16 +58,20 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
       ),
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 150),
-        child: const [MenuScreen(), TableMenuScreen(), HelpMenuScreen()][selectedIndex],
+        child: const [
+          MenuScreen(),
+          TableMenuScreen(),
+          HelpMenuScreen()
+        ][ref.watch(homeScreenProvider)],
       ),
     );
   }
 
   void handleOnNavigate(int index) {
     if (index != 1) {
-      setState(() => selectedIndex = index);
+      ref.read(homeScreenProvider.notifier).onNavigate(index);
       return;
     }
-    AuthUtils.onVerification(ref, () => setState(() => selectedIndex = index));
+    AuthUtils.onVerification(ref, () => ref.read(homeScreenProvider.notifier).onNavigate(index));
   }
 }
