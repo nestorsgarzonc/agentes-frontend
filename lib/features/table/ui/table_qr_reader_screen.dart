@@ -94,9 +94,10 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
     );
   }
 
-  void handleOnDetect(Barcode barcode, MobileScannerArguments? args) {
-    if (barcode.rawValue != null) {
-      ref.read(tableProvider.notifier).onReadTableCode(barcode.rawValue!);
+  void handleOnDetect(BarcodeCapture barcode) {
+    if (barcode.barcodes.isNotEmpty && barcode.barcodes.first.rawValue != null) {
+      final barcodeLoaded = barcode.barcodes.first;
+      ref.read(tableProvider.notifier).onReadTableCode(barcodeLoaded.rawValue!);
     } else {
       CustomSnackbar.showSnackBar(context, 'Ha ocurrido un error leyendo el codigo QR');
     }

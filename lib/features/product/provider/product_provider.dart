@@ -57,7 +57,7 @@ class ProductProvider extends StateNotifier<ProductState> {
   Future<void> addToOrder(ProductDetailModel product) async {
     final productJson = product.toJson();
     productJson['token'] = ref.read(authProvider).authModel.data?.bearerToken;
-    productJson['tableId'] = ref.read(tableProvider).tableCode;
+    productJson['tableId'] = ref.read(tableProvider).tableId;
     productJson['uuid'] = const Uuid().v4();
     socketIOHandler.emitMap(SocketConstants.addToOrder, productJson);
   }
@@ -65,7 +65,7 @@ class ProductProvider extends StateNotifier<ProductState> {
   Future<void> deleteItem(ProductDetailModel product) async {
     final productDelete = {
       'token': ref.read(authProvider).authModel.data?.bearerToken,
-      'tableId': ref.read(tableProvider).tableCode,
+      'tableId': ref.read(tableProvider).tableId,
       'uuid': product.uuid,
     };
     socketIOHandler.emitMap(SocketConstants.deleteItem, productDelete);
@@ -74,7 +74,7 @@ class ProductProvider extends StateNotifier<ProductState> {
   Future<void> editItem(ProductDetailModel product) async {
     final productJSON = product.toJson();
     productJSON['token'] = ref.read(authProvider).authModel.data?.bearerToken;
-    productJSON['tableId'] = ref.read(tableProvider).tableCode;
+    productJSON['tableId'] = ref.read(tableProvider).tableId;
     socketIOHandler.emitMap(SocketConstants.editItem, productJSON);
   }
 }

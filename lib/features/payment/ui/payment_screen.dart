@@ -171,7 +171,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
     }
     ref.read(ordersProvider.notifier).payOrder(
           PayOrderModel(
-            tableId: ref.read(tableProvider).tableCode!,
+            tableId: ref.read(tableProvider).tableId!,
             tip: paymentTip?.value ?? 0,
             paymentMethod: paymentMethod!.paymentValue,
             paymentWay: paymentWay!.paymentValue,

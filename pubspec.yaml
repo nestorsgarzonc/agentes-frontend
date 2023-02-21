@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  mobile_scanner: ^2.1.0
+  mobile_scanner: ^3.0.0
   uuid: ^3.0.7
   oyt_front_core:
     path: ./packages/oyt_front_core

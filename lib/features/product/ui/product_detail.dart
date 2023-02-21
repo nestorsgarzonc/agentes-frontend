@@ -16,6 +16,7 @@ import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
   const ProductDetail({
@@ -132,57 +133,57 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  label: 'Comentarios',
-                  hintText: 'Algo que debamos saber como: sin cebolla, sin tomate, etc.',
-                  maxLines: 3,
-                  controller: _notesController,
-                ),
-                const SizedBox(height: 20.0),
-                widget.order == null
-                    ? FilledButton(
-                        onPressed: () {
-                          tableProv.tableUsers.on(
-                            onData: (data) {
-                              if (data.tableStatus == TableStatus.ordering) {
-                                _onAddToOrder();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content:
-                                        Text('No puedes agregar productos si no estás ordenando.'),
-                                  ),
-                                );
-                              }
-                              return null;
-                            },
-                            onError: (e) => () {
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(content: Text(e.message)));
-                            },
-                            onLoading: _onAddToOrder,
-                            onInitial: _onAddToOrder,
-                          );
-                        },
-                        child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
-                      )
-                    : Column(
-                        children: [
-                          FilledButton(
-                            onPressed: _modifyItem,
-                            child: Text(
-                              'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',
+                if (ref.watch(tableProvider).tableId != null) ...[
+                  CustomTextField(
+                    label: 'Comentarios',
+                    hintText: 'Algo que debamos saber como: sin cebolla, sin tomate, etc.',
+                    maxLines: 3,
+                    controller: _notesController,
+                  ),
+                  const SizedBox(height: 20.0),
+                  widget.order == null
+                      ? FilledButton(
+                          onPressed: () {
+                            tableProv.tableUsers.on(
+                              onData: (data) {
+                                if (data.tableStatus == TableStatus.ordering) {
+                                  _onAddToOrder();
+                                } else {
+                                  CustomSnackbar.showSnackBar(
+                                    context,
+                                    'No puedes agregar productos si no estás ordenando.',
+                                  );
+                                }
+                                return null;
+                              },
+                              onError: (e) => () {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(content: Text(e.message)));
+                              },
+                              onLoading: _onAddToOrder,
+                              onInitial: _onAddToOrder,
+                            );
+                          },
+                          child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
+                        )
+                      : Column(
+                          children: [
+                            FilledButton(
+                              onPressed: _modifyItem,
+                              child: Text(
+                                'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          TextButton(
-                            onPressed: _showBottomSheet,
-                            child: const Text('Eliminar orden'),
-                          )
-                        ],
-                      ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            TextButton(
+                              onPressed: _showBottomSheet,
+                              child: const Text('Eliminar orden'),
+                            )
+                          ],
+                        ),
+                ],
                 SizedBox(height: 20.0 + MediaQuery.of(context).padding.bottom),
               ],
             ),

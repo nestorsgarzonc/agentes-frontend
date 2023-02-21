@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
+import 'package:oyt_front_auth/repositories/auth_repositories.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
 import 'package:oyt_front_core/validators/text_form_validator.dart';
@@ -19,16 +20,18 @@ final tableProvider = StateNotifierProvider<TableProvider, TableState>((ref) {
 });
 
 class TableProvider extends StateNotifier<TableState> {
-  TableProvider(this.socketIOHandler, {required this.ref})
+  TableProvider({required this.socketIOHandler, required this.ref, required this.authRepository})
       : super(TableState(tableUsers: StateAsync.initial()));
 
   factory TableProvider.fromRead(Ref ref) {
     final socketIo = ref.read(socketProvider);
-    return TableProvider(socketIo, ref: ref);
+    final authRepository = ref.read(authRepositoryProvider);
+    return TableProvider(socketIOHandler: socketIo, ref: ref, authRepository: authRepository);
   }
 
   final Ref ref;
   final SocketIOHandler socketIOHandler;
+  final AuthRepository authRepository;
 
   Future<void> onReadTableCode(String code) async {
     final validationError = TextFormValidator.tableCodeValidator(code);
@@ -40,17 +43,21 @@ class TableProvider extends StateNotifier<TableState> {
   }
 
   void onClearTableCode() {
-    state = state.copyWith(tableCode: null);
+    state = state.copyWith(tableId: null, restaurantId: null);
   }
 
-  void onSetTableCode(String code) {
-    final validationError = TextFormValidator.tableCodeValidator(code);
-    if (validationError != null) {
+  Future<void> onSetTableCode({required String? restaurantId, required String? tableId}) async {
+    final restaurantIdError = TextFormValidator.tableCodeValidator(restaurantId);
+    final tableIdError = TextFormValidator.tableCodeValidator(tableId);
+    if (restaurantIdError != null && tableIdError != null) {
       GoRouter.of(ref.read(routerProvider).context).go(OnBoarding.route);
-      CustomSnackbar.showSnackBar(ref.read(routerProvider).context, validationError);
+      CustomSnackbar.showSnackBar(ref.read(routerProvider).context, tableIdError);
       return;
     }
-    state = state.copyWith(tableCode: code);
+    if (restaurantId != null) {
+      await authRepository.chooseRestaurantId(restaurantId);
+    }
+    state = state.copyWith(tableId: tableId, restaurantId: restaurantId);
   }
 
   Future<void> listenTableUsers() async {
@@ -82,7 +89,7 @@ class TableProvider extends StateNotifier<TableState> {
     socketIOHandler.emitMap(
       SocketConstants.stopCallWaiter,
       ConnectSocket(
-        tableId: state.tableCode ?? '',
+        tableId: state.tableId ?? '',
         token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
       ).toMap(),
     );
@@ -92,7 +99,7 @@ class TableProvider extends StateNotifier<TableState> {
     socketIOHandler.emitMap(
       SocketConstants.callWaiter,
       ConnectSocket(
-        tableId: state.tableCode ?? '',
+        tableId: state.tableId ?? '',
         token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
       ).toMap(),
     );
@@ -102,7 +109,7 @@ class TableProvider extends StateNotifier<TableState> {
     socketIOHandler.emitMap(
       SocketConstants.changeTableStatus,
       ChangeTableStatus(
-        tableId: state.tableCode ?? '',
+        tableId: state.tableId ?? '',
         token: ref.read(authProvider).authModel.data?.bearerToken ?? '',
         status: status,
       ).toMap(),
@@ -113,7 +120,7 @@ class TableProvider extends StateNotifier<TableState> {
     socketIOHandler.emitMap(
       SocketConstants.orderNow,
       {
-        'tableId': state.tableCode ?? '',
+        'tableId': state.tableId ?? '',
         'token': ref.read(authProvider).authModel.data?.bearerToken ?? '',
       },
     );

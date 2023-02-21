@@ -86,7 +86,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       socketIOHandler.emitMap(
         SocketConstants.leaveTableDinner,
         ConnectSocket(
-          tableId: ref.read(tableProvider).tableCode ?? '',
+          tableId: ref.read(tableProvider).tableId ?? '',
           token: state.authModel.data?.bearerToken ?? '',
         ).toMap(),
       );
@@ -139,7 +139,7 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   void listenSocket() {
     final socketModel = ConnectSocket(
-      tableId: ref.read(tableProvider).tableCode ?? '',
+      tableId: ref.read(tableProvider).tableId ?? '',
       token: state.authModel.data?.bearerToken ?? '',
     );
     ref.read(tableProvider.notifier).listenTableUsers();
