@@ -1,6 +1,8 @@
+import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:oyt_front_table/widgets/table_status_card.dart';
 import 'package:oyt_front_table/widgets/call_to_waiter_card.dart';
+import 'package:oyt_front_widgets/dialogs/confirm_action_dialog.dart';
 import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,9 +30,27 @@ class TableMenuScreen extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 restaurantState.restaurant.on(
-                  onData: (data) => Text(
-                    'Mesa: ${data.tableName}',
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                  onData: (data) => Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Mesa: ${data.tableName}',
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                        ),
+                      ),
+                      tableProv.tableUsers.on(
+                        onData: (data) => data.tableStatus == TableStatus.ordering
+                            ? ElevatedButton.icon(
+                                onPressed: () => _onLeaveTable(ref, context),
+                                label: const Text('Salir de la mesa'),
+                                icon: const Icon(Icons.exit_to_app),
+                              )
+                            : const SizedBox.shrink(),
+                        onError: (_) => const SizedBox.shrink(),
+                        onLoading: () => const SizedBox.shrink(),
+                        onInitial: () => const SizedBox.shrink(),
+                      ),
+                    ],
                   ),
                   onError: (err) => Center(child: Text('Error ${err.message}')),
                   onLoading: () => const LoadingWidget(),
@@ -89,6 +109,20 @@ class TableMenuScreen extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void _onLeaveTable(WidgetRef ref, BuildContext context) {
+    ConfirmActionDialog.show(
+      context: context,
+      onConfirm: () {
+        ref
+            .read(authProvider.notifier)
+            .logout(withLeaveTable: true, logoutMessage: 'Gracias por usar On Your Table');
+        Navigator.of(context).pop();
+      },
+      title: '¿Estás seguro?',
+      subtitle: 'Si sales de la mesa, perderas los productos agregados.',
     );
   }
 

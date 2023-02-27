@@ -75,7 +75,7 @@ class OrdersProvider extends StateNotifier<OrderState> {
     // 1. Pedir cuenta
     final account = {
       'token': ref.read(authProvider).authModel.data?.bearerToken,
-      'tableId': ref.read(tableProvider).tableCode,
+      'tableId': ref.read(tableProvider).tableId,
       'paymentWay': paymentWay,
     };
     socketIOHandler.emitMap(SocketConstants.askAccount, account);

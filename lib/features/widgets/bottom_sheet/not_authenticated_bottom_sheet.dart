@@ -28,7 +28,7 @@ class NotAuthenticatedBottomSheet extends StatelessWidget {
             children: [
               Text(
                 '¡Alto ahi marinero!',
-                style: Theme.of(context).textTheme.headline6?.copyWith(fontWeight: FontWeight.bold),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               IconButton(onPressed: Navigator.of(context).pop, icon: const Icon(Icons.close))
             ],
@@ -42,7 +42,7 @@ class NotAuthenticatedBottomSheet extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             'Para continuar debes estar autenticado',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(fontSize: 16),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16),
             textAlign: TextAlign.start,
           ),
           const SizedBox(height: 10),

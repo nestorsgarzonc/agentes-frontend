@@ -14,7 +14,7 @@ class MyApp extends ConsumerStatefulWidget {
 class _MyAppState extends ConsumerState<MyApp> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(pushNotificationsProvider).setupInteractedMessage();
     });
     super.initState();
@@ -28,7 +28,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'OYT - Dinner',
       routerConfig: routerProv.goRouter,
       debugShowCheckedModeBanner: false,
-      theme: CustomTheme.myTheme,
+      theme: ref.watch(themeProvider),
     );
   }
 }

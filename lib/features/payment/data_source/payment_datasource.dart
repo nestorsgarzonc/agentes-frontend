@@ -35,7 +35,7 @@ class PaymentDatasourceImpl implements PaymentDatasource {
         'paymentWay' : paymentWay.paymentValue,
         'paymentMethod' : paymentMethod.paymentValue,
         'tip' : tip,
-        'tableId' : tableRef.read(tableProvider).tableCode
+        'tableId' : tableRef.read(tableProvider).tableId
       });
       return;
     } catch (e, s) {

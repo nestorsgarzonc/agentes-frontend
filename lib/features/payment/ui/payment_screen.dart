@@ -1,6 +1,6 @@
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/auth/provider/auth_state.dart';
-import 'package:diner/features/bill/ui/bill_screen.dart';
+import 'package:diner/features/payment/provider/payment_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/logger/logger.dart';
@@ -14,8 +14,6 @@ import 'package:diner/features/table/provider/table_provider.dart';
 import 'package:diner/features/home/ui/widgets/table_user_card.dart';
 import 'package:diner/features/payment/ui/account_total_item.dart';
 import 'package:diner/features/widgets/bottom_sheet/account_detail_bottom_sheet.dart';
-import 'package:diner/features/payment/provider/payment_provider.dart';
-import 'package:go_router/go_router.dart';
 import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class PaymentScreen extends ConsumerStatefulWidget {
@@ -82,7 +80,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
   num subtotal = 0;
   num total = 0;
   num tip = 0;
-  bool canCalculateOnInitial=true;
+  bool canCalculateOnInitial = true;
 
   @override
   Widget build(BuildContext context) {
@@ -99,9 +97,10 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
         onInitial: () => const LoadingWidget(),
         onData: (data) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-if(canCalculateOnInitial){
-  canCalculateOnInitial=false;
-            _calculateTotals(data, userState);}
+            if (canCalculateOnInitial) {
+              canCalculateOnInitial = false;
+              _calculateTotals(data, userState);
+            }
           });
           return ListView(
             padding: const EdgeInsets.all(16),
@@ -233,8 +232,7 @@ if(canCalculateOnInitial){
                       ),
                       AccountTotalItem(
                         title: 'Propina:',
-                        value:
-                            '\$ ${CurrencyFormatter.format(paymentTip.calculateTip(subtotal))}',
+                        value: '\$ ${CurrencyFormatter.format(paymentTip.calculateTip(subtotal))}',
                       ),
                       AccountTotalItem(
                         title: 'Total a pagar:',
@@ -300,10 +298,16 @@ if(canCalculateOnInitial){
   void handleOnPayNow() {
     switch (paymentWay) {
       case PaymentWay.all:
-        ref.read(paymentProvider.notifier).askAccount(paymentWay.paymentValue, paymentMethod.paymentValue, tip);
+        ref
+            .read(paymentProvider.notifier)
+            .askAccount(paymentWay.paymentValue, paymentMethod.paymentValue, tip);
         break;
       case PaymentWay.split:
-        ref.read(paymentProvider.notifier).payAccountSingle(paymentWay.paymentValue, paymentMethod.paymentValue, individualPaymentMethod.method);
+        ref.read(paymentProvider.notifier).payAccountSingle(
+              paymentWay.paymentValue,
+              paymentMethod.paymentValue,
+              individualPaymentMethod.method,
+            );
         break;
       default:
         CustomSnackbar.showSnackBar(context, 'No fue posible realizar el pago');
@@ -311,7 +315,7 @@ if(canCalculateOnInitial){
     }
     ref.read(ordersProvider.notifier).payOrder(
           PayOrderModel(
-            tableId: ref.read(tableProvider).tableCode!,
+            tableId: ref.read(tableProvider).tableId!,
             tip: paymentTip.value,
             paymentMethod: paymentMethod.paymentValue,
             paymentWay: paymentWay.paymentValue,

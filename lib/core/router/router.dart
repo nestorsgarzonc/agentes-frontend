@@ -65,9 +65,10 @@ class CustomRouter {
           path: IndexMenuScreen.route,
           builder: (context, state) {
             final tableId = state.queryParams['tableId'];
-            return tableId == null
-                ? ErrorScreen(error: atributeErrorMessage('tableId'))
-                : IndexMenuScreen(tableId: tableId);
+            final restaurantId = state.queryParams['restaurantId'];
+            return (tableId == null && restaurantId == null)
+                ? ErrorScreen(error: atributeErrorMessage('tableId o restaurantId'))
+                : IndexMenuScreen(tableId: tableId, restaurantId: restaurantId);
           },
         ),
         GoRoute(path: RegisterScreen.route, builder: (context, state) => const RegisterScreen()),

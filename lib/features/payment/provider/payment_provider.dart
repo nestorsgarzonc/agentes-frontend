@@ -31,7 +31,7 @@ class PaymentProvider extends StateNotifier<PaymentState> {
   Future<void> askAccount(String paymentWay, String paymentMethod, num tip) async { // 1. Pedir cuenta
     final account = {
       'token' : ref.read(authProvider).authModel.data?.bearerToken,
-      'tableId' : ref.read(tableProvider).tableCode,
+      'tableId' : ref.read(tableProvider).tableId,
       'paymentWay' : paymentWay,
     };
     socketIOHandler.emitMap(SocketConstants.askAccount, account);
@@ -46,7 +46,7 @@ class PaymentProvider extends StateNotifier<PaymentState> {
       'individualPaymentWay' : individualPaymentWay,
       'paysFor' : paysFor,
       'token' : ref.read(authProvider).authModel.data?.bearerToken,
-      'tableId': ref.read(tableProvider).tableCode,
+      'tableId': ref.read(tableProvider).tableId,
     };
     socketIOHandler.emitMap(SocketConstants.payAccountSingle, paymentInfo);
   }

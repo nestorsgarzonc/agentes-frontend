@@ -72,6 +72,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   obscureText: true,
                   controller: _passwordController,
                   validator: TextFormValidator.passwordValidator,
+                  onFieldSubmitted: (_) {
+                    authState.authModel.on(
+                      onLoading: () {},
+                      onData: (_) => handleOnLogin(),
+                      onError: (_) => handleOnLogin(),
+                      onInitial: () => handleOnLogin(),
+                    );
+                  },
                 )
               ],
             ),
