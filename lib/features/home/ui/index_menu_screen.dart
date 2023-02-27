@@ -27,8 +27,6 @@ class IndexMenuScreen extends ConsumerStatefulWidget {
 }
 
 class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
-  int selectedIndex = 0;
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +47,7 @@ class _MenuScreenState extends ConsumerState<IndexMenuScreen> {
           ? const SizedBox.shrink()
           : NavigationBar(
               height: 55,
-              selectedIndex: selectedIndex,
+              selectedIndex: ref.watch(homeScreenProvider),
               onDestinationSelected: handleOnNavigate,
               destinations: const [
                 NavigationDestination(
