@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:oyt_front_core/enums/payments_enum.dart';
+import 'package:collection/collection.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_order/models/order_complete_response.dart';
 import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
@@ -39,153 +42,181 @@ class _BillScreen extends ConsumerState<BillScreen> {
       onWillPop: () => Future.value(widget.canPop),
       child: AnimatedBackground(
         child: orderState.order.on(
-          onData: (data) => Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-                  children: [
-                    if (widget.canPop) const BackIconButton(),
-                    Row(
-                      children: [
-                        ImageApi(
-                          data.restaurantLogo,
-                          height: 30,
-                          width: 110,
-                          fit: BoxFit.contain,
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.restaurantName,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+          onData: (data) {
+            final myOrder = data.usersOrder.firstWhereOrNull(
+              (UserOrder e) => e.userId == ref.read(authProvider).authModel.data?.user.id,
+            );
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                    children: [
+                      if (widget.canPop) const BackIconButton(),
+                      Row(
+                        children: [
+                          ImageApi(
+                            data.restaurantLogo,
+                            height: 30,
+                            width: 110,
+                            fit: BoxFit.contain,
+                          ),
+                          const SizedBox(width: 10),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.restaurantName,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            Text(Formatters.dateFormatter(data.createdAt))
-                          ],
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 5),
-                    const Divider(),
-                    const SizedBox(height: 5),
-                    const Text('Productos por usuario:', style: TextStyle(fontSize: 16)),
-                    const SizedBox(height: 10),
-                    ...data.usersOrder
-                        .map(
-                          (e) => Card(
-                            margin: const EdgeInsets.symmetric(vertical: 5),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${e.firstName} ${e.lastName}',
-                                    style:
-                                        const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  ...e.orderProducts
-                                      .map(
-                                        (op) => Column(
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Text(op.name),
-                                                Text('\$ ${CurrencyFormatter.format(op.price)}')
-                                              ],
-                                            ),
-                                            if (op.getToppingOptions.isNotEmpty)
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Text(Formatters.dateFormatter(data.createdAt))
+                            ],
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      const Divider(),
+                      const SizedBox(height: 5),
+                      Text(
+                        'Modo de pago: ${data.paymentWay.title}',
+                        style: const TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(height: 5),
+                      const Text('Productos por usuario:', style: TextStyle(fontSize: 16)),
+                      const SizedBox(height: 10),
+                      ...data.usersOrder
+                          .map(
+                            (e) => Card(
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${e.firstName} ${e.lastName}',
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    ...e.orderProducts
+                                        .map(
+                                          (op) => Column(
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                 children: [
-                                                  const SizedBox(height: 10),
-                                                  const Text('Toppings:'),
-                                                  const SizedBox(height: 5),
-                                                  ...op.getToppingOptions.map(
-                                                    (e) => Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        Flexible(child: Text(' - ${e.name}')),
-                                                        Text(
-                                                          '\$ ${CurrencyFormatter.format(e.price)}',
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
+                                                  Text(op.name),
+                                                  Text('\$ ${CurrencyFormatter.format(op.price)}')
                                                 ],
                                               ),
-                                          ],
-                                        ),
-                                      )
-                                      .toList(),
-                                ],
+                                              if (op.getToppingOptions.isNotEmpty)
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const SizedBox(height: 10),
+                                                    const Text('Toppings:'),
+                                                    const SizedBox(height: 5),
+                                                    ...op.getToppingOptions.map(
+                                                      (e) => Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Flexible(child: Text(' - ${e.name}')),
+                                                          Text(
+                                                            '\$ ${CurrencyFormatter.format(e.price)}',
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                            ],
+                                          ),
+                                        )
+                                        .toList(),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                        .toList(),
-                  ],
+                          )
+                          .toList(),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Iva:'),
-                        Text('\$ ${CurrencyFormatter.format(data.totalPrice * 19 / 100)}'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Propina:'),
-                        Text('\$ ${CurrencyFormatter.format(data.totalPrice * data.tip / 100)}'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Total:',
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '\$ ${CurrencyFormatter.format(data.totalPrice)}',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    SizedBox(
-                      width: double.infinity,
-                      child: FilledButton(
-                        onPressed: handleOnContinue,
-                        child: const Text('Continuar'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Iva:'),
+                          Text('\$ ${CurrencyFormatter.format(data.totalPrice * 19 / 100)}'),
+                        ],
                       ),
-                    ),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Propina:'),
+                          Text('\$ ${CurrencyFormatter.format(data.totalPrice * data.tip / 100)}'),
+                        ],
+                      ),
+                      if (data.paymentWay == PaymentWay.split && myOrder != null)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Tu total:'),
+                            Text(
+                              '\$ ${CurrencyFormatter.format(myOrder.price + myOrder.price * data.tip / 100)}',
+                            ),
+                          ],
+                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Total:',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                          ),
+                          Text(
+                            '\$ ${CurrencyFormatter.format(data.totalPrice + data.totalPrice * data.tip / 100)}',
+                            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: FilledButton(
+                          onPressed: handleOnContinue,
+                          child: const Text('Continuar'),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
+              ],
+            );
+          },
+          onError: (error) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const BackButton(),
+              Center(child: Text('$error')),
             ],
           ),
-          onError: (error) => Center(child: Text('$error')),
           onLoading: () => const LoadingWidget(),
           onInitial: () => const LoadingWidget(),
         ),
