@@ -231,21 +231,22 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('¿Estás seguro que deseas elimnar este plato de la orden?'),
-              const SizedBox(
-                height: 10,
+              const Text('¿Estás seguro que deseas eliminar este plato de la orden?'),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: Navigator.of(context).pop,
+                    child: const Text('No'),
+                  ),
+                  const SizedBox(height: 10),
+                  FilledButton(
+                    onPressed: _deleteItem,
+                    child: const Text('Sí'),
+                  ),
+                ],
               ),
-              ElevatedButton(
-                onPressed: _deleteItem,
-                child: const Text('Sí'),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ElevatedButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text('No'),
-              )
             ],
           ),
         );
@@ -254,16 +255,15 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _deleteItem() {
-    AuthUtils.onVerification(ref, () {
-      final newProduct = widget.order?.copyWith(
-        note: _notesController.text,
-        toppings: toppings,
-        totalWithToppings: totalWithToppings,
-      );
-      if (newProduct == null) return;
-      ref.read(productProvider.notifier).deleteItem(newProduct);
-      GoRouter.of(context).pop();
-    });
+    final newProduct = widget.order?.copyWith(
+      note: _notesController.text,
+      toppings: toppings,
+      totalWithToppings: totalWithToppings,
+    );
+    if (newProduct == null) return;
+    ref.read(productProvider.notifier).deleteItem(newProduct);
+    GoRouter.of(context).pop();
+    GoRouter.of(context).pop();
   }
 
   void _modifyItem() {

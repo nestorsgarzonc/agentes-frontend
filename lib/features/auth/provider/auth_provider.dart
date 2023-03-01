@@ -102,8 +102,21 @@ class AuthProvider extends StateNotifier<AuthState> {
       ref.read(routerProvider).context,
       logoutMessage ?? 'Se ha cerrado sesion exitosamente.',
     );
+    final tableId = ref.read(tableProvider).tableId;
+    refreshProviders();
+    if (tableId != null) {
+      ref.read(tableProvider.notifier).onSetTableCode(restaurantId: null, tableId: tableId);
+    }
     state = AuthState(authModel: StateAsync.initial());
     ref.read(homeScreenProvider.notifier).onNavigate(0);
+  }
+
+  void refreshProviders() {
+    ref.invalidate(eventBusProvider);
+    ref.invalidate(tableProvider);
+    ref.invalidate(ordersProvider);
+    ref.invalidate(errorProvider);
+    socketIOHandler.disconnect();
   }
 
   Future<void> restorePassword(String email) async {

@@ -63,7 +63,8 @@ class TableProvider extends StateNotifier<TableState> {
   Future<void> listenTableUsers() async {
     socketIOHandler.onMap(SocketConstants.onNewUserJoined, (data) {
       final tableUsers = UsersTable.fromMap(data);
-      if (!state.isFirstTime) {
+      if (!state.isFirstTime &&
+          tableUsers.userName != ref.read(authProvider).authModel.data?.user.userName) {
         CustomSnackbar.showSnackBar(
           ref.read(routerProvider).context,
           'Se ha unido ${tableUsers.userName}',
