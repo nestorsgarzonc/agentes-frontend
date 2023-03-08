@@ -19,12 +19,9 @@ class AccountDetailBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
-      child: ListView(
+      title: 'Detalle de la cuenta',
+      child: Column(
         children: [
-          const Text(
-            'Detalle de la cuenta',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
           const SizedBox(height: 10),
           ListView.separated(
             separatorBuilder: (context, index) => const Divider(),

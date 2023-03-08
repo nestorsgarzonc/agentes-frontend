@@ -33,7 +33,7 @@ class OrdersProvider extends StateNotifier<OrderState> {
         .read(dialogsProvider)
         .showLoadingDialog(ref.read(routerProvider).context, 'Pagando orden...');
     final res = await ordersRepository.payOrder(order);
-    ref.read(dialogsProvider).removeDialog(ref.read(routerProvider).context);
+    ref.read(routerProvider).router.pop();
     final router = ref.read(routerProvider).router;
     res.fold(
       (l) => router.push(ErrorScreen.route, extra: {'error': l.message}),

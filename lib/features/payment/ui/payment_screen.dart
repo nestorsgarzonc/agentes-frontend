@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_core/enums/payments_enum.dart';
+import 'package:oyt_front_restaurant/models/restaurant_model.dart';
 import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_order/models/pay_order_mod.dart';
@@ -24,7 +25,7 @@ class PaymentScreen extends ConsumerStatefulWidget {
 }
 
 class _PaymentScreenState extends ConsumerState<PaymentScreen> {
-  PaymentMethod? paymentMethod = PaymentMethod.cash;
+  PaymentMethods? paymentMethod;
   PaymentWay? paymentWay = PaymentWay.all;
   PaymentTip? paymentTip = PaymentTip.ten;
 
@@ -113,14 +114,23 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
           const SizedBox(height: 20),
           const Text('Selecciona el metodo de pago:', style: _titleStyle),
           const SizedBox(height: 5),
-          ...PaymentMethod.values.map(
-            (e) => Card(
-              child: RadioListTile<PaymentMethod>(
-                value: e,
-                title: Text(e.title),
-                groupValue: paymentMethod,
-                onChanged: (value) => setState(() => paymentMethod = value),
-              ),
+          restaurantState.restaurant.on(
+            onLoading: () => const LoadingWidget(),
+            onError: (error) => Text('$error'),
+            onInitial: () => const Text('Ha ocurrido un error obteniendo los metodos de pago'),
+            onData: (data) => Column(
+              children: data.paymentMethods
+                  .map(
+                    (e) => Card(
+                      child: RadioListTile<PaymentMethods>(
+                        value: e,
+                        title: Text(e.method.title),
+                        groupValue: paymentMethod,
+                        onChanged: (value) => setState(() => paymentMethod = value),
+                      ),
+                    ),
+                  )
+                  .toList(),
             ),
           ),
           const SizedBox(height: 20),
@@ -173,7 +183,7 @@ class _PaymentScreenState extends ConsumerState<PaymentScreen> {
           PayOrderModel(
             tableId: ref.read(tableProvider).tableId!,
             tip: paymentTip?.value ?? 0,
-            paymentMethod: paymentMethod!.paymentValue,
+            paymentMethod: paymentMethod!.id,
             paymentWay: paymentWay!.paymentValue,
           ),
         );

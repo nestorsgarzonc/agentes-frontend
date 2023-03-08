@@ -20,19 +20,10 @@ class NotAuthenticatedBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseBottomSheet(
+      title: '¡Alto ahi!',
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                '¡Alto ahi marinero!',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-              ),
-              IconButton(onPressed: Navigator.of(context).pop, icon: const Icon(Icons.close))
-            ],
-          ),
           const SizedBox(height: 10),
           Lottie.asset(
             LottieAssets.sailor,
