@@ -4,12 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:oyt_front_core/validators/text_form_validator.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/auth/ui/register_screen.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -54,11 +54,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             alignment: Alignment.center,
             height: 180,
             width: 180,
-            child: Lottie.asset(
-              LottieAssets.login,
-              height: 180.0,
-              fit: BoxFit.fitHeight,
-            ),
+            child: Lottie.asset(LottieAssets.login, height: 180.0, fit: BoxFit.fitHeight),
           ),
           const SizedBox(height: 10),
           Form(
@@ -76,22 +72,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   obscureText: true,
                   controller: _passwordController,
                   validator: TextFormValidator.passwordValidator,
+                  onFieldSubmitted: (_) {
+                    authState.authModel.on(
+                      onLoading: () {},
+                      onData: (_) => handleOnLogin(),
+                      onError: (_) => handleOnLogin(),
+                      onInitial: () => handleOnLogin(),
+                    );
+                  },
                 )
               ],
             ),
           ),
           const SizedBox(height: 20),
           authState.authModel.on(
-            onData: (u) => CustomElevatedButton(
+            onData: (u) => FilledButton(
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),
             ),
-            onError: (f) => CustomElevatedButton(
+            onError: (f) => FilledButton(
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),
             ),
-            onLoading: () => const Center(child: CircularProgressIndicator()),
-            onInitial: () => CustomElevatedButton(
+            onLoading: () => const LoadingWidget(),
+            onInitial: () => FilledButton(
               onPressed: handleOnLogin,
               child: const Text('Ingresar'),
             ),
@@ -107,9 +111,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   void handleOnLogin() {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
+    if (!_formKey.currentState!.validate()) return;
     ref.read(authProvider.notifier).login(
           email: _emailController.text,
           password: _passwordController.text,

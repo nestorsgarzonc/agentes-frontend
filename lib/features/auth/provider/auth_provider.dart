@@ -1,11 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:diner/features/error/provider/error_provider.dart';
+import 'package:diner/features/event_bus/provider/event_bus_provider.dart';
+import 'package:diner/features/home/provider/home_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:oyt_front_auth/models/connect_socket.dart';
+import 'package:oyt_front_auth/models/login_model.dart';
 import 'package:oyt_front_auth/models/user_model.dart';
 import 'package:oyt_front_auth/repositories/auth_repositories.dart';
 import 'package:oyt_front_core/constants/socket_constants.dart';
 import 'package:oyt_front_core/external/socket_handler.dart';
+import 'package:oyt_front_core/push_notifications/push_notif_provider.dart';
 import 'package:oyt_front_core/wrappers/state_wrapper.dart';
 import 'package:diner/core/router/router.dart';
 import 'package:diner/features/auth/provider/auth_state.dart';
@@ -41,7 +46,9 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<void> login({required String email, required String password}) async {
     state = state.copyWith(authModel: StateAsync.loading());
-    final res = await authRepository.login(email, password);
+    final fcmToken = await ref.read(pushNotificationsProvider).getToken();
+    final loginModel = LoginModel(email: email, password: password, deviceToken: fcmToken);
+    final res = await authRepository.login(loginModel);
     res.fold(
       (l) {
         state = state.copyWith(authModel: StateAsync.error(l));
@@ -67,7 +74,7 @@ class AuthProvider extends StateNotifier<AuthState> {
     ref.read(routerProvider).router.pop();
   }
 
-  Future<void> logout({String? logoutMessage}) async {
+  Future<void> logout({String? logoutMessage, bool withLeaveTable = false}) async {
     if (state.authModel.data == null) {
       ref
           .read(routerProvider)
@@ -75,7 +82,15 @@ class AuthProvider extends StateNotifier<AuthState> {
           .push(ErrorScreen.route, extra: {'error': 'No tienes una sesion activa'});
       return;
     }
-
+    if (withLeaveTable) {
+      socketIOHandler.emitMap(
+        SocketConstants.leaveTableDinner,
+        ConnectSocket(
+          tableId: ref.read(tableProvider).tableId ?? '',
+          token: state.authModel.data?.bearerToken ?? '',
+        ).toMap(),
+      );
+    }
     final res = await authRepository.logout();
     if (res != null) {
       state = state.copyWith(authModel: StateAsync.error(res));
@@ -88,6 +103,7 @@ class AuthProvider extends StateNotifier<AuthState> {
       logoutMessage ?? 'Se ha cerrado sesion exitosamente.',
     );
     state = AuthState(authModel: StateAsync.initial());
+    ref.read(homeScreenProvider.notifier).onNavigate(0);
   }
 
   Future<void> restorePassword(String email) async {
@@ -117,13 +133,20 @@ class AuthProvider extends StateNotifier<AuthState> {
 
   Future<void> startListeningSocket() async {
     await socketIOHandler.connect();
+    socketIOHandler.onReconnect((_) => listenSocket());
+    listenSocket();
+  }
+
+  void listenSocket() {
     final socketModel = ConnectSocket(
-      tableId: ref.read(tableProvider).tableCode ?? '',
+      tableId: ref.read(tableProvider).tableId ?? '',
       token: state.authModel.data?.bearerToken ?? '',
     );
     ref.read(tableProvider.notifier).listenTableUsers();
+    ref.read(eventBusProvider.notifier).startListeningSocket();
     ref.read(tableProvider.notifier).listenListOfOrders();
     ref.read(ordersProvider.notifier).listenOnPay();
+    ref.read(errorProvider.notifier).listenError();
     socketIOHandler.emitMap(SocketConstants.joinSocket, socketModel.toMap());
   }
 }

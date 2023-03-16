@@ -1,7 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_menu/enum/topping_options_type.dart';
 import 'package:oyt_front_product/models/product_model.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class ToppingOptionsCheckbox extends StatefulWidget {
   const ToppingOptionsCheckbox({
@@ -20,7 +22,7 @@ class ToppingOptionsCheckbox extends StatefulWidget {
 
 class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
   List<Topping> addedToppings = [];
-  List<Option> expandedToppings = [];
+  List<ToppingOption> expandedToppings = [];
 
   @override
   void initState() {
@@ -52,11 +54,11 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                       currentTopping.name,
                       style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                     ),
-                    Text('Minimo de opciones: ${currentTopping.minOptions}'),
-                    Text('Maximo de opciones: ${currentTopping.maxOptions}'),
+                    Text('Mínimo de opciones: ${currentTopping.minOptions}'),
+                    Text('Máximo de opciones: ${currentTopping.maxOptions}'),
                     Column(
                       children: currentTopping.options.map((toppingOption) {
-                        if (currentTopping.type == 'checkBox') {
+                        if (currentTopping.type == ToppingOptionsType.multiple) {
                           return Column(
                             children: [
                               const Divider(),
@@ -85,7 +87,7 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                                     Text('\$ ${CurrencyFormatter.format(toppingOption.price)}'),
                                 secondary: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
+                                  child: ImageApi(
                                     toppingOption.imgUrl,
                                     width: 60,
                                     height: 60,
@@ -101,7 +103,7 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                           return Column(
                             children: [
                               const Divider(),
-                              RadioListTile<Option>(
+                              RadioListTile<ToppingOption>(
                                 contentPadding: EdgeInsets.zero,
                                 controlAffinity: ListTileControlAffinity.trailing,
                                 value: toppingOption,
@@ -121,7 +123,7 @@ class _ToppingOptionsCheckboxState extends State<ToppingOptionsCheckbox> {
                                     Text('\$ ${CurrencyFormatter.format(toppingOption.price)}'),
                                 secondary: ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
+                                  child: ImageApi(
                                     toppingOption.imgUrl,
                                     width: 60,
                                     height: 60,

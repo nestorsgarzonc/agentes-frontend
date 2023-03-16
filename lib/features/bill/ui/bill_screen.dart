@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:oyt_front_widgets/widgets/buttons/back_icon_button.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:diner/features/orders/provider/orders_provider.dart';
 import 'package:diner/features/on_boarding/ui/on_boarding.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class BillScreen extends ConsumerStatefulWidget {
-  const BillScreen({required this.canPop, required this.transactionId, super.key});
+  const BillScreen({required this.canPop, required this.transactionId, required this.individualPaymentWay, super.key});
 
   final String transactionId;
   final bool canPop;
+  final String? individualPaymentWay;
   static const route = '/individual_pay_screen';
 
   @override
@@ -22,6 +24,7 @@ class BillScreen extends ConsumerStatefulWidget {
 }
 
 class _BillScreen extends ConsumerState<BillScreen> {
+  //se pasa el paymentWay
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -33,6 +36,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
   @override
   Widget build(BuildContext context) {
     final orderState = ref.watch(ordersProvider);
+    final userState = ref.watch(authProvider);
+    final user = userState.authModel.data?.user;
     return WillPopScope(
       onWillPop: () => Future.value(widget.canPop),
       child: AnimatedBackground(
@@ -46,7 +51,7 @@ class _BillScreen extends ConsumerState<BillScreen> {
                     if (widget.canPop) const BackIconButton(),
                     Row(
                       children: [
-                        Image.network(
+                        ImageApi(
                           data.restaurantLogo,
                           height: 30,
                           width: 110,
@@ -87,7 +92,7 @@ class _BillScreen extends ConsumerState<BillScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
+                                Text(
                                     '${e.firstName} ${e.lastName}',
                                     style:
                                         const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -101,13 +106,16 @@ class _BillScreen extends ConsumerState<BillScreen> {
                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                               children: [
                                                 Text(op.name),
-                                                Text('\$ ${CurrencyFormatter.format(op.price)}')
+                                                widget.individualPaymentWay == 'equal'
+                                                ? Text('\$ ${CurrencyFormatter.format(data.totalPrice / data.usersOrder.length)}')
+                                                : Text('\$ ${CurrencyFormatter.format(op.price)}')
                                               ],
                                             ),
                                             if (op.getToppingOptions.isNotEmpty)
                                               Column(
                                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
+                                                children: widget.individualPaymentWay == 'respective' 
+                                                ?[
                                                   const SizedBox(height: 10),
                                                   const Text('Toppings:'),
                                                   const SizedBox(height: 5),
@@ -123,7 +131,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
                                                       ],
                                                     ),
                                                   )
-                                                ],
+                                                ]
+                                                :[],
                                               ),
                                           ],
                                         ),
@@ -163,16 +172,18 @@ class _BillScreen extends ConsumerState<BillScreen> {
                           'Total:',
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          '\$ ${CurrencyFormatter.format(data.totalPrice)}',
-                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
+                        data.paymentWay == 'all'
+                        ? Text('\$ ${CurrencyFormatter.format(data.totalPrice)}')
+                        : Text( widget.individualPaymentWay == 'equal'
+                          ? '\$ ${CurrencyFormatter.format(data.totalPrice / data.usersOrder.length)}'
+                          : '\$ ${CurrencyFormatter.format(data.usersOrder.firstWhere((e) => e.id == user?.id).price)}',
+                          )
                       ],
                     ),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: double.infinity,
-                      child: CustomElevatedButton(
+                      child: FilledButton(
                         onPressed: handleOnContinue,
                         child: const Text('Continuar'),
                       ),
@@ -184,8 +195,8 @@ class _BillScreen extends ConsumerState<BillScreen> {
             ],
           ),
           onError: (error) => Center(child: Text('$error')),
-          onLoading: () => const Center(child: CircularProgressIndicator()),
-          onInitial: () => const Center(child: CircularProgressIndicator()),
+          onLoading: () => const LoadingWidget(),
+          onInitial: () => const LoadingWidget(),
         ),
       ),
     );

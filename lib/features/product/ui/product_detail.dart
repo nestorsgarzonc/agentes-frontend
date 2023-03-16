@@ -1,20 +1,21 @@
 // ignore_for_file: avoid_function_literals_in_foreach_calls
+import 'package:diner/core/utils/auth_utils.dart';
+import 'package:oyt_front_widgets/loading/screen_loading_widget.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_table/models/users_table.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
-import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_product/models/product_model.dart';
 import 'package:diner/features/product/provider/product_provider.dart';
 import 'package:diner/features/home/ui/topping_options_checkbox.dart';
 import 'package:oyt_front_widgets/error/error_screen.dart';
 import 'package:oyt_front_widgets/bottom_sheet/base_bottom_sheet.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
-import 'package:diner/features/widgets/bottom_sheet/not_authenticated_bottom_sheet.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
+import 'package:oyt_front_widgets/widgets/snackbar/custom_snackbar.dart';
 
 class ProductDetail extends ConsumerStatefulWidget {
   const ProductDetail({
@@ -40,31 +41,21 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   num totalWithToppings = 0;
   bool isCreated = false;
 
-  void scollListener() {
-    if (_scrollController.offset >= 100) {
-      setState(() {
-        isExpanded = false;
-      });
-    } else {
-      setState(() {
-        isExpanded = true;
-      });
-    }
-  }
+  void scrollListener() => setState(() => isExpanded = _scrollController.offset >= 100);
 
   @override
   void initState() {
-    super.initState();
     _notesController.text = widget.order?.note ?? '';
+    _scrollController.addListener(scrollListener);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(productProvider.notifier).productDetail(widget.productId);
     });
-    _scrollController.addListener(scollListener);
+    super.initState();
   }
 
   @override
   void dispose() {
-    _scrollController.removeListener(scollListener);
+    _scrollController.removeListener(scrollListener);
     _scrollController.dispose();
     ref.invalidate(productProvider);
     super.dispose();
@@ -77,8 +68,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
     return Scaffold(
       body: productState.productDetail.on(
         onError: (e) => ErrorScreen(error: e.message),
-        onLoading: () => const Center(child: CircularProgressIndicator()),
-        onInitial: () => const Center(child: CircularProgressIndicator()),
+        onLoading: () => const ScreenLoadingWidget(),
+        onInitial: () => const ScreenLoadingWidget(),
         onData: (data) {
           onCreateWidget(data);
           return NestedScrollView(
@@ -94,7 +85,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                 flexibleSpace: FlexibleSpaceBar(
                   background: Stack(
                     children: [
-                      Image.network(
+                      ImageApi(
                         data.imgUrl,
                         fit: BoxFit.cover,
                         width: double.infinity,
@@ -141,48 +132,57 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
                   ],
                 ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  label: 'Comentarios',
-                  hintText: 'Algo que debamos saber como: sin cebolla, sin tomate, etc.',
-                  maxLines: 3,
-                  controller: _notesController,
-                ),
-                const SizedBox(height: 20.0),
-                widget.order == null
-                    ? CustomElevatedButton(
-                        onPressed: tableProv.tableUsers.on(
-                          onData: (data) => data.tableStatus == TableStatus.ordering
-                              ? _onAddToOrder
-                              : () => ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'No puedes agregar productos si no estás ordenando.',
-                                      ),
-                                    ),
-                                  ),
-                          onError: (e) => () {},
-                          onLoading: () => () {},
-                          onInitial: () => () {},
-                        ),
-                        child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
-                      )
-                    : Column(
-                        children: [
-                          CustomElevatedButton(
-                            onPressed: _modifyItem,
-                            child: Text(
-                              'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',
+                if (ref.watch(tableProvider).tableId != null) ...[
+                  CustomTextField(
+                    label: 'Comentarios',
+                    hintText: 'Algo que debamos saber como: sin cebolla, sin tomate, etc.',
+                    maxLines: 3,
+                    controller: _notesController,
+                  ),
+                  const SizedBox(height: 20.0),
+                  widget.order == null
+                      ? FilledButton(
+                          onPressed: () {
+                            tableProv.tableUsers.on(
+                              onData: (data) {
+                                if (data.tableStatus == TableStatus.ordering) {
+                                  _onAddToOrder();
+                                } else {
+                                  CustomSnackbar.showSnackBar(
+                                    context,
+                                    'No puedes agregar productos si no estás ordenando.',
+                                  );
+                                }
+                                return null;
+                              },
+                              onError: (e) => () {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(content: Text(e.message)));
+                              },
+                              onLoading: _onAddToOrder,
+                              onInitial: _onAddToOrder,
+                            );
+                          },
+                          child: Text('Agregar \$ ${CurrencyFormatter.format(totalWithToppings)}'),
+                        )
+                      : Column(
+                          children: [
+                            FilledButton(
+                              onPressed: _modifyItem,
+                              child: Text(
+                                'Modificar orden \$ ${CurrencyFormatter.format(totalWithToppings)}',
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          TextButton(
-                            onPressed: _showBottomSheet,
-                            child: const Text('Eliminar orden'),
-                          )
-                        ],
-                      ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            TextButton(
+                              onPressed: _showBottomSheet,
+                              child: const Text('Eliminar orden'),
+                            )
+                          ],
+                        ),
+                ],
                 SizedBox(height: 20.0 + MediaQuery.of(context).padding.bottom),
               ],
             ),
@@ -193,8 +193,8 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void onCreateWidget(ProductDetailModel data) {
-    if (isCreated) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (isCreated) return;
       total = widget.order?.price ?? data.price;
       totalWithToppings = widget.order?.totalWithToppings ?? data.price;
       isCreated = true;
@@ -211,19 +211,15 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _onAddToOrder() {
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data == null) {
-      NotAuthenticatedBottomSheet.show(context);
-      return;
-    }
-    final newProduct = ref.read(productProvider).productDetail.data!.copyWith(
-          note: _notesController.text,
-          toppings: toppings,
-          totalWithToppings: totalWithToppings,
-        );
-
-    ref.read(productProvider.notifier).addToOrder(newProduct);
-    GoRouter.of(context).pop();
+    AuthUtils.onVerification(ref, () {
+      final newProduct = ref.read(productProvider).productDetail.data!.copyWith(
+            note: _notesController.text,
+            toppings: toppings,
+            totalWithToppings: totalWithToppings,
+          );
+      ref.read(productProvider.notifier).addToOrder(newProduct);
+      GoRouter.of(context).pop();
+    });
   }
 
   void _showBottomSheet() {
@@ -234,7 +230,7 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('¿Estás seguro que deseas elimnar este plato de la orden?'),
+              const Text('¿Estás seguro que deseas eliminar este plato de la orden?'),
               const SizedBox(
                 height: 10,
               ),
@@ -257,19 +253,16 @@ class _ProductDetailState extends ConsumerState<ProductDetail> {
   }
 
   void _deleteItem() {
-    final userState = ref.read(authProvider).authModel;
-    if (userState.data == null) {
-      NotAuthenticatedBottomSheet.show(context);
-      return;
-    }
-    final newProduct = widget.order?.copyWith(
-      note: _notesController.text,
-      toppings: toppings,
-      totalWithToppings: totalWithToppings,
-    );
-    if (newProduct == null) return;
-    ref.read(productProvider.notifier).deleteItem(newProduct);
-    GoRouter.of(context).pop();
+    AuthUtils.onVerification(ref, () {
+      final newProduct = widget.order?.copyWith(
+        note: _notesController.text,
+        toppings: toppings,
+        totalWithToppings: totalWithToppings,
+      );
+      if (newProduct == null) return;
+      ref.read(productProvider.notifier).deleteItem(newProduct);
+      GoRouter.of(context).pop();
+    });
   }
 
   void _modifyItem() {

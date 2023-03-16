@@ -45,7 +45,7 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
                 child: ValueListenableBuilder(
                   valueListenable: _controller.torchState,
                   builder: (context, value, child) {
-                    switch (value as TorchState) {
+                    switch (value) {
                       case TorchState.on:
                         return const Icon(Icons.flash_on, color: iconColor);
                       case TorchState.off:
@@ -66,7 +66,7 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
                 child: ValueListenableBuilder(
                   valueListenable: _controller.cameraFacingState,
                   builder: (context, value, child) {
-                    switch (value as CameraFacing) {
+                    switch (value) {
                       case CameraFacing.front:
                         return const Icon(Icons.camera_front, color: iconColor);
                       case CameraFacing.back:
@@ -94,9 +94,10 @@ class _TableQrReaderScreenState extends ConsumerState<TableQrReaderScreen> {
     );
   }
 
-  void handleOnDetect(Barcode barcode, MobileScannerArguments? args) {
-    if (barcode.rawValue != null) {
-      ref.read(tableProvider.notifier).onReadTableCode(barcode.rawValue!);
+  void handleOnDetect(BarcodeCapture barcode) {
+    if (barcode.barcodes.isNotEmpty && barcode.barcodes.first.rawValue != null) {
+      final barcodeLoaded = barcode.barcodes.first;
+      ref.read(tableProvider.notifier).onReadTableCode(barcodeLoaded.rawValue!);
     } else {
       CustomSnackbar.showSnackBar(context, 'Ha ocurrido un error leyendo el codigo QR');
     }

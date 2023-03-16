@@ -6,6 +6,7 @@ import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:oyt_front_table/models/users_table.dart';
 import 'package:diner/features/product/ui/product_detail.dart';
 import 'package:diner/features/table/provider/table_provider.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 
 class TableUserCard extends ConsumerWidget {
   const TableUserCard({
@@ -70,7 +71,7 @@ class TableUserCard extends ConsumerWidget {
                           ],
                         ),
                         trailing: tableProv.tableUsers.on(
-                          onData: (data) => isMine && isOrdering(data.tableStatus!)
+                          onData: (data) => isMine && _isOrdering(data.tableStatus)
                               ? IconButton(
                                   onPressed: () => GoRouter.of(context).push(
                                     '${ProductDetail.route}?productId=${e.id}',
@@ -85,7 +86,7 @@ class TableUserCard extends ConsumerWidget {
                         ),
                         leading: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
+                          child: ImageApi(
                             e.imgUrl,
                             width: 60,
                             height: 60,
@@ -102,10 +103,5 @@ class TableUserCard extends ConsumerWidget {
     );
   }
 
-  bool isOrdering(TableStatus? status) {
-    if (status == TableStatus.ordering) {
-      return true;
-    }
-    return false;
-  }
+  bool _isOrdering(TableStatus? status) => status == TableStatus.ordering;
 }

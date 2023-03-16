@@ -1,0 +1,24 @@
+[submodule "packages/oyt_front_auth"]
+	path = packages/oyt_front_auth
+	url = https://github.com/nestorsgarzonc/oyt_front_auth.git
+[submodule "packages/oyt_front_core"]
+	path = packages/oyt_front_core
+	url = https://github.com/nestorsgarzonc/oyt_front_core.git
+[submodule "packages/oyt_front_menu"]
+	path = packages/oyt_front_menu
+	url = https://github.com/nestorsgarzonc/oyt_front_menu.git
+[submodule "packages/oyt_front_order"]
+	path = packages/oyt_front_order
+	url = https://github.com/nestorsgarzonc/oyt_front_order.git
+[submodule "packages/oyt_front_product"]
+	path = packages/oyt_front_product
+	url = https://github.com/nestorsgarzonc/oyt_front_product.git
+[submodule "packages/oyt_front_restaurant"]
+	path = packages/oyt_front_restaurant
+	url = https://github.com/nestorsgarzonc/oyt_front_restaurant.git
+[submodule "packages/oyt_front_table"]
+	path = packages/oyt_front_table
+	url = https://github.com/nestorsgarzonc/oyt_front_table.git
+[submodule "packages/oyt_front_widgets"]
+	path = packages/oyt_front_widgets
+	url = https://github.com/nestorsgarzonc/oyt_front_widgets.git

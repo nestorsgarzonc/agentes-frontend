@@ -4,10 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:oyt_front_auth/models/user_model.dart';
 import 'package:oyt_front_core/validators/text_form_validator.dart';
 import 'package:oyt_front_widgets/widgets/backgrounds/animated_background.dart';
-import 'package:oyt_front_widgets/widgets/buttons/custom_elevated_button.dart';
 import 'package:oyt_front_widgets/widgets/custom_text_field.dart';
 import 'package:diner/features/auth/provider/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:oyt_front_widgets/loading/loading_widget.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -106,7 +106,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           authState.authModel.on(
             onData: (_) => RegisterButton(onPressed: handleOnRegister),
             onError: (_) => RegisterButton(onPressed: handleOnRegister),
-            onLoading: () => const Center(child: CircularProgressIndicator()),
+            onLoading: () => const LoadingWidget(),
             onInitial: () => RegisterButton(onPressed: handleOnRegister),
           ),
           const SizedBox(height: 20),
@@ -150,7 +150,7 @@ class RegisterButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return CustomElevatedButton(
+    return FilledButton(
       onPressed: onPressed,
       child: const Text('Registrarse'),
     );

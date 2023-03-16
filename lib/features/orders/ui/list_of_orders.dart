@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oyt_front_widgets/loading/screen_loading_widget.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
@@ -6,6 +7,7 @@ import 'package:oyt_front_core/constants/lotti_assets.dart';
 import 'package:oyt_front_core/utils/currency_formatter.dart';
 import 'package:oyt_front_core/utils/formatters.dart';
 import 'package:diner/features/bill/ui/bill_screen.dart';
+import 'package:oyt_front_widgets/image/image_api_widget.dart';
 import 'package:diner/features/orders/provider/orders_provider.dart';
 
 class ListOfOrdersScreen extends ConsumerStatefulWidget {
@@ -57,7 +59,7 @@ class _ListOfOrdersScreenState extends ConsumerState<ListOfOrdersScreen> {
                       onTap: () => GoRouter.of(context)
                           .push('${BillScreen.route}?transactionId=${order.id}&canPop=true'),
                       horizontalTitleGap: 10,
-                      leading: Image.network(order.restaurantImage, width: 80),
+                      leading: ImageApi(order.restaurantImage, width: 80),
                       trailing: const Icon(Icons.chevron_right_outlined),
                       title: Text(
                         order.restaurantName,
@@ -81,8 +83,8 @@ class _ListOfOrdersScreenState extends ConsumerState<ListOfOrdersScreen> {
                 },
               ),
         onError: (err) => Text(err.toString()),
-        onLoading: () => const Center(child: CircularProgressIndicator()),
-        onInitial: () => const Center(child: CircularProgressIndicator()),
+        onLoading: () => const ScreenLoadingWidget(),
+        onInitial: () => const ScreenLoadingWidget(),
       ),
     );
   }

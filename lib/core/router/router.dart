@@ -26,8 +26,11 @@ class CustomRouter {
     return 'Es necesario el parametro $atribute';
   }
 
+  static final globalKey = GlobalKey<NavigatorState>();
+
   final goRouter = GoRouter(
     initialLocation: OnBoarding.route,
+    navigatorKey: globalKey,
     errorBuilder: (context, state) {
       if (state.error == null) {
         return const ErrorScreen();
@@ -44,9 +47,10 @@ class CustomRouter {
           builder: (context, state) {
             final transactionId = state.queryParams['transactionId'];
             final canPop = state.queryParams['canPop'] == 'true';
-            return transactionId == null
+            final individualPaymentWay = state.queryParams['individualPaymentWay'];
+            return transactionId == null || individualPaymentWay == null
                 ? ErrorScreen(error: atributeErrorMessage('transactionId'))
-                : BillScreen(transactionId: transactionId, canPop: canPop);
+                : BillScreen(transactionId: transactionId, canPop: canPop, individualPaymentWay: individualPaymentWay,);
           },
         ),
         GoRoute(
@@ -61,9 +65,10 @@ class CustomRouter {
           path: IndexMenuScreen.route,
           builder: (context, state) {
             final tableId = state.queryParams['tableId'];
-            return tableId == null
-                ? ErrorScreen(error: atributeErrorMessage('tableId'))
-                : IndexMenuScreen(tableId: tableId);
+            final restaurantId = state.queryParams['restaurantId'];
+            return (tableId == null && restaurantId == null)
+                ? ErrorScreen(error: atributeErrorMessage('tableId o restaurantId'))
+                : IndexMenuScreen(tableId: tableId, restaurantId: restaurantId);
           },
         ),
         GoRoute(path: RegisterScreen.route, builder: (context, state) => const RegisterScreen()),
@@ -107,8 +112,7 @@ class CustomRouter {
         ),
       ];
 
-  BuildContext get context =>
-      goRouter.routeInformationParser.configuration.navigatorKey.currentState!.context;
+  BuildContext get context => globalKey.currentState!.context;
 
   GoRouter get router => goRouter;
 }
